@@ -18,6 +18,7 @@
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>veröffentlichen\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -30,7 +31,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -72,6 +72,10 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Background.cs" />
+    <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyCollector.cs" />
+    <Compile Include="Enemys\Meteor.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +83,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Shot.cs" />
     <Compile Include="ShotCollector.cs" />
+    <Compile Include="Shots\LaserShot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

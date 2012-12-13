@@ -9,17 +9,19 @@ namespace VertShot
 {
     static public class ShotCollector
     {
-        static Texture2D texture;
+        static Texture2D laserTex;
         static List<Shot> shotList = new List<Shot>();
+
+        static public List<Shot> GetList { get { return shotList; } }
 
         static public void Initialize(Texture2D texture)
         {
-            ShotCollector.texture = texture;
+            ShotCollector.laserTex = texture;
         }
 
-        static public void AddShot(Vector2 position, Vector2 size, Vector2 direction, float angle, float speed, int damage = 0, bool playerIsTarget = false)
+        static public void AddLaserShot(Vector2 position, Vector2 size, Vector2 direction, float angle, float speed, int damage = 5, bool fromPlayer = true)
         {
-            Shot shot = new Shot(texture, position, size, direction, angle, speed, 0, false);
+            Shot shot = new LaserShot(laserTex, position, size, direction, angle, speed, damage, fromPlayer);
             shotList.Add(shot);
         }
 
@@ -28,8 +30,18 @@ namespace VertShot
         {
             for (int i = shotList.Count - 1; i >= 0; i--)
             {
+
+                foreach (Enemy enemy in EnemyCollector.GetList)
+                    if (shotList[i].fromPlayer && shotList[i].rect.Intersects(enemy.rect))
+                    {
+                        enemy.AddDamage(shotList[i].damage, shotList[i].shotType);
+                        if (shotList[i].singleHit)
+                            shotList[i].IsAlive = false;
+                    }
+
                 shotList[i].Update(gameTime);
-                if (!shotList[i].active)
+
+                if (!shotList[i].IsAlive)
                     shotList.RemoveAt(i);
             }
         }

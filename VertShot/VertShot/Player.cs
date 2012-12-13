@@ -11,9 +11,10 @@ namespace VertShot
     {
         Texture2D texture;
         Vector2 position;
-        Rectangle rect;
+        Vector2 size;
+        Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), Convert.ToInt32(size.X), Convert.ToInt32(size.Y)); } }
         Color color;
-        int energy;
+        public float energy;
         float speed;
         double lastShotTime = 0;
         const double shotDelay = 200;
@@ -23,20 +24,21 @@ namespace VertShot
             this.texture = texture;
             this.color = color;
             this.position = position;
-            rect = new Rectangle((int)position.X, (int)position.Y, (int)texture.Width, (int)texture.Height);
-            speed = 1f;
+            size = new Vector2(texture.Width, texture.Height);
+            speed = 0.65f;
             energy = 100;
         }
 
         public void Update(GameTime gameTime)
         {
             position += Input.InputVector * new Vector2((float)gameTime.ElapsedGameTime.TotalMilliseconds * speed, (float)gameTime.ElapsedGameTime.TotalMilliseconds * speed);
-            rect.X = (int)position.X;
-            rect.Y = (int)position.Y;
+            position.X = MathHelper.Clamp(position.X, 0, Game1.Width - size.X);
+            position.Y = MathHelper.Clamp(position.Y, 0, Game1.Height - size.Y);
 
-            if (Input.keyboardState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space) && gameTime.TotalGameTime.TotalMilliseconds - lastShotTime > shotDelay)
+
+            if (Input.IsGameKeyDown(GameKeys.Fire) && gameTime.TotalGameTime.TotalMilliseconds - lastShotTime > shotDelay)
             {
-                ShotCollector.AddShot(new Vector2(rect.Center.X, rect.Center.Y), new Vector2(5, 20), new Vector2(0, -1), 0, 1);
+                ShotCollector.AddLaserShot(new Vector2(rect.Center.X, rect.Center.Y), new Vector2(5, 20), new Vector2(0, -1), 0, 1);
                 lastShotTime = gameTime.TotalGameTime.TotalMilliseconds;
             }
         }

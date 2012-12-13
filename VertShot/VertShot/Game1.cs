@@ -20,16 +20,29 @@ namespace VertShot
         SpriteBatch spriteBatch;
 
         Texture2D background;
-        Texture2D shotTex;
         Player player;
+        SpriteFont debugFont;
+
+        string debugText1;
+        bool showDebug1 = false;
+
+        float meteorTime;
+        float meteorElapsedTime;
+
+        static public Random rand = new Random((int)DateTime.Now.TimeOfDay.TotalMilliseconds);
+        static public readonly int Width = 1280;
+        static public readonly int Height = 720;
+        static public readonly Rectangle GameRect = new Rectangle(0, 0, Width, Height);
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = Width;
+            graphics.PreferredBackBufferHeight = Height;
+
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -40,7 +53,7 @@ namespace VertShot
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Fügen Sie Ihre Initialisierungslogik hier hinzu
+            Input.Initialize();
 
             base.Initialize();
         }
@@ -53,10 +66,25 @@ namespace VertShot
         {
             // Erstellen Sie einen neuen SpriteBatch, der zum Zeichnen von Texturen verwendet werden kann.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            background = Content.Load<Texture2D>("Graphics/back1");
-            ShotCollector.Initialize(Content.Load<Texture2D>("Graphics/shot"));
 
-            ShotCollector.AddShot(new Vector2(100, 100), new Vector2(6, 40), Vector2.Zero, 15, 0);
+            // Tastaturbelegung setzen
+            Input.AssignKeyboard[GameKeys.Menu] = Keys.Escape;
+            Input.AssignKeyboard[GameKeys.Left] = Keys.Left;
+            Input.AssignKeyboard[GameKeys.Right] = Keys.Right;
+            Input.AssignKeyboard[GameKeys.Up] = Keys.Up;
+            Input.AssignKeyboard[GameKeys.Down] = Keys.Down;
+            Input.AssignKeyboard[GameKeys.Fire] = Keys.Space;
+            Input.AssignKeyboard[GameKeys.Debug1] = Keys.F1;
+
+            debugFont = Content.Load<SpriteFont>("DebugFont");
+
+            Background.AddBackPic(Content.Load<Texture2D>("Graphics/back1"), 0.05f);
+            Background.AddBackPic(Content.Load<Texture2D>("Graphics/back2"), 0.075f);
+            Background.AddBackPic(Content.Load<Texture2D>("Graphics/back3"), 0.1f);
+
+            ShotCollector.Initialize(Content.Load<Texture2D>("Graphics/shot"));
+            EnemyCollector.Initialize(Content.Load<Texture2D>("Graphics/meteor2"));
+            
             player = new Player(Content.Load<Texture2D>("Graphics/ship"), Color.Orange, new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2));
         }
 
@@ -77,15 +105,38 @@ namespace VertShot
         protected override void Update(GameTime gameTime)
         {
             Input.UpdateBegin();
+
             // Ermöglicht ein Beenden des Spiels
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Input.IsGameKeyDown(GameKeys.Menu))
                 this.Exit();
 
+
+            if(meteorElapsedTime >= meteorTime)
+            {
+                meteorElapsedTime -= meteorTime;
+                EnemyCollector.AddMeteor(new Vector2(rand.Next(0, Width - (int)EnemyCollector.MeteorSize.X), 0 - (int)EnemyCollector.MeteorSize.Y));
+                meteorTime = rand.Next(100, 500);
+            }
+            meteorElapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            Background.Update(gameTime);
             player.Update(gameTime);
             ShotCollector.Update(gameTime);
+            EnemyCollector.Update(gameTime);
+
+
+
+            if (Input.IsGameKeyReleased(GameKeys.Debug1))
+                showDebug1 = !showDebug1;
+            debugText1 = "Player Energy: " + player.energy;
+            foreach (Enemy enemy in EnemyCollector.GetList)
+            {
+                debugText1 += "\nEnemy Energy: " + enemy.energy;
+            }
+            debugText1 += "\nShots: " + ShotCollector.GetList.Count;
+
 
             Input.UpdateEnd();
-
             base.Update(gameTime);
         }
 
@@ -99,11 +150,15 @@ namespace VertShot
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
+            Background.Draw(spriteBatch);
 
             ShotCollector.Draw(spriteBatch);
+            EnemyCollector.Draw(spriteBatch);
 
             player.Draw(spriteBatch);
+
+            if (showDebug1)
+                spriteBatch.DrawString(debugFont, debugText1, new Vector2(10, 10), Color.White);
 
             spriteBatch.End();
 

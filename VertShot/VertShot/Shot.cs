@@ -7,40 +7,42 @@ using System.Text;
 
 namespace VertShot
 {
+    public enum ShotType
+    {
+        None,
+        Laser,
+        Explosive
+    }
+
     public class Shot
     {
-        Texture2D texture;
-        Vector2 position;
-        Vector2 direction;
-        Vector2 size;
-        float angle;
-        int damage;
-        float speed;
-        public bool active;
+        protected Texture2D texture;
+        protected Vector2 position;
+        protected Vector2 size;
+        public Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), Convert.ToInt32(size.X), Convert.ToInt32(size.Y)); } }
+        protected Vector2 direction;
+        protected float speed;
+        public ShotType shotType { get; private set; }
+        public bool fromPlayer { get; protected set; }
+        public float damage { get; protected set; }
+        public bool singleHit { get; protected set; }
+        public bool IsAlive = true;
 
-        public Shot(Texture2D texture, Vector2 position, Vector2 size, Vector2 direction, float angle, float speed, int damage, bool playerIsTarget)
+        public Shot(Texture2D texture, bool singleHit = true, ShotType shotType = ShotType.None)
         {
             this.texture = texture;
-            this.position = position;
-            this.size = size;
-            this.direction = direction;
-            this.angle = angle;
-            this.speed = speed;
-            this.damage = damage;
-            active = true;
+            this.singleHit = singleHit;
+            this.shotType = shotType;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Update(GameTime gameTime)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), null, Color.White, (float)(angle * Math.PI/180), Vector2.Zero, SpriteEffects.None, 0);
         }
 
-
-        internal void Update(GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-            position += direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds * speed;
-            if (position.Y < 0)
-                active = false;
+            spriteBatch.Draw(texture, rect, Color.White);
         }
+
     }
 }

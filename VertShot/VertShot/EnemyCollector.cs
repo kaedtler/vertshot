@@ -31,6 +31,13 @@ namespace VertShot
         {
             for (int i = enemyList.Count - 1; i >= 0; i--)
             {
+                if (enemyList[i].rect.Intersects(Game1.player.rect))
+                {
+                    Game1.player.AddDamage(enemyList[i].collisionDamage, ShotType.Collision);
+                    enemyList[i].AddDamage(Game1.player.collisionDamage, ShotType.Collision);
+                    if (enemyList[i].energy <= 0)
+                        Game1.enemyCounter++;
+                }
                 enemyList[i].Update(gameTime);
                 if (!enemyList[i].IsAlive)
                     enemyList.RemoveAt(i);

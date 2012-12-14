@@ -12,7 +12,11 @@ namespace VertShot
         Up,
         Down,
         Fire,
-        Debug1
+        Debug1,
+        Debug2,
+        Debug3,
+        Debug4
+
     }
 
     public static class Input
@@ -33,6 +37,9 @@ namespace VertShot
             AssignKeyboard.Add(GameKeys.Down, Keys.None);
             AssignKeyboard.Add(GameKeys.Fire, Keys.None);
             AssignKeyboard.Add(GameKeys.Debug1, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug2, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug3, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug4, Keys.None);
         }
 
         public static void UpdateBegin()
@@ -86,6 +93,12 @@ namespace VertShot
 
                 case GameKeys.Debug1:
                     return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug1]);
+                case GameKeys.Debug2:
+                    return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug2]);
+                case GameKeys.Debug3:
+                    return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug3]);
+                case GameKeys.Debug4:
+                    return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug4]);
                 default:
                     return false;
             }
@@ -109,6 +122,12 @@ namespace VertShot
 
                 case GameKeys.Debug1:
                     return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug1]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug1]);
+                case GameKeys.Debug2:
+                    return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug2]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug2]);
+                case GameKeys.Debug3:
+                    return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug3]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug3]);
+                case GameKeys.Debug4:
+                    return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug4]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug4]);
                 default:
                     return false;
             }

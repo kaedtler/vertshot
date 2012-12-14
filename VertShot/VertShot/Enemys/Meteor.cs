@@ -11,8 +11,6 @@ namespace VertShot
     {
         float rotateSpeed;
         float rotation;
-        float speed;
-        Vector2 direction;
         public Meteor(Texture2D texture, Vector2 position, float speed, Vector2 direction)
             : base(texture)
         {
@@ -20,8 +18,9 @@ namespace VertShot
             this.speed = speed;
             this.direction = direction;
 
-            rotateSpeed = ((float)Game1.rand.Next(100, 131) / 1000 * (Game1.rand.Next(0,2) == 1 ? -1 : 1));
+            rotateSpeed = ((float)Game1.rand.Next(90, 131) / 1000 * (Game1.rand.Next(0,2) == 1 ? -1 : 1));
             energy = 10;
+            collisionDamage = 10f;
         }
 
         public override void AddDamage(float damage, ShotType shotType)
@@ -30,6 +29,7 @@ namespace VertShot
             {
                 case ShotType.Laser: energy -= damage; break;
                 case ShotType.Explosive: energy -= damage * 1.25f; break;
+                case ShotType.Collision: energy -= damage; break;
             }
         }
 
@@ -39,9 +39,16 @@ namespace VertShot
 
             rotation += (float)gameTime.ElapsedGameTime.TotalMilliseconds * rotateSpeed;
             if (rotation >= 360) rotation -= 360; else if (rotation < 0) rotation += 360;
-            
-            if (energy <= 0 || !Game1.GameRect.Intersects(rect))
+
+            if (energy <= 0)
+            {
+                EffectCollector.AddExplosion1(new Vector2(rect.Center.X, rect.Center.Y), true, speed, direction);
                 IsAlive = false;
+            }
+            if(!Game1.GameRect.Intersects(rect))
+            {
+                IsAlive = false;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)

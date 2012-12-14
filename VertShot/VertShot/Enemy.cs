@@ -13,6 +13,9 @@ namespace VertShot
         protected Texture2D texture;
         protected Vector2 position;
         protected Vector2 size;
+        public float speed { get; protected set; }
+        public Vector2 direction { get; protected set; }
+        public float collisionDamage { get; protected set; }
         public Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), Convert.ToInt32(size.X), Convert.ToInt32(size.Y)); } }
         public float energy { get; protected set; }
 

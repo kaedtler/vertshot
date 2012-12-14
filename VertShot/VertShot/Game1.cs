@@ -19,12 +19,13 @@ namespace VertShot
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D background;
-        Player player;
+        static public Player player;
         SpriteFont debugFont;
 
         string debugText1;
-        bool showDebug1 = false;
+        bool showDebug1 = true;
+
+        static public int enemyCounter = 0;
 
         float meteorTime;
         float meteorElapsedTime;
@@ -43,6 +44,7 @@ namespace VertShot
             graphics.PreferredBackBufferHeight = Height;
 
             IsMouseVisible = true;
+
         }
 
         /// <summary>
@@ -75,8 +77,13 @@ namespace VertShot
             Input.AssignKeyboard[GameKeys.Down] = Keys.Down;
             Input.AssignKeyboard[GameKeys.Fire] = Keys.Space;
             Input.AssignKeyboard[GameKeys.Debug1] = Keys.F1;
+            Input.AssignKeyboard[GameKeys.Debug2] = Keys.F2;
+            Input.AssignKeyboard[GameKeys.Debug3] = Keys.F3;
+            Input.AssignKeyboard[GameKeys.Debug4] = Keys.F4;
 
             debugFont = Content.Load<SpriteFont>("DebugFont");
+
+            //explosion = new AnimatedSprite(Content.Load<Texture2D>("Graphics/explosion_34FR"), new Vector2(100, 100), new Point(69, 64), 50, 0, true, 0f, 2f);
 
             Background.AddBackPic(Content.Load<Texture2D>("Graphics/back1"), 0.05f);
             Background.AddBackPic(Content.Load<Texture2D>("Graphics/back2"), 0.075f);
@@ -84,6 +91,7 @@ namespace VertShot
 
             ShotCollector.Initialize(Content.Load<Texture2D>("Graphics/shot"));
             EnemyCollector.Initialize(Content.Load<Texture2D>("Graphics/meteor2"));
+            EffectCollector.Initialize(Content.Load<Texture2D>("Graphics/explosion_34FR"));
             
             player = new Player(Content.Load<Texture2D>("Graphics/ship"), Color.Orange, new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2));
         }
@@ -123,16 +131,21 @@ namespace VertShot
             player.Update(gameTime);
             ShotCollector.Update(gameTime);
             EnemyCollector.Update(gameTime);
+            EffectCollector.Update(gameTime);
 
 
-
+            // Debug Keys
             if (Input.IsGameKeyReleased(GameKeys.Debug1))
                 showDebug1 = !showDebug1;
-            debugText1 = "Player Energy: " + player.energy;
-            foreach (Enemy enemy in EnemyCollector.GetList)
+            if (Input.IsGameKeyReleased(GameKeys.Debug4))
             {
-                debugText1 += "\nEnemy Energy: " + enemy.energy;
+                enemyCounter = 0;
+                player.AddEnergy(9999f);
             }
+
+            debugText1 = "Player Energy: " + player.energy;
+            debugText1 += "\nEnemy killed: " + enemyCounter;
+            debugText1 += "\nEnemys: " + EnemyCollector.GetList.Count;
             debugText1 += "\nShots: " + ShotCollector.GetList.Count;
 
 
@@ -156,6 +169,8 @@ namespace VertShot
             EnemyCollector.Draw(spriteBatch);
 
             player.Draw(spriteBatch);
+
+            EffectCollector.Draw(spriteBatch);
 
             if (showDebug1)
                 spriteBatch.DrawString(debugFont, debugText1, new Vector2(10, 10), Color.White);

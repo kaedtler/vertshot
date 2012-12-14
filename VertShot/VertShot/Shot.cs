@@ -11,7 +11,8 @@ namespace VertShot
     {
         None,
         Laser,
-        Explosive
+        Explosive,
+        Collision
     }
 
     public class Shot

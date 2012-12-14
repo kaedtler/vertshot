@@ -9,12 +9,14 @@ namespace VertShot
 {
     public class Player
     {
+        const float MaxEnergy = 100f;
         Texture2D texture;
         Vector2 position;
         Vector2 size;
-        Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), Convert.ToInt32(size.X), Convert.ToInt32(size.Y)); } }
+        public Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), Convert.ToInt32(size.X), Convert.ToInt32(size.Y)); } }
         Color color;
-        public float energy;
+        public float energy { get; private set; }
+        public float collisionDamage { get; private set; }
         float speed;
         double lastShotTime = 0;
         const double shotDelay = 200;
@@ -26,7 +28,24 @@ namespace VertShot
             this.position = position;
             size = new Vector2(texture.Width, texture.Height);
             speed = 0.65f;
-            energy = 100;
+            energy = MaxEnergy;
+            collisionDamage = 20f;
+        }
+
+
+        public void AddDamage(float damage, ShotType shotType)
+        {
+            switch (shotType)
+            {
+                case ShotType.Laser: energy -= damage; break;
+                case ShotType.Explosive: energy -= damage; break;
+                case ShotType.Collision: energy -= damage; break;
+            }
+        }
+
+        public void AddEnergy(float addEnergy)
+        {
+            energy = Math.Min(energy + addEnergy, MaxEnergy);
         }
 
         public void Update(GameTime gameTime)

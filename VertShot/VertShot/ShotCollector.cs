@@ -34,9 +34,12 @@ namespace VertShot
                 foreach (Enemy enemy in EnemyCollector.GetList)
                     if (shotList[i].fromPlayer && shotList[i].rect.Intersects(enemy.rect))
                     {
+                        EffectCollector.AddExplosion2(new Vector2(shotList[i].rect.X - shotList[i].rect.Width / 2, shotList[i].rect.Y), true, enemy.speed, enemy.direction);
                         enemy.AddDamage(shotList[i].damage, shotList[i].shotType);
                         if (shotList[i].singleHit)
                             shotList[i].IsAlive = false;
+                        if (enemy.energy <= 0)
+                            Game1.enemyCounter++;
                     }
 
                 shotList[i].Update(gameTime);

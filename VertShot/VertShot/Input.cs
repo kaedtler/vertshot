@@ -59,10 +59,18 @@ namespace VertShot
             get
             {
                 Vector2 inputVector = Vector2.Zero;
-                if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Left])) inputVector.X += -1;
-                if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Right])) inputVector.X += 1;
-                if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Up])) inputVector.Y += -1;
-                if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Down])) inputVector.Y += 1;
+                if (GamePadConnected)
+                {
+                    inputVector.X = gamePadState.ThumbSticks.Left.X;
+                    inputVector.Y = -gamePadState.ThumbSticks.Left.Y;
+                }
+                else
+                {
+                    if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Left])) inputVector.X += -1;
+                    if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Right])) inputVector.X += 1;
+                    if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Up])) inputVector.Y += -1;
+                    if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Down])) inputVector.Y += 1;
+                }
                 return inputVector;
             }
         }

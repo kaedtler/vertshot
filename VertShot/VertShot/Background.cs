@@ -16,8 +16,8 @@ namespace VertShot
             public Texture2D texture;
             public Vector2 position;
             public float speed;
-            public Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), texture.Width, texture.Height); } }
-            public Rectangle rectOff { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y) - texture.Height, texture.Width, texture.Height); } }
+            public Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), Game1.Width, Game1.Height); } }
+            public Rectangle rectOff { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y) - Game1.Height, Game1.Width, Game1.Height); } }
         }
         static List<BackPic> list = new List<BackPic>();
 

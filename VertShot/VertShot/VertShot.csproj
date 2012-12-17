@@ -78,6 +78,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyCollector.cs" />
     <Compile Include="Enemys\Meteor.cs" />
+    <Compile Include="GameHud.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +93,7 @@
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
+    <Content Include="ToDo.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VertShotContent\VertShotContent.contentproj">

@@ -1,0 +1,8 @@
+﻿Menü
+GameModes
+Sound
+Hud
+GameOver
+Levels
+KI
+Schiff Upgrades (Waffen, Schilde, etc)

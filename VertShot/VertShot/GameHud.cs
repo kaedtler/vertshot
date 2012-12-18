@@ -16,8 +16,8 @@ namespace VertShot
         static float hudEnergy;
         static float hudShield;
 
-        static Rectangle energyRect { get { return new Rectangle(Game1.Width - hudTex.Width + 14, 7, Convert.ToInt32(hudEnergy * 2), 20); } }
-        static Rectangle shieldRect { get { return new Rectangle(Game1.Width - hudTex.Width + 14, 35, Convert.ToInt32(hudShield * 2), 20); } }
+        static Rectangle energyRect { get { return new Rectangle(Game1.Width - hudTex.Width + 14, 7, Convert.ToInt32(Math.Ceiling(hudEnergy * 2)), 20); } }
+        static Rectangle shieldRect { get { return new Rectangle(Game1.Width - hudTex.Width + 14, 35, Convert.ToInt32(Math.Ceiling(hudShield * 2)), 20); } }
 
         static public void Initialize(Texture2D hudTex, Texture2D hudTexRight, Texture2D oneByOneTex)
         {

@@ -80,7 +80,8 @@ namespace VertShot
             Input.AssignKeyboard[GameKeys.Right] = Keys.Right;
             Input.AssignKeyboard[GameKeys.Up] = Keys.Up;
             Input.AssignKeyboard[GameKeys.Down] = Keys.Down;
-            Input.AssignKeyboard[GameKeys.Fire] = Keys.Space;
+            Input.AssignKeyboard[GameKeys.Fire1] = Keys.Space;
+            Input.AssignKeyboard[GameKeys.Fire2] = Keys.LeftControl;
             Input.AssignKeyboard[GameKeys.Debug1] = Keys.F1;
             Input.AssignKeyboard[GameKeys.Debug2] = Keys.F2;
             Input.AssignKeyboard[GameKeys.Debug3] = Keys.F3;
@@ -96,6 +97,9 @@ namespace VertShot
             EnemyCollector.Initialize(Content.Load<Texture2D>("Graphics/meteor2"));
             EffectCollector.Initialize(Content.Load<Texture2D>("Graphics/explosion_34FR"));
             GameHud.Initialize(Content.Load<Texture2D>("Graphics/hud"), Content.Load<Texture2D>("Graphics/hudWithEnergy"), oneByOneTex);
+
+            Hud.Initialize(Content.Load<Texture2D>("Graphics/hudBack"), Content.Load<Texture2D>("Graphics/hudCornerTop"),
+                Content.Load<Texture2D>("Graphics/hudCornerBottom"), Content.Load<Texture2D>("Graphics/hudBorderTop"), Content.Load<Texture2D>("Graphics/hudBorderLeft"));
             
             player = new Player(Content.Load<Texture2D>("Graphics/ship"), Color.Orange, new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2));
         }
@@ -189,8 +193,9 @@ namespace VertShot
 
             GameHud.Draw(spriteBatch);
 
-            if (showDebug1)
-                spriteBatch.DrawString(debugFont, debugText1, new Vector2(10, 110), Color.White);
+            if (showDebug1) spriteBatch.DrawString(debugFont, debugText1, new Vector2(10, 110), Color.White);
+
+            Hud.Draw(spriteBatch);
 
             spriteBatch.End();
 

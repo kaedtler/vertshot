@@ -13,7 +13,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>Reach</XnaProfile>
+    <XnaProfile>HiDef</XnaProfile>
     <XnaCrossPlatformGroupID>9ee92ae9-84b6-4d00-828a-c1c04c903f11</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -79,6 +79,7 @@
     <Compile Include="EnemyCollector.cs" />
     <Compile Include="Enemys\Meteor.cs" />
     <Compile Include="GameHud.cs" />
+    <Compile Include="Hud.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,6 +7,13 @@ using System.Text;
 
 namespace VertShot
 {
+    public enum ShipWeapons
+    {
+        None,
+        LaserLvl1,
+        LaserLvl2
+    }
+
     public class Player
     {
         const float MaxEnergy = 100f;
@@ -22,6 +29,13 @@ namespace VertShot
         float speed;
         double lastShotTime = 0;
         const double shotDelay = 200;
+        float shieldPerSecond = 5f;
+
+        public ShipWeapons[] weaponSlot = new ShipWeapons[3];
+        public GameKeys[] weaponSlotKey = new GameKeys[3];
+        public float[] weaponDelay = new float[3];
+        public float[] weaponDelayTime = new float[3];
+        public Vector2[] weaponSlotPosition;
 
         public Player(Texture2D texture, Color color, Vector2 position)
         {
@@ -33,6 +47,19 @@ namespace VertShot
             energy = MaxEnergy;
             shield = MaxShield;
             collisionDamage = 20f;
+            weaponSlotPosition = new Vector2[3] { new Vector2(size.X * 0.1f, size.Y / 2), new Vector2(size.X * 0.5f, size.Y / 2), new Vector2(size.X * 0.9f, size.Y / 2) };
+
+            weaponSlot[0] = ShipWeapons.LaserLvl1;
+            weaponSlotKey[0] = GameKeys.Fire2;
+            weaponDelay[0] = 200;
+             
+            weaponSlot[1] = ShipWeapons.LaserLvl1;
+            weaponSlotKey[1] = GameKeys.Fire1;
+            weaponDelay[1] = 200;
+
+            weaponSlot[2] = ShipWeapons.LaserLvl1;
+            weaponSlotKey[2] = GameKeys.Fire2;
+            weaponDelay[2] = 200;
         }
 
 
@@ -40,24 +67,31 @@ namespace VertShot
         {
             if (shield > 0)
                 damage = AddShieldDamage(damage, shotType);
-            switch (shotType)
+            if (damage > 0)
             {
-                case ShotType.Laser: energy -= damage; break;
-                case ShotType.Explosive: energy -= damage; break;
-                case ShotType.Collision: energy -= damage; break;
+                float factor = 1;
+                switch (shotType)
+                {
+                    case ShotType.Laser: factor = 1; break;
+                    case ShotType.Explosive: factor = 1; break;
+                    case ShotType.Collision: factor = 1.5f; break;
+                }
+                energy -= damage * factor;
             }
         }
 
         private float AddShieldDamage(float damage, ShotType shotType)
         {
             float shieldOld = shield;
+            float factor = 1;
             switch (shotType)
             {
-                case ShotType.Laser: shield = Math.Max(shield - damage * 2f, 0); return shieldOld - damage * 2f - shield;
-                case ShotType.Explosive: shield = Math.Max(shield - damage * 2.5f, 0); return shieldOld - damage * 2.5f - shield;
-                case ShotType.Collision: shield = Math.Max(shield - damage * 2.5f, 0); return (shieldOld - (damage * 2.5f)) - shield;
-                default: return 0;
+                case ShotType.Laser: factor = 2f; break;
+                case ShotType.Explosive: factor = 2f; break;
+                case ShotType.Collision: factor = 2.5f; break;
             }
+            shield = Math.Max(shield - damage * factor, 0);
+            return ((shieldOld - (damage * factor)) - shield) / -2f;
         }
 
         public void AddEnergy(float addEnergy)
@@ -72,16 +106,29 @@ namespace VertShot
 
         public void Update(GameTime gameTime)
         {
+
             position += Input.InputVector * new Vector2((float)gameTime.ElapsedGameTime.TotalMilliseconds * speed, (float)gameTime.ElapsedGameTime.TotalMilliseconds * speed);
             position.X = MathHelper.Clamp(position.X, 0, Game1.Width - size.X);
             position.Y = MathHelper.Clamp(position.Y, 0, Game1.Height - size.Y);
 
-
-            if (Input.IsGameKeyDown(GameKeys.Fire) && gameTime.TotalGameTime.TotalMilliseconds - lastShotTime > shotDelay)
+            for (int i = 0; i < weaponSlot.Length; i++)
             {
-                ShotCollector.AddLaserShot(new Vector2(rect.Center.X, rect.Center.Y), new Vector2(5, 20), new Vector2(0, -1), 0, 1);
-                lastShotTime = gameTime.TotalGameTime.TotalMilliseconds;
+                weaponDelayTime[i] = Math.Max(weaponDelayTime[i] - (float)gameTime.ElapsedGameTime.TotalMilliseconds, 0);
+                if (weaponSlot[i] != ShipWeapons.None && Input.IsGameKeyDown(weaponSlotKey[i]) && weaponDelayTime[i] == 0)
+                {
+                    switch (weaponSlot[i])
+                    {
+                        case ShipWeapons.LaserLvl1:
+                            ShotCollector.AddLaserShot(position + weaponSlotPosition[i] - new Vector2(2.5f,0), new Vector2(5, 20), new Vector2(0, -1), 0, 1);
+                            weaponDelayTime[i] += weaponDelay[i];
+                            break;
+                    }
+                }
             }
+
+
+            if (shield < MaxShield && weaponDelayTime.Count(i => i == 0) == weaponDelayTime.Length)
+                shield = Math.Min(shield + shieldPerSecond * (float)gameTime.ElapsedGameTime.TotalSeconds, MaxShield);
         }
 
         public void Draw(SpriteBatch spriteBatch)

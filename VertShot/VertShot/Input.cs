@@ -11,7 +11,8 @@ namespace VertShot
         Right,
         Up,
         Down,
-        Fire,
+        Fire1,
+        Fire2,
         Debug1,
         Debug2,
         Debug3,
@@ -35,7 +36,8 @@ namespace VertShot
             AssignKeyboard.Add(GameKeys.Right, Keys.None);
             AssignKeyboard.Add(GameKeys.Up, Keys.None);
             AssignKeyboard.Add(GameKeys.Down, Keys.None);
-            AssignKeyboard.Add(GameKeys.Fire, Keys.None);
+            AssignKeyboard.Add(GameKeys.Fire1, Keys.None);
+            AssignKeyboard.Add(GameKeys.Fire2, Keys.None);
             AssignKeyboard.Add(GameKeys.Debug1, Keys.None);
             AssignKeyboard.Add(GameKeys.Debug2, Keys.None);
             AssignKeyboard.Add(GameKeys.Debug3, Keys.None);
@@ -93,11 +95,17 @@ namespace VertShot
                     else
                         return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Menu]);
 
-                case GameKeys.Fire:
+                case GameKeys.Fire1:
                     if (GamePadConnected)
                         return gamePadState.IsButtonDown(Buttons.A);
                     else
-                        return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Fire]);
+                        return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Fire1]);
+
+                case GameKeys.Fire2:
+                    if (GamePadConnected)
+                        return gamePadState.IsButtonDown(Buttons.X);
+                    else
+                        return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Fire2]);
 
                 case GameKeys.Debug1:
                     return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug1]);
@@ -122,11 +130,11 @@ namespace VertShot
                     else
                         return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Menu]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Menu]);
 
-                case GameKeys.Fire:
+                case GameKeys.Fire1:
                     if (GamePadConnected)
                         return gamePadState.IsButtonUp(Buttons.A) && lastGamePadState.IsButtonDown(Buttons.A);
                     else
-                        return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Fire]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Fire]);
+                        return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Fire1]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Fire1]);
 
                 case GameKeys.Debug1:
                     return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug1]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug1]);

@@ -44,6 +44,11 @@ namespace VertShot
             }
         }
 
+        static public void Reset()
+        {
+            enemyList.Clear();
+        }
+
         static public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Enemy enemy in enemyList)

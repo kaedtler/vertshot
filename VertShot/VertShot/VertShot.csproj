@@ -13,7 +13,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>HiDef</XnaProfile>
+    <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>9ee92ae9-84b6-4d00-828a-c1c04c903f11</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -79,7 +79,10 @@
     <Compile Include="EnemyCollector.cs" />
     <Compile Include="Enemys\Meteor.cs" />
     <Compile Include="GameHud.cs" />
-    <Compile Include="Hud.cs" />
+    <Compile Include="Hud\Hud.cs" />
+    <Compile Include="Hud\HudLabel.cs" />
+    <Compile Include="Hud\HudWindow.cs" />
+    <Compile Include="Hud\HudButton.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,6 +127,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

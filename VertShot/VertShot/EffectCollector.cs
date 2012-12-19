@@ -31,6 +31,11 @@ namespace VertShot
             effectList.Add(animatedSprite);
         }
 
+        static public void Reset()
+        {
+            effectList.Clear();
+        }
+
 
         static public void Update(GameTime gameTime)
         {

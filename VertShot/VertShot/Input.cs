@@ -16,16 +16,34 @@ namespace VertShot
         Debug1,
         Debug2,
         Debug3,
-        Debug4
+        Debug4,
+        Debug5,
+        Debug6,
+        Debug7,
+        Debug8,
+        Debug9,
+        Debug10,
+        Debug11,
+        Debug12
+    }
 
+    public enum MouseKeys
+    {
+        Left,
+        Middle,
+        Right,
+        X1,
+        X2
     }
 
     public static class Input
     {
         public static GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
         public static KeyboardState keyboardState = Keyboard.GetState();
+        public static MouseState mouseState = Mouse.GetState();
         public static GamePadState lastGamePadState = GamePad.GetState(PlayerIndex.One);
         public static KeyboardState lastKeyboardState = Keyboard.GetState();
+        public static MouseState lastMouseState = Mouse.GetState();
 
         public static Dictionary<GameKeys, Keys> AssignKeyboard = new Dictionary<GameKeys, Keys>();
 
@@ -42,18 +60,28 @@ namespace VertShot
             AssignKeyboard.Add(GameKeys.Debug2, Keys.None);
             AssignKeyboard.Add(GameKeys.Debug3, Keys.None);
             AssignKeyboard.Add(GameKeys.Debug4, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug5, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug6, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug7, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug8, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug9, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug10, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug11, Keys.None);
+            AssignKeyboard.Add(GameKeys.Debug12, Keys.None);
         }
 
         public static void UpdateBegin()
         {
             gamePadState = GamePad.GetState(PlayerIndex.One);
             keyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
         }
 
         public static void UpdateEnd()
         {
             lastGamePadState = GamePad.GetState(PlayerIndex.One);
             lastKeyboardState = Keyboard.GetState();
+            lastMouseState = Mouse.GetState();
         }
 
         public static Vector2 InputVector
@@ -74,6 +102,22 @@ namespace VertShot
                     if (keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Down])) inputVector.Y += 1;
                 }
                 return inputVector;
+            }
+        }
+
+        public static Point MousePoint
+        {
+            get
+            {
+                return new Point(Mouse.GetState().X, Mouse.GetState().Y);
+            }
+        }
+
+        public static Vector2 MouseVector
+        {
+            get
+            {
+                return new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             }
         }
 
@@ -107,14 +151,18 @@ namespace VertShot
                     else
                         return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Fire2]);
 
-                case GameKeys.Debug1:
-                    return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug1]);
-                case GameKeys.Debug2:
-                    return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug2]);
-                case GameKeys.Debug3:
-                    return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug3]);
-                case GameKeys.Debug4:
-                    return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug4]);
+                case GameKeys.Debug1: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug1]);
+                case GameKeys.Debug2: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug2]);
+                case GameKeys.Debug3: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug3]);
+                case GameKeys.Debug4: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug4]);
+                case GameKeys.Debug5: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug5]);
+                case GameKeys.Debug6: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug6]);
+                case GameKeys.Debug7: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug7]);
+                case GameKeys.Debug8: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug8]);
+                case GameKeys.Debug9: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug9]);
+                case GameKeys.Debug10: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug10]);
+                case GameKeys.Debug11: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug11]);
+                case GameKeys.Debug12: return keyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug12]);
                 default:
                     return false;
             }
@@ -136,16 +184,53 @@ namespace VertShot
                     else
                         return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Fire1]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Fire1]);
 
-                case GameKeys.Debug1:
-                    return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug1]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug1]);
-                case GameKeys.Debug2:
-                    return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug2]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug2]);
-                case GameKeys.Debug3:
-                    return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug3]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug3]);
-                case GameKeys.Debug4:
-                    return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug4]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug4]);
+                case GameKeys.Fire2:
+                    if (GamePadConnected)
+                        return gamePadState.IsButtonUp(Buttons.X) && lastGamePadState.IsButtonDown(Buttons.X);
+                    else
+                        return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Fire2]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Fire2]);
+
+                case GameKeys.Debug1: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug1]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug1]);
+                case GameKeys.Debug2: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug2]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug2]);
+                case GameKeys.Debug3: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug3]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug3]);
+                case GameKeys.Debug4: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug4]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug4]);
+                case GameKeys.Debug5: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug5]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug5]);
+                case GameKeys.Debug6: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug6]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug6]);
+                case GameKeys.Debug7: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug7]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug7]);
+                case GameKeys.Debug8: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug8]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug8]);
+                case GameKeys.Debug9: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug9]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug9]);
+                case GameKeys.Debug10: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug10]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug10]);
+                case GameKeys.Debug11: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug11]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug11]);
+                case GameKeys.Debug12: return keyboardState.IsKeyUp(AssignKeyboard[GameKeys.Debug12]) && lastKeyboardState.IsKeyDown(AssignKeyboard[GameKeys.Debug12]);
                 default:
                     return false;
+            }
+        }
+
+
+        public static bool IsMouseKeyDown(MouseKeys mouseKey)
+        {
+            switch (mouseKey)
+            {
+                case MouseKeys.Left: return mouseState.LeftButton == ButtonState.Pressed;
+                case MouseKeys.Middle: return mouseState.MiddleButton == ButtonState.Pressed;
+                case MouseKeys.Right: return mouseState.RightButton == ButtonState.Pressed;
+                case MouseKeys.X1: return mouseState.XButton1 == ButtonState.Pressed;
+                case MouseKeys.X2: return mouseState.XButton2 == ButtonState.Pressed;
+                default: return false;
+            }
+        }
+
+        public static bool IsMouseKeyReleased(MouseKeys mouseKey)
+        {
+            switch (mouseKey)
+            {
+                case MouseKeys.Left: return mouseState.LeftButton == ButtonState.Released && lastMouseState.LeftButton == ButtonState.Pressed;
+                case MouseKeys.Middle: return mouseState.MiddleButton == ButtonState.Released && lastMouseState.MiddleButton == ButtonState.Pressed;
+                case MouseKeys.Right: return mouseState.RightButton == ButtonState.Released && lastMouseState.RightButton == ButtonState.Pressed;
+                case MouseKeys.X1: return mouseState.XButton1 == ButtonState.Released && lastMouseState.XButton1 == ButtonState.Pressed;
+                case MouseKeys.X2: return mouseState.XButton2 == ButtonState.Released && lastMouseState.XButton2 == ButtonState.Pressed;
+                default: return false;
             }
         }
     }

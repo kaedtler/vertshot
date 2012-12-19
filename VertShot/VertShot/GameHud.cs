@@ -11,7 +11,6 @@ namespace VertShot
     {
         static Texture2D hudTex;
         static Texture2D hudTexRight;
-        static Texture2D energyTex;
         static Color hudColor;
         static float hudEnergy;
         static float hudShield;
@@ -19,16 +18,15 @@ namespace VertShot
         static Rectangle energyRect { get { return new Rectangle(Game1.Width - hudTex.Width + 14, 7, Convert.ToInt32(Math.Ceiling(hudEnergy * 2)), 20); } }
         static Rectangle shieldRect { get { return new Rectangle(Game1.Width - hudTex.Width + 14, 35, Convert.ToInt32(Math.Ceiling(hudShield * 2)), 20); } }
 
-        static public void Initialize(Texture2D hudTex, Texture2D hudTexRight, Texture2D oneByOneTex)
+        static public void Initialize(Texture2D hudTex, Texture2D hudTexRight)
         {
-            Initialize(hudTex, hudTexRight, oneByOneTex, Color.White);
+            Initialize(hudTex, hudTexRight, Color.White);
         }
-        static public void Initialize(Texture2D hudTex, Texture2D hudTexRight, Texture2D oneByOneTex, Color hudColor)
+        static public void Initialize(Texture2D hudTex, Texture2D hudTexRight, Color hudColor)
         {
             GameHud.hudTex = hudTex;
             GameHud.hudTexRight = hudTexRight;
             GameHud.hudColor = hudColor;
-            energyTex = oneByOneTex;
         }
 
         static public void Update(GameTime gameTime)
@@ -44,12 +42,18 @@ namespace VertShot
                 hudShield = Math.Max(hudShield - 0.1f * (float)gameTime.ElapsedGameTime.TotalMilliseconds, Game1.player.shield);
         }
 
+        static public void Reset()
+        {
+            hudEnergy = 0;
+            hudShield = 0;
+        }
+
         static public void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Draw(hudTexRight, new Vector2(Game1.Width - hudTex.Width, 0), hudColor);
             spritebatch.Draw(hudTex, new Vector2(0, 0), null, hudColor, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-            spritebatch.Draw(energyTex, energyRect, (hudEnergy <= 20f ? new Color(160, 0, 0, 160) : new Color(48, 160, 0, 160)));
-            spritebatch.Draw(energyTex, shieldRect, new Color(0, 93, 160, 160));
+            spritebatch.Draw(Game1.oneTexture, energyRect, (hudEnergy <= 20f ? new Color(160, 0, 0, 160) : new Color(48, 160, 0, 160)));
+            spritebatch.Draw(Game1.oneTexture, shieldRect, new Color(0, 93, 160, 160));
         }
     }
 }

@@ -19,6 +19,7 @@ namespace VertShot
         const float MaxEnergy = 100f;
         const float MaxShield = 100f;
         Texture2D texture;
+        Vector2 startPosition;
         Vector2 position;
         Vector2 size;
         public Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), Convert.ToInt32(size.X), Convert.ToInt32(size.Y)); } }
@@ -27,8 +28,6 @@ namespace VertShot
         public float shield { get; private set; }
         public float collisionDamage { get; private set; }
         float speed;
-        double lastShotTime = 0;
-        const double shotDelay = 200;
         float shieldPerSecond = 5f;
 
         public ShipWeapons[] weaponSlot = new ShipWeapons[3];
@@ -37,15 +36,13 @@ namespace VertShot
         public float[] weaponDelayTime = new float[3];
         public Vector2[] weaponSlotPosition;
 
-        public Player(Texture2D texture, Color color, Vector2 position)
+        public Player(Texture2D texture, Color color, Vector2 startPosition)
         {
             this.texture = texture;
             this.color = color;
-            this.position = position;
+            this.startPosition = startPosition;
             size = new Vector2(texture.Width, texture.Height);
             speed = 0.65f;
-            energy = MaxEnergy;
-            shield = MaxShield;
             collisionDamage = 20f;
             weaponSlotPosition = new Vector2[3] { new Vector2(size.X * 0.1f, size.Y / 2), new Vector2(size.X * 0.5f, size.Y / 2), new Vector2(size.X * 0.9f, size.Y / 2) };
 
@@ -60,6 +57,15 @@ namespace VertShot
             weaponSlot[2] = ShipWeapons.LaserLvl1;
             weaponSlotKey[2] = GameKeys.Fire2;
             weaponDelay[2] = 200;
+
+            Reset();
+        }
+
+        public void Reset()
+        {
+            position = startPosition;
+            energy = MaxEnergy;
+            shield = MaxShield;
         }
 
 
@@ -102,6 +108,11 @@ namespace VertShot
         public void AddShield(float addShield)
         {
             shield = Math.Min(shield + addShield, MaxShield);
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            this.position = position;
         }
 
         public void Update(GameTime gameTime)

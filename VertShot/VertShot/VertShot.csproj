@@ -80,9 +80,11 @@
     <Compile Include="Enemys\Meteor.cs" />
     <Compile Include="GameHud.cs" />
     <Compile Include="Hud\Hud.cs" />
+    <Compile Include="Hud\HudCheckBox.cs" />
     <Compile Include="Hud\HudLabel.cs" />
     <Compile Include="Hud\HudWindow.cs" />
     <Compile Include="Hud\HudButton.cs" />
+    <Compile Include="Hud\HudList.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

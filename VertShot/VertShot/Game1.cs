@@ -27,6 +27,8 @@ namespace VertShot
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        static public Game1 game;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -48,17 +50,31 @@ namespace VertShot
 
         public static GameState gameState { get; private set; }
         static public Random rand = new Random((int)DateTime.Now.TimeOfDay.TotalMilliseconds);
+        // Interne Auflösung
         static public readonly int Width = 1280;
         static public readonly int Height = 720;
+        // Tatsächliche Auflösung
+        static public int GraphicWidth = 800;
+        static public int GraphicHeight = 600;
         static public readonly Rectangle GameRect = new Rectangle(0, 0, Width, Height);
+
+        public bool IsFullScreen { get { return graphics.IsFullScreen; } }
+
+        Matrix scaleMatrix = new Matrix();
+        Matrix transMatrix = new Matrix();
+        float scaleX;
+        float scaleY;
+        Rectangle rectBlackTop;
+        Rectangle rectBlackBottom;
 
         public Game1()
         {
+            game = this;
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.PreferredBackBufferWidth = Width;
-            graphics.PreferredBackBufferHeight = Height;
+            SetResolution(GraphicWidth, GraphicHeight, false);
 
             IsMouseVisible = true;
 
@@ -73,6 +89,7 @@ namespace VertShot
         protected override void Initialize()
         {
             Input.Initialize();
+
 
             base.Initialize();
         }
@@ -242,11 +259,13 @@ namespace VertShot
                     SetGameState(GameState.Game);
             }
 
-            debugText1 = "Player Energy: " + player.energy;
-            debugText1 += "\nPlayer Shield: " + player.shield;
-            debugText1 += "\nEnemy killed: " + enemyCounter;
-            debugText1 += "\nEnemys: " + EnemyCollector.GetList.Count;
-            debugText1 += "\nShots: " + ShotCollector.GetList.Count;
+            if (showDebug1)
+            {
+                debugText1 = "Player Energy: " + player.energy;
+                debugText1 += "\nPlayer Shield: " + player.shield;
+                debugText1 += "\nEnemy killed: " + enemyCounter;
+                debugText1 += "\nEnemys: " + EnemyCollector.GetList.Count;
+            }
 
 
             // TEMP
@@ -296,6 +315,38 @@ namespace VertShot
             }
         }
 
+        public void SetResolution(int newWidth, int newHeight, bool fullscreen)
+        {
+            Game1.GraphicWidth = newWidth;
+            Game1.GraphicHeight = newHeight;
+
+            graphics.PreferredBackBufferWidth = Game1.GraphicWidth;
+            graphics.PreferredBackBufferHeight = Game1.GraphicHeight;
+
+            graphics.IsFullScreen = fullscreen;
+
+            graphics.ApplyChanges();
+
+            scaleX = (float)Game1.GraphicWidth / (float)Width;
+            scaleY = (float)Game1.GraphicHeight / (float)Height;
+            scaleMatrix = Matrix.CreateScale(scaleX < scaleY ? scaleX : scaleY);
+            transMatrix = Matrix.CreateTranslation(new Vector3(scaleY < scaleX ? ((float)Game1.GraphicWidth - (float)Width * scaleY) / 2f : 0,
+                scaleX < scaleY ? ((float)Game1.GraphicHeight - (float)Height * scaleX) / 2f : 0, 0));
+            rectBlackTop = new Rectangle(
+                0,
+                0,
+                scaleX < scaleY ? Game1.GraphicWidth : (int)(((float)Game1.GraphicWidth - (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? Game1.GraphicHeight : (int)(((float)Game1.GraphicHeight - (float)Height * scaleX) / 2f)
+                );
+            rectBlackBottom = new Rectangle(
+                scaleX < scaleY ? 0 : (int)(((float)Game1.GraphicWidth + (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? 0 : (int)(((float)Game1.GraphicHeight + (float)Height * scaleX) / 2f),
+                scaleX < scaleY ? Game1.GraphicWidth : (int)(((float)Game1.GraphicWidth - (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? Game1.GraphicHeight : (int)(((float)Game1.GraphicHeight - (float)Height * scaleX) / 2f)
+                );
+            Hud.RefreshWindowPositions();
+        }
+
 
         /// <summary>
         /// Dies wird aufgerufen, wenn das Spiel selbst zeichnen soll.
@@ -305,7 +356,7 @@ namespace VertShot
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, scaleMatrix * transMatrix);
 
 
             switch (gameState)
@@ -313,6 +364,14 @@ namespace VertShot
                 case GameState.MainMenu:
                     {
                         Background.Draw(spriteBatch);
+
+                        spriteBatch.End();
+                        spriteBatch.Begin();
+                        if (scaleX != scaleY)
+                        {
+                            spriteBatch.Draw(oneTexture, rectBlackTop, Color.Black);
+                            spriteBatch.Draw(oneTexture, rectBlackBottom, Color.Black);
+                        }
                         Hud.Draw(spriteBatch);
                     }
                     break;
@@ -321,19 +380,29 @@ namespace VertShot
                 case GameState.GameOver:
                     {
                         Background.Draw(spriteBatch);
-
                         ShotCollector.Draw(spriteBatch);
                         EnemyCollector.Draw(spriteBatch);
-
                         player.Draw(spriteBatch);
-
                         EffectCollector.Draw(spriteBatch);
 
+                        spriteBatch.End();
+                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, transMatrix);
                         GameHud.Draw(spriteBatch);
+                        spriteBatch.End();
+                        spriteBatch.Begin();
+                        if (scaleX != scaleY)
+                        {
+                            spriteBatch.Draw(oneTexture, rectBlackTop, Color.Black);
+                            spriteBatch.Draw(oneTexture, rectBlackBottom, Color.Black);
+                        }
                         Hud.Draw(spriteBatch);
                     }
                     break;
             }
+
+            spriteBatch.End();
+            spriteBatch.Begin();
+
 
             if (showDebug1) spriteBatch.DrawString(debugFont, debugText1, new Vector2(10, 110), Color.White);
 

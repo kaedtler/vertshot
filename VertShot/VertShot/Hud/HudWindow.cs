@@ -19,6 +19,8 @@ namespace VertShot
         bool active;
         List<HudButton> buttonList = new List<HudButton>();
         List<HudLabel> labelList = new List<HudLabel>();
+        List<HudList> listList = new List<HudList>();
+        List<HudCheckBox> checkBoxList = new List<HudCheckBox>();
         Rectangle rect;
 
 
@@ -44,6 +46,20 @@ namespace VertShot
             buttonList.Add(new HudButton(rect, text, buttonAction, value));
         }
 
+        public void AddList(Rectangle rect, List<string> stringList, int defaultValue = 0)
+        {
+            rect.X += this.rect.X;
+            rect.Y += this.rect.Y;
+            listList.Add(new HudList(rect, stringList, defaultValue));
+        }
+
+        public void AddCheckBox(Rectangle rect, string text, bool defaultValue = false)
+        {
+            rect.X += this.rect.X;
+            rect.Y += this.rect.Y;
+            checkBoxList.Add(new HudCheckBox(rect, text, defaultValue));
+        }
+
         public void AddLabel(Vector2 position, String text)
         {
             position.X += this.rect.X;
@@ -52,8 +68,30 @@ namespace VertShot
         }
 
 
+        public void RefreshPosition(Vector2 position)
+        {
+            foreach (HudButton hudButton in buttonList)
+                hudButton.RefreshPosition(hudButton.GetPosition - new Vector2(rect.X, rect.Y) + position);
+            foreach (HudList hList in listList)
+                hList.RefreshPosition(hList.GetPosition - new Vector2(rect.X, rect.Y) + position);
+            foreach (HudLabel hudLabel in labelList)
+                hudLabel.RefreshPosition(hudLabel.GetPosition - new Vector2(rect.X, rect.Y) + position);
+            foreach (HudCheckBox hudCheck in checkBoxList)
+                hudCheck.RefreshPosition(hudCheck.GetPosition - new Vector2(rect.X, rect.Y) + position);
+
+            rect.X = (int)position.X;
+            rect.Y = (int)position.Y;
+        }
+
+
         public void Update(GameTime gameTime)
         {
+            foreach (HudList hList in listList)
+                hList.Update(gameTime);
+
+            foreach (HudCheckBox hudCheck in checkBoxList)
+                hudCheck.Update(gameTime);
+
             foreach (HudButton hButton in buttonList)
                 hButton.Update(gameTime);
 
@@ -70,6 +108,11 @@ namespace VertShot
                         break;
                     case hudButtonAction.Continue:
                         Game1.SetGameState(GameState.Game);
+                        break;
+                    case hudButtonAction.ApplyGraphic:
+                        int[] i = (int[])hudButton.value;
+                        string[] res = listList[i[0]].StringValue.Split(new char[]{'x'});
+                        Game1.game.SetResolution(Int32.Parse(res[0]), Int32.Parse(res[1]), checkBoxList[i[1]].value);
                         break;
                     case hudButtonAction.OpenWindow:
                         Hud.ShowWindow((HudWindows)hudButton.value);
@@ -105,6 +148,10 @@ namespace VertShot
 
             foreach (HudButton hudButton in buttonList)
                 hudButton.Draw(spriteBatch);
+            foreach (HudList hList in listList)
+                hList.Draw(spriteBatch);
+            foreach (HudCheckBox hudCheck in checkBoxList)
+                hudCheck.Draw(spriteBatch);
             foreach (HudLabel hudLabel in labelList)
                 hudLabel.Draw(spriteBatch);
         }

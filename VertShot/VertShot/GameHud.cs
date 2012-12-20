@@ -15,8 +15,8 @@ namespace VertShot
         static float hudEnergy;
         static float hudShield;
 
-        static Rectangle energyRect { get { return new Rectangle(Game1.Width - hudTex.Width + 14, 7, Convert.ToInt32(Math.Ceiling(hudEnergy * 2)), 20); } }
-        static Rectangle shieldRect { get { return new Rectangle(Game1.Width - hudTex.Width + 14, 35, Convert.ToInt32(Math.Ceiling(hudShield * 2)), 20); } }
+        static Rectangle energyRect { get { return new Rectangle(Game1.GraphicWidth - hudTex.Width + 14, 7, Convert.ToInt32(Math.Ceiling(hudEnergy * 2)), 20); } }
+        static Rectangle shieldRect { get { return new Rectangle(Game1.GraphicWidth - hudTex.Width + 14, 35, Convert.ToInt32(Math.Ceiling(hudShield * 2)), 20); } }
 
         static public void Initialize(Texture2D hudTex, Texture2D hudTexRight)
         {
@@ -50,7 +50,7 @@ namespace VertShot
 
         static public void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(hudTexRight, new Vector2(Game1.Width - hudTex.Width, 0), hudColor);
+            spritebatch.Draw(hudTexRight, new Vector2(Game1.GraphicWidth - hudTex.Width, 0), hudColor);
             spritebatch.Draw(hudTex, new Vector2(0, 0), null, hudColor, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
             spritebatch.Draw(Game1.oneTexture, energyRect, (hudEnergy <= 20f ? new Color(160, 0, 0, 160) : new Color(48, 160, 0, 160)));
             spritebatch.Draw(Game1.oneTexture, shieldRect, new Color(0, 93, 160, 160));

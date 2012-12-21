@@ -42,8 +42,8 @@ namespace VertShot
         {
             if (secondRun)
             {
-                mouseOverB1 = rectButton1.Contains(Input.MousePoint);
-                mouseOverB2 = rectButton2.Contains(Input.MousePoint);
+                mouseOverB1 = rectButton1.Contains(Input.MouseScaledPoint);
+                mouseOverB2 = rectButton2.Contains(Input.MouseScaledPoint);
                 mouseDownB1 = mouseOverB1 && Input.IsMouseKeyDown(MouseKeys.Left);
                 mouseDownB2 = mouseOverB2 && Input.IsMouseKeyDown(MouseKeys.Left);
                 if (mouseOverB1 && Input.IsMouseKeyReleased(MouseKeys.Left))
@@ -51,7 +51,8 @@ namespace VertShot
                 else if (mouseOverB2 && Input.IsMouseKeyReleased(MouseKeys.Left))
                     value = Math.Min(value + 1, stringList.Count - 1);
             }
-            secondRun = true;
+            else
+                secondRun = true;
         }
 
 

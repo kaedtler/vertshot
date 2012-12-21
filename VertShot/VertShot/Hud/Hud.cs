@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace VertShot
 {
-    public enum HudWindows
+    public enum HudWindowTypes
     {
         MainMenu,
         Options,
@@ -15,6 +15,11 @@ namespace VertShot
         GameKeys,
         GameOver,
         Pause
+    }
+    public enum HudMessageBoxTypes
+    {
+        GraphicChange,
+        GameKeyChange
     }
     public enum hudButtonAction
     {
@@ -26,16 +31,20 @@ namespace VertShot
         OpenMessageBox,
         SetGameKey,
         ApplyGraphic,
+        OK,
+        Cancel,
         Quit
     }
 
     static public class Hud
     {
-        static public Dictionary<HudWindows, HudWindow> hudWindowList = new Dictionary<HudWindows, HudWindow>();
+        static public Dictionary<HudWindowTypes, HudWindow> hudWindowList = new Dictionary<HudWindowTypes, HudWindow>();
+        static public Dictionary<HudMessageBoxTypes, HudMessageBox> hudMessageBoxList = new Dictionary<HudMessageBoxTypes, HudMessageBox>();
 
         static public void Initialize(Texture2D background, Texture2D cornerTop, Texture2D cornerBottom, Texture2D borderTop, Texture2D borderLeft)
         {
             HudWindow.Initialize(background, cornerTop, cornerBottom, borderTop, borderLeft);
+            HudMessageBox.Initialize(background, cornerTop, cornerBottom, borderTop, borderLeft);
 
 
             // Auflösungsliste holen
@@ -51,37 +60,51 @@ namespace VertShot
                 }
             }
 
-
+            ////Fenster
             // Hauptmenü
-            hudWindowList[HudWindows.MainMenu] = new HudWindow(new Rectangle(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174, 348, 348));
-            hudWindowList[HudWindows.MainMenu].AddButton(new Rectangle(40, 40, 268, 40), "Neues Spiel", hudButtonAction.NewGame);
-            hudWindowList[HudWindows.MainMenu].AddButton(new Rectangle(40, 100, 268, 40), "Optionen", hudButtonAction.OpenWindow, HudWindows.Options);
-            hudWindowList[HudWindows.MainMenu].AddButton(new Rectangle(40, 160, 268, 40), "Credits", hudButtonAction.OpenWindow, HudWindows.Credits);
-            hudWindowList[HudWindows.MainMenu].AddButton(new Rectangle(40, 280, 268, 40), "Beenden", hudButtonAction.Quit);
+            hudWindowList[HudWindowTypes.MainMenu] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
+            hudWindowList[HudWindowTypes.MainMenu].AddButton(new Rectangle(40, 40, 268, 40), "Neues Spiel", hudButtonAction.NewGame);
+            hudWindowList[HudWindowTypes.MainMenu].AddButton(new Rectangle(40, 100, 268, 40), "Optionen", hudButtonAction.OpenWindow, HudWindowTypes.Options);
+            hudWindowList[HudWindowTypes.MainMenu].AddButton(new Rectangle(40, 160, 268, 40), "Credits", hudButtonAction.OpenWindow, HudWindowTypes.Credits);
+            hudWindowList[HudWindowTypes.MainMenu].AddButton(new Rectangle(40, 280, 268, 40), "Beenden", hudButtonAction.Quit);
             // Optionen
-            hudWindowList[HudWindows.Options] = new HudWindow(new Rectangle(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174, 348, 348));
-            hudWindowList[HudWindows.Options].AddList(new Rectangle(40, 40, 268, 40), resList, resDefault);
-            hudWindowList[HudWindows.Options].AddCheckBox(new Rectangle(40, 100, 268, 40), "Vollbild", Game1.game.IsFullScreen);
-            hudWindowList[HudWindows.Options].AddButton(new Rectangle(40, 160, 268, 40), "Tastenbelegung", hudButtonAction.OpenWindow, HudWindows.GameKeys);
-            hudWindowList[HudWindows.Options].AddButton(new Rectangle(40, 220, 268, 40), "Übernehmen", hudButtonAction.ApplyGraphic, new int[]{0,0});
-            hudWindowList[HudWindows.Options].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindows.MainMenu);
+            hudWindowList[HudWindowTypes.Options] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
+            hudWindowList[HudWindowTypes.Options].AddList(new Rectangle(40, 40, 268, 40), resList, resDefault);
+            hudWindowList[HudWindowTypes.Options].AddCheckBox(new Rectangle(40, 100, 268, 40), "Vollbild", Game1.game.IsFullScreen);
+            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 160, 268, 40), "Tastenbelegung", hudButtonAction.OpenWindow, HudWindowTypes.GameKeys);
+            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 280, 160, 40), "Übernehmen", hudButtonAction.ApplyGraphic, new int[] { 0, 0 });
+            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(208, 280, 110, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.MainMenu);
             // Tastenbelegung TEMP
-            hudWindowList[HudWindows.GameKeys] = new HudWindow(new Rectangle(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174, 348, 348));
-            hudWindowList[HudWindows.GameKeys].AddLabel(new Vector2(20, 40), "Pfeiltasten: bewegen\nLeertaste:   Feuer 1\nStrg Rechts: Feuer 2");
-            hudWindowList[HudWindows.GameKeys].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindows.Options);
+            hudWindowList[HudWindowTypes.GameKeys] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 200, 348, 400));
+            hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 20, 268, 40), "[GAMEKEY]: [LEFT]", hudButtonAction.OpenMessageBox, GameKeys.Left, true);
+            hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 70, 268, 40), "[GAMEKEY]: [RIGHT]", hudButtonAction.OpenMessageBox, GameKeys.Right, true);
+            hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 120, 268, 40), "[GAMEKEY]: [UP]", hudButtonAction.OpenMessageBox, GameKeys.Up, true);
+            hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 170, 268, 40), "[GAMEKEY]: [DOWN]", hudButtonAction.OpenMessageBox, GameKeys.Down, true);
+            hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 220, 268, 40), "[GAMEKEY]: [FIRE1]", hudButtonAction.OpenMessageBox, GameKeys.Fire1, true);
+            hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 270, 268, 40), "[GAMEKEY]: [FIRE2]", hudButtonAction.OpenMessageBox, GameKeys.Fire2, true);
+
+            //hudWindowList[HudWindowTypes.GameKeys].AddLabel(new Vector2(20, 40), "Pfeiltasten: bewegen\nLeertaste:   Feuer 1\nStrg Rechts: Feuer 2");
+            hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 320, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
             // Credits
-            hudWindowList[HudWindows.Credits] = new HudWindow(new Rectangle(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174, 348, 348));
-            hudWindowList[HudWindows.Credits].AddLabel(new Vector2(20, 40), "Hier stehen die\nMacher drin.");
-            hudWindowList[HudWindows.Credits].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindows.Options);
+            hudWindowList[HudWindowTypes.Credits] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
+            hudWindowList[HudWindowTypes.Credits].AddLabel(new Vector2(20, 40), "Hier stehen die\nMacher drin.");
+            hudWindowList[HudWindowTypes.Credits].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
             // Pause
-            hudWindowList[HudWindows.Pause] = new HudWindow(new Rectangle(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174, 348, 348));
-            hudWindowList[HudWindows.Pause].AddButton(new Rectangle(40, 40, 268, 40), "Fortsetzen", hudButtonAction.Continue);
-            hudWindowList[HudWindows.Pause].AddButton(new Rectangle(40, 220, 268, 40), "Hauptmenü", hudButtonAction.MainMenu);
-            hudWindowList[HudWindows.Pause].AddButton(new Rectangle(40, 280, 268, 40), "Beenden", hudButtonAction.Quit);
+            hudWindowList[HudWindowTypes.Pause] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
+            hudWindowList[HudWindowTypes.Pause].AddButton(new Rectangle(40, 40, 268, 40), "Fortsetzen", hudButtonAction.Continue);
+            hudWindowList[HudWindowTypes.Pause].AddButton(new Rectangle(40, 220, 268, 40), "Hauptmenü", hudButtonAction.MainMenu);
+            hudWindowList[HudWindowTypes.Pause].AddButton(new Rectangle(40, 280, 268, 40), "Beenden", hudButtonAction.Quit);
             // GameOver
-            hudWindowList[HudWindows.GameOver] = new HudWindow(new Rectangle(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174, 348, 348));
-            hudWindowList[HudWindows.GameOver].AddLabel(new Vector2(20, 40), "GAME OVER!!!\n\nDein Schiff\nist schrott!\n\nAbschüsse: $SCORE$");
-            hudWindowList[HudWindows.GameOver].AddButton(new Rectangle(40, 280, 268, 40), "Hauptmenü", hudButtonAction.MainMenu);
+            hudWindowList[HudWindowTypes.GameOver] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
+            hudWindowList[HudWindowTypes.GameOver].AddLabel(new Vector2(20, 40), "GAME OVER!!!\n\nDein Schiff\nist schrott!\n\nAbschüsse: [SCORE]");
+            hudWindowList[HudWindowTypes.GameOver].AddButton(new Rectangle(40, 280, 268, 40), "Hauptmenü", hudButtonAction.MainMenu);
+
+            ////Message Box
+            // Grafik geändert
+            hudMessageBoxList[HudMessageBoxTypes.GraphicChange] = new HudMessageBox(new Rectangle(Game1.Width / 2 - 400, Game1.Height / 2 - 74, 800, 148),
+                "Grafikeinstellungen übernehmen? Restliche Zeit: [TIMER]", true, true, 15, -1);
+            hudMessageBoxList[HudMessageBoxTypes.GameKeyChange] = new HudMessageBox(new Rectangle(Game1.Width / 2 - 300, Game1.Height / 2 - 74, 600, 148),
+                "Drücke eine Taste für [GAMEKEY]", false, true, -1, -1);
         }
 
 
@@ -89,44 +112,105 @@ namespace VertShot
         {
             if (hudWindowList.Count > 0)
             {
-                hudWindowList[HudWindows.MainMenu].RefreshPosition(new Vector2(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174));
-                hudWindowList[HudWindows.Options].RefreshPosition(new Vector2(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174));
-                hudWindowList[HudWindows.GameKeys].RefreshPosition(new Vector2(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174));
-                hudWindowList[HudWindows.Credits].RefreshPosition(new Vector2(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174));
-                hudWindowList[HudWindows.Pause].RefreshPosition(new Vector2(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174));
-                hudWindowList[HudWindows.GameOver].RefreshPosition(new Vector2(Game1.GraphicWidth / 2 - 174, Game1.GraphicHeight / 2 - 174));
+                hudWindowList[HudWindowTypes.MainMenu].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
+                hudWindowList[HudWindowTypes.Options].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
+                hudWindowList[HudWindowTypes.GameKeys].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
+                hudWindowList[HudWindowTypes.Credits].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
+                hudWindowList[HudWindowTypes.Pause].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
+                hudWindowList[HudWindowTypes.GameOver].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
             }
         }
 
 
         static public void Update(GameTime gameTime)
         {
-            foreach (HudWindow hWindow in hudWindowList.Values)
-                if (hWindow.IsActive) hWindow.Update(gameTime);
+            bool messageBoxActive = false;
+            foreach (HudMessageBoxTypes hMessageBoxType in hudMessageBoxList.Keys)
+                if (hudMessageBoxList[hMessageBoxType].active)
+                {
+                    hudMessageBoxList[hMessageBoxType].Update(gameTime);
+
+                    if (hMessageBoxType == HudMessageBoxTypes.GraphicChange)
+                    {
+                        if (hudMessageBoxList[hMessageBoxType].Return == -1)
+                        {
+                            Game1.game.SetLastResolution();
+                            hudMessageBoxList[hMessageBoxType].active = false;
+                            messageBoxActive = false;
+                        }
+                        else if (hudMessageBoxList[hMessageBoxType].Return == 1)
+                        {
+                            hudMessageBoxList[hMessageBoxType].active = false;
+                            messageBoxActive = false;
+                        }
+                    }
+                    else if (hMessageBoxType == HudMessageBoxTypes.GameKeyChange)
+                    {
+                        Microsoft.Xna.Framework.Input.Keys key = hudMessageBoxList[hMessageBoxType].pressedKeyCode;
+                        if (hudMessageBoxList[hMessageBoxType].Return == -1)
+                        {
+                            hudMessageBoxList[hMessageBoxType].active = false;
+                            messageBoxActive = false;
+                        }
+                        else if (key != Microsoft.Xna.Framework.Input.Keys.None && key != Microsoft.Xna.Framework.Input.Keys.Escape)
+                        {
+                            Input.AssignKeyboard[(GameKeys)hudMessageBoxList[hMessageBoxType].value] = key;
+                            hudMessageBoxList[hMessageBoxType].active = false;
+                            messageBoxActive = false;
+                        }
+                    }
+                    else
+                        messageBoxActive = true;
+                }
+            if (!messageBoxActive)
+                foreach (HudWindow hWindow in hudWindowList.Values)
+                    if (hWindow.active) hWindow.Update(gameTime);
         }
 
-        static public void ShowWindow(HudWindows hudWindow)
+        static public void SetMessageBoxValue(HudMessageBoxTypes hudMessageBox, object value)
+        {
+            hudMessageBoxList[hudMessageBox].value = value;
+        }
+
+        static public void ShowMessageBox(HudMessageBoxTypes hudMessageBox)
+        {
+            foreach (HudWindow hWindow in hudWindowList.Values)
+                hWindow.Reset();
+            foreach (HudMessageBox hMessageBox in hudMessageBoxList.Values)
+            {
+                hMessageBox.Reset();
+                hMessageBox.active = false;
+            }
+            hudMessageBoxList[hudMessageBox].active = true;
+        }
+
+        static public void ShowWindow(HudWindowTypes hudWindow)
         {
             foreach (HudWindow hWindow in hudWindowList.Values)
             {
-                hWindow.IsActive = false;
+                hWindow.Reset();
+                hWindow.active = false;
             }
-            hudWindowList[hudWindow].IsActive = true;
+            hudWindowList[hudWindow].active = true;
         }
 
         static public void CloseAllWindows()
         {
             foreach (HudWindow hWindow in hudWindowList.Values)
             {
-                hWindow.IsActive = false;
+                hWindow.active = false;
             }
         }
 
 
         static public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (HudWindow hWindow in hudWindowList.Values)
-                if (hWindow.IsActive) hWindow.Draw(spriteBatch);
+            bool messageBoxActive = false;
+            foreach (HudMessageBox hMessageBox in hudMessageBoxList.Values)
+                if (hMessageBox.active) { hMessageBox.Draw(spriteBatch); messageBoxActive = true; }
+            if (!messageBoxActive)
+                foreach (HudWindow hWindow in hudWindowList.Values)
+                    if (hWindow.active) hWindow.Draw(spriteBatch);
         }
     }
 }

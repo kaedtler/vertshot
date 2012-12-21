@@ -28,7 +28,7 @@ namespace VertShot
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            text = textOrg.Replace("$SCORE$", Game1.enemyCounter.ToString());
+            text = textOrg.Replace("[SCORE]", Game1.enemyCounter.ToString());
             spriteBatch.DrawString(Game1.buttonFont, text, position, new Color(20, 120, 0, 160));
         }
 

@@ -82,6 +82,7 @@
     <Compile Include="Hud\Hud.cs" />
     <Compile Include="Hud\HudCheckBox.cs" />
     <Compile Include="Hud\HudLabel.cs" />
+    <Compile Include="Hud\HudMessageBox.cs" />
     <Compile Include="Hud\HudWindow.cs" />
     <Compile Include="Hud\HudButton.cs" />
     <Compile Include="Hud\HudList.cs" />

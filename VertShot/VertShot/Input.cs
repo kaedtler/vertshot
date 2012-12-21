@@ -82,6 +82,26 @@ namespace VertShot
             lastGamePadState = GamePad.GetState(PlayerIndex.One);
             lastKeyboardState = Keyboard.GetState();
             lastMouseState = Mouse.GetState();
+            System.Diagnostics.Debug.Print(MouseScaledPoint.ToString());
+        }
+
+        public static Keys GetPressedKeyCode()
+        {
+            Keys[] keys = keyboardState.GetPressedKeys();
+            if (keys.Length > 0)
+                return keys[0];
+            else
+                return Keys.None;
+        }
+
+        public static string GetGameKeyCodeString(GameKeys gameKey)
+        {
+            return AssignKeyboard[gameKey].ToString();
+        }
+
+        public static string GetGameKeyString(GameKeys gameKey)
+        {
+            return gameKey.ToString();
         }
 
         public static Vector2 InputVector
@@ -113,11 +133,28 @@ namespace VertShot
             }
         }
 
+        public static Point MouseScaledPoint
+        {
+            get
+            {
+                Vector2 vector = Vector2.Transform(new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Game1.mouseMatrix);
+                return new Point((int)vector.X, (int)vector.Y);
+            }
+        }
+
         public static Vector2 MouseVector
         {
             get
             {
                 return new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            }
+        }
+
+        public static Vector2 MouseScaledVector
+        {
+            get
+            {
+                return Vector2.Transform(new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Game1.scaleMatrix * Game1.transMatrix);
             }
         }
 

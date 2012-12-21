@@ -15,8 +15,7 @@ namespace VertShot
         static Texture2D cornerBottom;
         static Texture2D borderTop;
         static Texture2D borderLeft;
-        public bool IsActive { get { return active; } set { active = value; if (value) foreach (HudButton b in buttonList)b.Reset(); } }
-        bool active;
+        public bool active;
         List<HudButton> buttonList = new List<HudButton>();
         List<HudLabel> labelList = new List<HudLabel>();
         List<HudList> listList = new List<HudList>();
@@ -39,11 +38,11 @@ namespace VertShot
             active = false;
         }
 
-        public void AddButton(Rectangle rect, String text, hudButtonAction buttonAction, object value = null)
+        public void AddButton(Rectangle rect, String text, hudButtonAction buttonAction, object value = null, bool replaceText = false)
         {
             rect.X += this.rect.X;
             rect.Y += this.rect.Y;
-            buttonList.Add(new HudButton(rect, text, buttonAction, value));
+            buttonList.Add(new HudButton(rect, text, buttonAction, value, replaceText));
         }
 
         public void AddList(Rectangle rect, List<string> stringList, int defaultValue = 0)
@@ -65,6 +64,17 @@ namespace VertShot
             position.X += this.rect.X;
             position.Y += this.rect.Y;
             labelList.Add(new HudLabel(position, text));
+        }
+
+
+        public void Reset()
+        {
+            foreach (HudButton hudButton in buttonList)
+                hudButton.Reset();
+            foreach (HudList hList in listList)
+                hList.Reset();
+            foreach (HudCheckBox hudCheck in checkBoxList)
+                hudCheck.Reset();
         }
 
 
@@ -113,9 +123,19 @@ namespace VertShot
                         int[] i = (int[])hudButton.value;
                         string[] res = listList[i[0]].StringValue.Split(new char[]{'x'});
                         Game1.game.SetResolution(Int32.Parse(res[0]), Int32.Parse(res[1]), checkBoxList[i[1]].value);
+                        Hud.ShowMessageBox(HudMessageBoxTypes.GraphicChange);
                         break;
                     case hudButtonAction.OpenWindow:
-                        Hud.ShowWindow((HudWindows)hudButton.value);
+                        Hud.ShowWindow((HudWindowTypes)hudButton.value);
+                        break;
+                    case hudButtonAction.OpenMessageBox:
+                        if (hudButton.value.GetType() == typeof(GameKeys))
+                        {
+                            Hud.SetMessageBoxValue(HudMessageBoxTypes.GameKeyChange, (GameKeys)hudButton.value);
+                            Hud.ShowMessageBox(HudMessageBoxTypes.GameKeyChange);
+                        }
+                        else
+                            Hud.ShowMessageBox((HudMessageBoxTypes)hudButton.value);
                         break;
                     case hudButtonAction.Quit:
                         Game1.SetGameState(GameState.Quit);
@@ -129,7 +149,7 @@ namespace VertShot
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, null, null, null, Game1.scaleMatrix * Game1.transMatrix);
             spriteBatch.Draw(background, new Vector2(rect.X + cornerTop.Width, rect.Y), new Rectangle(0, 0, rect.Width - cornerTop.Width * 2, cornerTop.Height), Color.White);
             spriteBatch.Draw(background, new Vector2(rect.X + cornerTop.Width, rect.Y + rect.Height - cornerBottom.Height), new Rectangle(0, 0, rect.Width - cornerTop.Width * 2, cornerTop.Height), Color.White);
             spriteBatch.Draw(background, new Vector2(rect.X, rect.Y + cornerBottom.Height), new Rectangle(0, 0, rect.Width, rect.Height - cornerBottom.Height * 2), Color.White);
@@ -140,7 +160,7 @@ namespace VertShot
             spriteBatch.Draw(borderLeft, new Vector2(rect.X + rect.Width - borderLeft.Width, rect.Y + cornerTop.Height),
                 new Rectangle(0, 0, borderLeft.Width, rect.Height - cornerTop.Height * 2), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
             spriteBatch.End();
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, null, null, null, Game1.scaleMatrix * Game1.transMatrix);
             spriteBatch.Draw(cornerTop, new Vector2(rect.X, rect.Y), Color.White);
             spriteBatch.Draw(cornerTop, new Vector2(rect.X + rect.Width - cornerTop.Width, rect.Y), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
             spriteBatch.Draw(cornerBottom, new Vector2(rect.X, rect.Y + rect.Height - cornerBottom.Height), Color.White);

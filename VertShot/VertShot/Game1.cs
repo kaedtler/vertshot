@@ -58,10 +58,16 @@ namespace VertShot
         static public int GraphicHeight = 600;
         static public readonly Rectangle GameRect = new Rectangle(0, 0, Width, Height);
 
+        int oldWidth = 1280;
+        int oldHeight = 720;
+        bool oldFullscreen = false;
+
         public bool IsFullScreen { get { return graphics.IsFullScreen; } }
 
-        Matrix scaleMatrix = new Matrix();
-        Matrix transMatrix = new Matrix();
+        static public Matrix scaleMatrix { get; private set; }
+        static public Matrix transMatrix { get; private set; }
+        static public Matrix mouseMatrix { get; private set; }
+        public float GetScale { get { return scaleX < scaleY ? scaleX : scaleY; } }
         float scaleX;
         float scaleY;
         Rectangle rectBlackTop;
@@ -142,7 +148,7 @@ namespace VertShot
             Hud.Initialize(Content.Load<Texture2D>("Graphics/hudBack"), Content.Load<Texture2D>("Graphics/hudCornerTop"),
                 Content.Load<Texture2D>("Graphics/hudCornerBottom"), Content.Load<Texture2D>("Graphics/hudBorderTop"), Content.Load<Texture2D>("Graphics/hudBorderLeft"));
 
-            player = new Player(Content.Load<Texture2D>("Graphics/ship"), Color.Orange, new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2));
+            player = new Player(Content.Load<Texture2D>("Graphics/ship"), Color.Orange, new Vector2(Width / 2, Height / 2));
 
             SetGameState(GameState.MainMenu);
         }
@@ -208,7 +214,7 @@ namespace VertShot
             }
 
 
-            ///////////////////// Debug Keys //////////////////////
+            #region DEBUG KEYS
             if (Input.IsGameKeyReleased(GameKeys.Debug1))
             {
                 showDebug1 = !showDebug1;
@@ -230,10 +236,11 @@ namespace VertShot
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug5))
             {
-                Hud.ShowWindow(HudWindows.MainMenu);
+                Hud.ShowWindow(HudWindowTypes.MainMenu);
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug6))
             {
+                Game1.game.SetResolution(1600, 720, false);
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug7))
             {
@@ -253,11 +260,8 @@ namespace VertShot
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug12))
             {
-                if (gameState == GameState.Game)
-                    SetGameState(GameState.Pause);
-                else if (gameState == GameState.Pause)
-                    SetGameState(GameState.Game);
             }
+            #endregion
 
             if (showDebug1)
             {
@@ -286,15 +290,15 @@ namespace VertShot
             switch (gameState)
             {
                 case GameState.MainMenu:
-                    Hud.ShowWindow(HudWindows.MainMenu);
+                    Hud.ShowWindow(HudWindowTypes.MainMenu);
                     Game1.gameState = GameState.MainMenu;
                     break;
                 case GameState.Pause:
-                    Hud.ShowWindow(HudWindows.Pause);
+                    Hud.ShowWindow(HudWindowTypes.Pause);
                     Game1.gameState = GameState.Pause;
                     break;
                 case GameState.GameOver:
-                    Hud.ShowWindow(HudWindows.GameOver);
+                    Hud.ShowWindow(HudWindowTypes.GameOver);
                     Game1.gameState = GameState.GameOver;
                     break;
                 case GameState.NewGame:
@@ -315,8 +319,17 @@ namespace VertShot
             }
         }
 
+        internal void SetLastResolution()
+        {
+            SetResolution(oldWidth, oldHeight, oldFullscreen);
+        }
+
         public void SetResolution(int newWidth, int newHeight, bool fullscreen)
         {
+            oldWidth = graphics.PreferredBackBufferWidth;
+            oldHeight = graphics.PreferredBackBufferHeight;
+            oldFullscreen = graphics.IsFullScreen;
+
             Game1.GraphicWidth = newWidth;
             Game1.GraphicHeight = newHeight;
 
@@ -330,8 +343,13 @@ namespace VertShot
             scaleX = (float)Game1.GraphicWidth / (float)Width;
             scaleY = (float)Game1.GraphicHeight / (float)Height;
             scaleMatrix = Matrix.CreateScale(scaleX < scaleY ? scaleX : scaleY);
-            transMatrix = Matrix.CreateTranslation(new Vector3(scaleY < scaleX ? ((float)Game1.GraphicWidth - (float)Width * scaleY) / 2f : 0,
+            transMatrix = Matrix.CreateTranslation(new Vector3(
+                scaleY < scaleX ? ((float)Game1.GraphicWidth - (float)Width * scaleY) / 2f : 0,
                 scaleX < scaleY ? ((float)Game1.GraphicHeight - (float)Height * scaleX) / 2f : 0, 0));
+            mouseMatrix = Matrix.CreateScale(scaleX < scaleY ? 1 / scaleX : 1 / scaleY) *
+                Matrix.CreateTranslation(new Vector3(
+                    scaleY < scaleX ? ((float)Width - (float)Game1.GraphicHeight / scaleY) * 0.5f : 0,
+                    scaleX < scaleY ? ((float)Height - (float)Game1.GraphicHeight / scaleX) * 0.5f : 0, 0));
             rectBlackTop = new Rectangle(
                 0,
                 0,
@@ -356,7 +374,7 @@ namespace VertShot
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, scaleMatrix * transMatrix);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, null, null, null, scaleMatrix * transMatrix);
 
 
             switch (gameState)
@@ -364,15 +382,10 @@ namespace VertShot
                 case GameState.MainMenu:
                     {
                         Background.Draw(spriteBatch);
+                        Hud.Draw(spriteBatch);
 
                         spriteBatch.End();
                         spriteBatch.Begin();
-                        if (scaleX != scaleY)
-                        {
-                            spriteBatch.Draw(oneTexture, rectBlackTop, Color.Black);
-                            spriteBatch.Draw(oneTexture, rectBlackBottom, Color.Black);
-                        }
-                        Hud.Draw(spriteBatch);
                     }
                     break;
                 case GameState.Game:
@@ -384,24 +397,21 @@ namespace VertShot
                         EnemyCollector.Draw(spriteBatch);
                         player.Draw(spriteBatch);
                         EffectCollector.Draw(spriteBatch);
-
-                        spriteBatch.End();
-                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, transMatrix);
                         GameHud.Draw(spriteBatch);
+                        Hud.Draw(spriteBatch);
                         spriteBatch.End();
                         spriteBatch.Begin();
-                        if (scaleX != scaleY)
-                        {
-                            spriteBatch.Draw(oneTexture, rectBlackTop, Color.Black);
-                            spriteBatch.Draw(oneTexture, rectBlackBottom, Color.Black);
-                        }
-                        Hud.Draw(spriteBatch);
                     }
                     break;
             }
 
             spriteBatch.End();
             spriteBatch.Begin();
+            if (scaleX != scaleY)
+            {
+                spriteBatch.Draw(oneTexture, rectBlackTop, Color.Black);
+                spriteBatch.Draw(oneTexture, rectBlackBottom, Color.Black);
+            }
 
 
             if (showDebug1) spriteBatch.DrawString(debugFont, debugText1, new Vector2(10, 110), Color.White);

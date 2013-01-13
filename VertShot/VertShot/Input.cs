@@ -270,5 +270,19 @@ namespace VertShot
                 default: return false;
             }
         }
+
+        public static void RefreshMouseInput()
+        {
+            mouseState = Mouse.GetState();
+            lastMouseState = Mouse.GetState();
+        }
+
+        public static void RefreshGameKeyInput()
+        {
+            gamePadState = GamePad.GetState(PlayerIndex.One);
+            lastGamePadState = GamePad.GetState(PlayerIndex.One);
+            keyboardState = Keyboard.GetState();
+            lastKeyboardState = Keyboard.GetState();
+        }
     }
 }

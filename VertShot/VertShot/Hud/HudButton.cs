@@ -14,20 +14,7 @@ namespace VertShot
         String text;
         public hudButtonAction buttonAction { get; private set; }
         public object value { get; private set; }
-        public bool buttonPressed
-        {
-            get
-            {
-                if (bPressed)
-                {
-                    bPressed = false;
-                    return true;
-                }
-                else
-                    return false;
-            }
-        }
-        bool bPressed;
+        public bool buttonPressed;
         bool mouseOver;
         bool mouseDown;
         bool replaceText;
@@ -52,7 +39,8 @@ namespace VertShot
             {
                 mouseOver = rect.Contains(Input.MouseScaledPoint);
                 mouseDown = mouseOver && Input.IsMouseKeyDown(MouseKeys.Left);
-                bPressed = mouseOver && Input.IsMouseKeyReleased(MouseKeys.Left);
+                buttonPressed = mouseOver && Input.IsMouseKeyReleased(MouseKeys.Left);
+                if (buttonPressed) Input.RefreshMouseInput();
             }
             else
                 secondRun = true;
@@ -83,7 +71,7 @@ namespace VertShot
 
         internal void Reset()
         {
-            mouseOver = mouseDown = bPressed = secondRun = false;
+            mouseOver = mouseDown = buttonPressed = secondRun = false;
         }
     }
 }

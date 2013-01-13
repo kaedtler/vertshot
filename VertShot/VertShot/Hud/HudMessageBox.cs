@@ -77,7 +77,7 @@ namespace VertShot
         public void Draw(SpriteBatch spriteBatch)
         {
             text = startText.Replace("[TIMER]", Convert.ToInt32(timerSeconds).ToString());
-            if(value.GetType() == typeof(GameKeys)) text = text.Replace("[GAMEKEY]", Input.GetGameKeyString((GameKeys)value));
+            if(value != null && value.GetType() == typeof(GameKeys)) text = text.Replace("[GAMEKEY]", Input.GetGameKeyString((GameKeys)value));
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, null, null, null, Game1.scaleMatrix * Game1.transMatrix);

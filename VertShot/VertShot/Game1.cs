@@ -50,17 +50,19 @@ namespace VertShot
 
         public static GameState gameState { get; private set; }
         static public Random rand = new Random((int)DateTime.Now.TimeOfDay.TotalMilliseconds);
+        // Config Datei
+        static public Files.Config Config;
         // Interne Auflösung
         static public readonly int Width = 1280;
         static public readonly int Height = 720;
         // Tatsächliche Auflösung
-        static public int GraphicWidth = 800;
-        static public int GraphicHeight = 600;
+        //static public int GraphicWidth = 800;
+        //static public int GraphicHeight = 600;
         static public readonly Rectangle GameRect = new Rectangle(0, 0, Width, Height);
 
-        int oldWidth = 1280;
-        int oldHeight = 720;
-        bool oldFullscreen = false;
+        int oldWidth;
+        int oldHeight;
+        bool oldFullscreen;
 
         public bool IsFullScreen { get { return graphics.IsFullScreen; } }
 
@@ -80,7 +82,9 @@ namespace VertShot
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            SetResolution(GraphicWidth, GraphicHeight, false);
+            Config = LoadSave.LoadConfig();
+
+            SetResolution(Config.resWitdh, Config.resHeight, Config.fullscreen);
 
             IsMouseVisible = true;
 
@@ -113,25 +117,26 @@ namespace VertShot
             oneTexture.SetData<Color>(new Color[] { Color.White });
 
             // Tastaturbelegung setzen
-            Input.AssignKeyboard[GameKeys.Menu] = Keys.Escape;
-            Input.AssignKeyboard[GameKeys.Left] = Keys.Left;
-            Input.AssignKeyboard[GameKeys.Right] = Keys.Right;
-            Input.AssignKeyboard[GameKeys.Up] = Keys.Up;
-            Input.AssignKeyboard[GameKeys.Down] = Keys.Down;
-            Input.AssignKeyboard[GameKeys.Fire1] = Keys.Space;
-            Input.AssignKeyboard[GameKeys.Fire2] = Keys.LeftControl;
-            Input.AssignKeyboard[GameKeys.Debug1] = Keys.F1;
-            Input.AssignKeyboard[GameKeys.Debug2] = Keys.F2;
-            Input.AssignKeyboard[GameKeys.Debug3] = Keys.F3;
-            Input.AssignKeyboard[GameKeys.Debug4] = Keys.F4;
-            Input.AssignKeyboard[GameKeys.Debug5] = Keys.F5;
-            Input.AssignKeyboard[GameKeys.Debug6] = Keys.F6;
-            Input.AssignKeyboard[GameKeys.Debug7] = Keys.F7;
-            Input.AssignKeyboard[GameKeys.Debug8] = Keys.F8;
-            Input.AssignKeyboard[GameKeys.Debug9] = Keys.F9;
-            Input.AssignKeyboard[GameKeys.Debug10] = Keys.F10;
-            Input.AssignKeyboard[GameKeys.Debug11] = Keys.F11;
-            Input.AssignKeyboard[GameKeys.Debug12] = Keys.F12;
+            Input.AssignKeyboard = Config.assignKeyboard;
+            //Input.AssignKeyboard[GameKeys.Menu] = Keys.Escape;
+            //Input.AssignKeyboard[GameKeys.Left] = Keys.Left;
+            //Input.AssignKeyboard[GameKeys.Right] = Keys.Right;
+            //Input.AssignKeyboard[GameKeys.Up] = Keys.Up;
+            //Input.AssignKeyboard[GameKeys.Down] = Keys.Down;
+            //Input.AssignKeyboard[GameKeys.Fire1] = Keys.Space;
+            //Input.AssignKeyboard[GameKeys.Fire2] = Keys.LeftControl;
+            //Input.AssignKeyboard[GameKeys.Debug1] = Keys.F1;
+            //Input.AssignKeyboard[GameKeys.Debug2] = Keys.F2;
+            //Input.AssignKeyboard[GameKeys.Debug3] = Keys.F3;
+            //Input.AssignKeyboard[GameKeys.Debug4] = Keys.F4;
+            //Input.AssignKeyboard[GameKeys.Debug5] = Keys.F5;
+            //Input.AssignKeyboard[GameKeys.Debug6] = Keys.F6;
+            //Input.AssignKeyboard[GameKeys.Debug7] = Keys.F7;
+            //Input.AssignKeyboard[GameKeys.Debug8] = Keys.F8;
+            //Input.AssignKeyboard[GameKeys.Debug9] = Keys.F9;
+            //Input.AssignKeyboard[GameKeys.Debug10] = Keys.F10;
+            //Input.AssignKeyboard[GameKeys.Debug11] = Keys.F11;
+            //Input.AssignKeyboard[GameKeys.Debug12] = Keys.F12;
 
             debugFont = Content.Load<SpriteFont>("DebugFont");
             buttonFont = Content.Load<SpriteFont>("OcraExtended");
@@ -330,39 +335,42 @@ namespace VertShot
             oldHeight = graphics.PreferredBackBufferHeight;
             oldFullscreen = graphics.IsFullScreen;
 
-            Game1.GraphicWidth = newWidth;
-            Game1.GraphicHeight = newHeight;
+            Config.resWitdh = (short)newWidth;
+            Config.resHeight = (short)newHeight;
+            Config.fullscreen = fullscreen;
 
-            graphics.PreferredBackBufferWidth = Game1.GraphicWidth;
-            graphics.PreferredBackBufferHeight = Game1.GraphicHeight;
 
-            graphics.IsFullScreen = fullscreen;
+            graphics.PreferredBackBufferWidth = Config.resWitdh;
+            graphics.PreferredBackBufferHeight = Config.resHeight;
+            graphics.IsFullScreen = Config.fullscreen;
 
             graphics.ApplyChanges();
 
-            scaleX = (float)Game1.GraphicWidth / (float)Width;
-            scaleY = (float)Game1.GraphicHeight / (float)Height;
+            scaleX = (float)Game1.Config.resWitdh / (float)Width;
+            scaleY = (float)Game1.Config.resHeight / (float)Height;
             scaleMatrix = Matrix.CreateScale(scaleX < scaleY ? scaleX : scaleY);
             transMatrix = Matrix.CreateTranslation(new Vector3(
-                scaleY < scaleX ? ((float)Game1.GraphicWidth - (float)Width * scaleY) / 2f : 0,
-                scaleX < scaleY ? ((float)Game1.GraphicHeight - (float)Height * scaleX) / 2f : 0, 0));
+                scaleY < scaleX ? ((float)Game1.Config.resWitdh - (float)Width * scaleY) / 2f : 0,
+                scaleX < scaleY ? ((float)Game1.Config.resHeight - (float)Height * scaleX) / 2f : 0, 0));
             mouseMatrix = Matrix.CreateScale(scaleX < scaleY ? 1 / scaleX : 1 / scaleY) *
                 Matrix.CreateTranslation(new Vector3(
-                    scaleY < scaleX ? ((float)Width - (float)Game1.GraphicHeight / scaleY) * 0.5f : 0,
-                    scaleX < scaleY ? ((float)Height - (float)Game1.GraphicHeight / scaleX) * 0.5f : 0, 0));
+                    scaleY < scaleX ? ((float)Width - (float)Game1.Config.resHeight / scaleY) * 0.5f : 0,
+                    scaleX < scaleY ? ((float)Height - (float)Game1.Config.resHeight / scaleX) * 0.5f : 0, 0));
             rectBlackTop = new Rectangle(
                 0,
                 0,
-                scaleX < scaleY ? Game1.GraphicWidth : (int)(((float)Game1.GraphicWidth - (float)Width * scaleY) / 2f),
-                scaleY < scaleX ? Game1.GraphicHeight : (int)(((float)Game1.GraphicHeight - (float)Height * scaleX) / 2f)
+                scaleX < scaleY ? Game1.Config.resWitdh : (int)(((float)Game1.Config.resWitdh - (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? Game1.Config.resHeight : (int)(((float)Game1.Config.resHeight - (float)Height * scaleX) / 2f)
                 );
             rectBlackBottom = new Rectangle(
-                scaleX < scaleY ? 0 : (int)(((float)Game1.GraphicWidth + (float)Width * scaleY) / 2f),
-                scaleY < scaleX ? 0 : (int)(((float)Game1.GraphicHeight + (float)Height * scaleX) / 2f),
-                scaleX < scaleY ? Game1.GraphicWidth : (int)(((float)Game1.GraphicWidth - (float)Width * scaleY) / 2f),
-                scaleY < scaleX ? Game1.GraphicHeight : (int)(((float)Game1.GraphicHeight - (float)Height * scaleX) / 2f)
+                scaleX < scaleY ? 0 : (int)(((float)Game1.Config.resWitdh + (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? 0 : (int)(((float)Game1.Config.resHeight + (float)Height * scaleX) / 2f),
+                scaleX < scaleY ? Game1.Config.resWitdh : (int)(((float)Game1.Config.resWitdh - (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? Game1.Config.resHeight : (int)(((float)Game1.Config.resHeight - (float)Height * scaleX) / 2f)
                 );
             Hud.RefreshWindowPositions();
+
+            LoadSave.SaveConfig(Config);
         }
 
 

@@ -11,6 +11,7 @@ namespace VertShot
     {
         MainMenu,
         Options,
+        Graphics,
         Credits,
         GameKeys,
         GameOver,
@@ -55,7 +56,7 @@ namespace VertShot
                 if (!resList.Contains(mode.Width + "x" + mode.Height) && mode.Width >= 800 && mode.Height >= 600)
                 {
                     resList.Add(mode.Width + "x" + mode.Height);
-                    if (mode.Width == Game1.GraphicWidth && mode.Height == Game1.GraphicHeight)
+                    if (mode.Width == Game1.Config.resWitdh && mode.Height == Game1.Config.resHeight)
                         resDefault = resList.Count - 1;
                 }
             }
@@ -69,12 +70,17 @@ namespace VertShot
             hudWindowList[HudWindowTypes.MainMenu].AddButton(new Rectangle(40, 280, 268, 40), "Beenden", hudButtonAction.Quit);
             // Optionen
             hudWindowList[HudWindowTypes.Options] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
-            hudWindowList[HudWindowTypes.Options].AddList(new Rectangle(40, 40, 268, 40), resList, resDefault);
-            hudWindowList[HudWindowTypes.Options].AddCheckBox(new Rectangle(40, 100, 268, 40), "Vollbild", Game1.game.IsFullScreen);
+            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 40, 268, 40), "Grafikoptionen", hudButtonAction.OpenWindow, HudWindowTypes.Graphics);
+            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 100, 268, 40), "Soundoptionen", hudButtonAction.None);
             hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 160, 268, 40), "Tastenbelegung", hudButtonAction.OpenWindow, HudWindowTypes.GameKeys);
-            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 280, 160, 40), "Übernehmen", hudButtonAction.ApplyGraphic, new int[] { 0, 0 });
-            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(208, 280, 110, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.MainMenu);
-            // Tastenbelegung TEMP
+            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.MainMenu);
+            // Grafikoptionen
+            hudWindowList[HudWindowTypes.Graphics] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
+            hudWindowList[HudWindowTypes.Graphics].AddList(new Rectangle(40, 40, 268, 40), resList, resDefault);
+            hudWindowList[HudWindowTypes.Graphics].AddCheckBox(new Rectangle(40, 100, 268, 40), "Vollbild", Game1.game.IsFullScreen);
+            hudWindowList[HudWindowTypes.Graphics].AddButton(new Rectangle(40, 280, 160, 40), "Übernehmen", hudButtonAction.ApplyGraphic, new int[] { 0, 0 });
+            hudWindowList[HudWindowTypes.Graphics].AddButton(new Rectangle(208, 280, 110, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
+            // Tastenbelegung
             hudWindowList[HudWindowTypes.GameKeys] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 200, 348, 400));
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 20, 268, 40), "[GAMEKEY]: [LEFT]", hudButtonAction.OpenMessageBox, GameKeys.Left, true);
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 70, 268, 40), "[GAMEKEY]: [RIGHT]", hudButtonAction.OpenMessageBox, GameKeys.Right, true);
@@ -83,12 +89,11 @@ namespace VertShot
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 220, 268, 40), "[GAMEKEY]: [FIRE1]", hudButtonAction.OpenMessageBox, GameKeys.Fire1, true);
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 270, 268, 40), "[GAMEKEY]: [FIRE2]", hudButtonAction.OpenMessageBox, GameKeys.Fire2, true);
 
-            //hudWindowList[HudWindowTypes.GameKeys].AddLabel(new Vector2(20, 40), "Pfeiltasten: bewegen\nLeertaste:   Feuer 1\nStrg Rechts: Feuer 2");
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 320, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
             // Credits
             hudWindowList[HudWindowTypes.Credits] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
             hudWindowList[HudWindowTypes.Credits].AddLabel(new Vector2(20, 40), "Hier stehen die\nMacher drin.");
-            hudWindowList[HudWindowTypes.Credits].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
+            hudWindowList[HudWindowTypes.Credits].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.MainMenu);
             // Pause
             hudWindowList[HudWindowTypes.Pause] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
             hudWindowList[HudWindowTypes.Pause].AddButton(new Rectangle(40, 40, 268, 40), "Fortsetzen", hudButtonAction.Continue);
@@ -157,6 +162,7 @@ namespace VertShot
                             Input.AssignKeyboard[(GameKeys)hudMessageBoxList[hMessageBoxType].value] = key;
                             hudMessageBoxList[hMessageBoxType].active = false;
                             messageBoxActive = false;
+                            LoadSave.SaveConfig(Game1.Config);
                         }
                     }
                     else

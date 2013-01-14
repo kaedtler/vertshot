@@ -120,11 +120,22 @@ namespace VertShot
                         Game1.SetGameState(GameState.Game);
                         break;
                     case hudButtonAction.ApplyGraphic:
-                        int[] i = (int[])hudButton.value;
-                        string[] res = listList[i[0]].StringValue.Split(new char[]{'x'});
-                        Game1.game.SetResolution(Int32.Parse(res[0]), Int32.Parse(res[1]), checkBoxList[i[1]].value);
-                        Hud.ShowMessageBox(HudMessageBoxTypes.GraphicChange);
-                        break;
+                        {
+                            int[] i = (int[])hudButton.value;
+                            string[] res = listList[i[0]].StringValue.Split(new char[] { 'x' });
+                            Game1.game.SetResolution(Int32.Parse(res[0]), Int32.Parse(res[1]), checkBoxList[i[1]].value);
+                            Hud.ShowMessageBox(HudMessageBoxTypes.GraphicChange);
+                            break;
+                        }
+                    case hudButtonAction.ApplySound:
+                        {
+                            int[] i = (int[])hudButton.value;
+                            Game1.Config.soundVol = byte.Parse(listList[i[0]].StringValue.Remove(0, listList[i[0]].StringValue.IndexOf(": ") +2));
+                            Game1.Config.musicVol = byte.Parse(listList[i[1]].StringValue.Remove(0, listList[i[0]].StringValue.IndexOf(": ") +2));
+                            LoadSave.SaveConfig(Game1.Config);
+                            Hud.ShowWindow(HudWindowTypes.Options);
+                            break;
+                        }
                     case hudButtonAction.OpenWindow:
                         Hud.ShowWindow((HudWindowTypes)hudButton.value);
                         break;

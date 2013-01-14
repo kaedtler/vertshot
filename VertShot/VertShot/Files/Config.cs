@@ -7,18 +7,29 @@ namespace VertShot.Files
     [Serializable]
     public class Config
     {
+        public const byte FileVersion = 1;
+
+        public byte fileVersion = FileVersion;
         public short resWitdh;
         public short resHeight;
         public bool fullscreen;
-        public Dictionary<GameKeys, Keys> assignKeyboard;
+
+        public byte musicVol;
+        public byte soundVol;
+
+        public Dictionary<GameKeys, Keys> assignKeyboard = new Dictionary<GameKeys, Keys>();
 
         public Config()
         {
             // Config Standardwerte
+
             resWitdh = 800;
             resHeight = 600;
             fullscreen = false;
-            assignKeyboard = new Dictionary<GameKeys, Keys>();
+
+            musicVol = 10;
+            soundVol = 10;
+
             assignKeyboard[GameKeys.Menu] = Keys.Escape;
             assignKeyboard[GameKeys.Left] = Keys.Left;
             assignKeyboard[GameKeys.Right] = Keys.Right;
@@ -38,6 +49,19 @@ namespace VertShot.Files
             assignKeyboard[GameKeys.Debug10] = Keys.F10;
             assignKeyboard[GameKeys.Debug11] = Keys.F11;
             assignKeyboard[GameKeys.Debug12] = Keys.F12;
+        }
+
+        public bool Upgrade()
+        {
+            switch (fileVersion)
+            {
+                case 0:
+                    fileVersion = FileVersion;
+                    musicVol = 10;
+                    soundVol = 10;
+                    return true;
+            }
+            return false;
         }
     }
 }

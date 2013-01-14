@@ -55,9 +55,7 @@ namespace VertShot
         // Interne Auflösung
         static public readonly int Width = 1280;
         static public readonly int Height = 720;
-        // Tatsächliche Auflösung
-        //static public int GraphicWidth = 800;
-        //static public int GraphicHeight = 600;
+
         static public readonly Rectangle GameRect = new Rectangle(0, 0, Width, Height);
 
         int oldWidth;
@@ -85,9 +83,6 @@ namespace VertShot
             Config = LoadSave.LoadConfig();
 
             SetResolution(Config.resWitdh, Config.resHeight, Config.fullscreen);
-
-            IsMouseVisible = true;
-
         }
 
         /// <summary>
@@ -116,27 +111,8 @@ namespace VertShot
             oneTexture = new Texture2D(GraphicsDevice, 1, 1);
             oneTexture.SetData<Color>(new Color[] { Color.White });
 
-            // Tastaturbelegung setzen
+            // Tastaturbelegung aus Config setzen
             Input.AssignKeyboard = Config.assignKeyboard;
-            //Input.AssignKeyboard[GameKeys.Menu] = Keys.Escape;
-            //Input.AssignKeyboard[GameKeys.Left] = Keys.Left;
-            //Input.AssignKeyboard[GameKeys.Right] = Keys.Right;
-            //Input.AssignKeyboard[GameKeys.Up] = Keys.Up;
-            //Input.AssignKeyboard[GameKeys.Down] = Keys.Down;
-            //Input.AssignKeyboard[GameKeys.Fire1] = Keys.Space;
-            //Input.AssignKeyboard[GameKeys.Fire2] = Keys.LeftControl;
-            //Input.AssignKeyboard[GameKeys.Debug1] = Keys.F1;
-            //Input.AssignKeyboard[GameKeys.Debug2] = Keys.F2;
-            //Input.AssignKeyboard[GameKeys.Debug3] = Keys.F3;
-            //Input.AssignKeyboard[GameKeys.Debug4] = Keys.F4;
-            //Input.AssignKeyboard[GameKeys.Debug5] = Keys.F5;
-            //Input.AssignKeyboard[GameKeys.Debug6] = Keys.F6;
-            //Input.AssignKeyboard[GameKeys.Debug7] = Keys.F7;
-            //Input.AssignKeyboard[GameKeys.Debug8] = Keys.F8;
-            //Input.AssignKeyboard[GameKeys.Debug9] = Keys.F9;
-            //Input.AssignKeyboard[GameKeys.Debug10] = Keys.F10;
-            //Input.AssignKeyboard[GameKeys.Debug11] = Keys.F11;
-            //Input.AssignKeyboard[GameKeys.Debug12] = Keys.F12;
 
             debugFont = Content.Load<SpriteFont>("DebugFont");
             buttonFont = Content.Load<SpriteFont>("OcraExtended");
@@ -146,7 +122,7 @@ namespace VertShot
             Background.AddBackPic(Content.Load<Texture2D>("Graphics/back3"), 0.1f);
 
             ShotCollector.Initialize(Content.Load<Texture2D>("Graphics/shot"));
-            EnemyCollector.Initialize(Content.Load<Texture2D>("Graphics/meteor2"));
+            EnemyCollector.Initialize(Content.Load<Texture2D>("Graphics/meteor3"));
             EffectCollector.Initialize(Content.Load<Texture2D>("Graphics/explosion_34FR"));
             GameHud.Initialize(Content.Load<Texture2D>("Graphics/hud"), Content.Load<Texture2D>("Graphics/hudWithEnergy"));
 
@@ -245,7 +221,7 @@ namespace VertShot
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug6))
             {
-                Game1.game.SetResolution(1600, 720, false);
+                Hud.ShowWindow(HudWindowTypes.Pause);
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug7))
             {

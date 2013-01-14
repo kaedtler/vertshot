@@ -75,6 +75,11 @@ namespace VertShot
             gamePadState = GamePad.GetState(PlayerIndex.One);
             keyboardState = Keyboard.GetState();
             mouseState = Mouse.GetState();
+
+            if (Game1.game.IsMouseVisible && keyboardState.GetPressedKeys().Length != 0)
+                Game1.game.IsMouseVisible = false;
+            else if (!Game1.game.IsMouseVisible && mouseState.X - lastMouseState.X != 0 || mouseState.Y - lastMouseState.Y != 0)
+                Game1.game.IsMouseVisible = true;
         }
 
         public static void UpdateEnd()
@@ -82,7 +87,7 @@ namespace VertShot
             lastGamePadState = GamePad.GetState(PlayerIndex.One);
             lastKeyboardState = Keyboard.GetState();
             lastMouseState = Mouse.GetState();
-            System.Diagnostics.Debug.Print(MouseScaledPoint.ToString());
+            //System.Diagnostics.Debug.Print(MouseScaledPoint.ToString());
         }
 
         public static Keys GetPressedKeyCode()
@@ -96,12 +101,29 @@ namespace VertShot
 
         public static string GetGameKeyCodeString(GameKeys gameKey)
         {
-            return AssignKeyboard[gameKey].ToString();
+            switch (AssignKeyboard[gameKey])
+            {
+                case Keys.Left: return "Links";
+                case Keys.Right: return "Rechts";
+                case Keys.Up: return "Oben";
+                case Keys.Down: return "Unten";
+                case Keys.LeftControl: return "StrgLinks";
+                default: return AssignKeyboard[gameKey].ToString();
+            }
         }
 
         public static string GetGameKeyString(GameKeys gameKey)
         {
-            return gameKey.ToString();
+            switch (gameKey)
+            {
+                case GameKeys.Left: return "Links";
+                case GameKeys.Right: return "Rechts";
+                case GameKeys.Up: return "Oben";
+                case GameKeys.Down: return "Unten";
+                case GameKeys.Fire1: return "Feuer1";
+                case GameKeys.Fire2: return "Feuer2";
+                default: return gameKey.ToString();
+            }
         }
 
         public static Vector2 InputVector

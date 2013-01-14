@@ -20,6 +20,12 @@ namespace VertShot
             config = (Files.Config)bf.Deserialize(gzs);
             gzs.Close();
             gzs.Dispose();
+            if (config.fileVersion != Files.Config.FileVersion)
+            {
+                if(!config.Upgrade())
+                    config = new Files.Config();
+                SaveConfig(config);
+            }
 
             return config;
         }

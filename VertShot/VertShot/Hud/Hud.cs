@@ -15,7 +15,8 @@ namespace VertShot
         Credits,
         GameKeys,
         GameOver,
-        Pause
+        Pause,
+        Sound
     }
     public enum HudMessageBoxTypes
     {
@@ -34,7 +35,8 @@ namespace VertShot
         ApplyGraphic,
         OK,
         Cancel,
-        Quit
+        Quit,
+        ApplySound
     }
 
     static public class Hud
@@ -71,7 +73,7 @@ namespace VertShot
             // Optionen
             hudWindowList[HudWindowTypes.Options] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
             hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 40, 268, 40), "Grafikoptionen", hudButtonAction.OpenWindow, HudWindowTypes.Graphics);
-            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 100, 268, 40), "Soundoptionen", hudButtonAction.None);
+            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 100, 268, 40), "Soundoptionen", hudButtonAction.OpenWindow, HudWindowTypes.Sound);
             hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 160, 268, 40), "Tastenbelegung", hudButtonAction.OpenWindow, HudWindowTypes.GameKeys);
             hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.MainMenu);
             // Grafikoptionen
@@ -80,6 +82,12 @@ namespace VertShot
             hudWindowList[HudWindowTypes.Graphics].AddCheckBox(new Rectangle(40, 100, 268, 40), "Vollbild", Game1.game.IsFullScreen);
             hudWindowList[HudWindowTypes.Graphics].AddButton(new Rectangle(40, 280, 160, 40), "Übernehmen", hudButtonAction.ApplyGraphic, new int[] { 0, 0 });
             hudWindowList[HudWindowTypes.Graphics].AddButton(new Rectangle(208, 280, 110, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
+            // Soundoptionen
+            hudWindowList[HudWindowTypes.Sound] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
+            hudWindowList[HudWindowTypes.Sound].AddList(new Rectangle(40, 40, 268, 40), new List<string> { "Sound: 0", "Sound: 1", "Sound: 2", "Sound: 3", "Sound: 4", "Sound: 5", "Sound: 6", "Sound: 7", "Sound: 8", "Sound: 9", "Sound: 10"}, Game1.Config.soundVol);
+            hudWindowList[HudWindowTypes.Sound].AddList(new Rectangle(40, 100, 268, 40), new List<string> { "Musik: 0", "Musik: 1", "Musik: 2", "Musik: 3", "Musik: 4", "Musik: 5", "Musik: 6", "Musik: 7", "Musik: 8", "Musik: 9", "Musik: 10" }, Game1.Config.musicVol);
+            hudWindowList[HudWindowTypes.Sound].AddButton(new Rectangle(40, 280, 160, 40), "Übernehmen", hudButtonAction.ApplySound, new int[] { 0, 1 });
+            hudWindowList[HudWindowTypes.Sound].AddButton(new Rectangle(208, 280, 110, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
             // Tastenbelegung
             hudWindowList[HudWindowTypes.GameKeys] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 200, 348, 400));
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 20, 268, 40), "[GAMEKEY]: [LEFT]", hudButtonAction.OpenMessageBox, GameKeys.Left, true);
@@ -108,6 +116,7 @@ namespace VertShot
             // Grafik geändert
             hudMessageBoxList[HudMessageBoxTypes.GraphicChange] = new HudMessageBox(new Rectangle(Game1.Width / 2 - 400, Game1.Height / 2 - 74, 800, 148),
                 "Grafikeinstellungen übernehmen? Restliche Zeit: [TIMER]", true, true, 15, -1);
+            // Tastenbelegung ändern
             hudMessageBoxList[HudMessageBoxTypes.GameKeyChange] = new HudMessageBox(new Rectangle(Game1.Width / 2 - 300, Game1.Height / 2 - 74, 600, 148),
                 "Drücke eine Taste für [GAMEKEY]", false, true, -1, -1);
         }

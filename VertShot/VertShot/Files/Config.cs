@@ -7,7 +7,7 @@ namespace VertShot.Files
     [Serializable]
     public class Config
     {
-        public const byte FileVersion = 1;
+        public const byte FileVersion = 2;
 
         public byte fileVersion = FileVersion;
         public short resWitdh;
@@ -16,6 +16,10 @@ namespace VertShot.Files
 
         public byte musicVol;
         public byte soundVol;
+
+        public byte shipColorR;
+        public byte shipColorG;
+        public byte shipColorB;
 
         public Dictionary<GameKeys, Keys> assignKeyboard = new Dictionary<GameKeys, Keys>();
 
@@ -29,6 +33,10 @@ namespace VertShot.Files
 
             musicVol = 10;
             soundVol = 10;
+
+            shipColorR = 255;
+            shipColorG = 255;
+            shipColorB = 255;
 
             assignKeyboard[GameKeys.Menu] = Keys.Escape;
             assignKeyboard[GameKeys.Left] = Keys.Left;
@@ -53,15 +61,24 @@ namespace VertShot.Files
 
         public bool Upgrade()
         {
-            switch (fileVersion)
-            {
-                case 0:
-                    fileVersion = FileVersion;
-                    musicVol = 10;
-                    soundVol = 10;
-                    return true;
-            }
-            return false;
+            while (fileVersion != FileVersion)
+                switch (fileVersion)
+                {
+                    case 0:
+                        fileVersion = 1;
+                        musicVol = 10;
+                        soundVol = 10;
+                        break;
+                    case 1:
+                        fileVersion = 2;
+                        shipColorR = 255;
+                        shipColorG = 255;
+                        shipColorB = 255;
+                        break;
+                    default:
+                        return false;
+                }
+            return true;
         }
     }
 }

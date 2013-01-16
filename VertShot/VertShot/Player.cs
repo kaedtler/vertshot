@@ -23,7 +23,6 @@ namespace VertShot
         Vector2 position;
         Vector2 size;
         public Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), Convert.ToInt32(size.X), Convert.ToInt32(size.Y)); } }
-        Color color;
         public float energy { get; private set; }
         public float shield { get; private set; }
         public float collisionDamage { get; private set; }
@@ -36,10 +35,9 @@ namespace VertShot
         public float[] weaponDelayTime = new float[3];
         public Vector2[] weaponSlotPosition;
 
-        public Player(Texture2D texture, Color color, Vector2 startPosition)
+        public Player(Texture2D texture, Vector2 startPosition)
         {
             this.texture = texture;
-            this.color = color;
             this.startPosition = startPosition;
             size = new Vector2(texture.Width, texture.Height);
             speed = 0.65f;
@@ -144,7 +142,7 @@ namespace VertShot
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, color);
+            spriteBatch.Draw(texture, position, new Color(Game1.Config.shipColorR, Game1.Config.shipColorG, Game1.Config.shipColorB));
         }
     }
 }

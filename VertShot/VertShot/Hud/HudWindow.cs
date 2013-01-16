@@ -49,7 +49,14 @@ namespace VertShot
         {
             rect.X += this.rect.X;
             rect.Y += this.rect.Y;
-            listList.Add(new HudList(rect, stringList, defaultValue));
+            listList.Add(new HudList(rect, "", stringList, defaultValue));
+        }
+
+        public void AddList(Rectangle rect, string preString, List<string> stringList, int defaultValue = 0)
+        {
+            rect.X += this.rect.X;
+            rect.Y += this.rect.Y;
+            listList.Add(new HudList(rect, preString, stringList, defaultValue));
         }
 
         public void AddCheckBox(Rectangle rect, string text, bool defaultValue = false)
@@ -130,8 +137,18 @@ namespace VertShot
                     case hudButtonAction.ApplySound:
                         {
                             int[] i = (int[])hudButton.value;
-                            Game1.Config.soundVol = byte.Parse(listList[i[0]].StringValue.Remove(0, listList[i[0]].StringValue.IndexOf(": ") +2));
-                            Game1.Config.musicVol = byte.Parse(listList[i[1]].StringValue.Remove(0, listList[i[0]].StringValue.IndexOf(": ") +2));
+                            Game1.Config.soundVol = byte.Parse(listList[i[0]].StringValue);
+                            Game1.Config.musicVol = byte.Parse(listList[i[1]].StringValue);
+                            LoadSave.SaveConfig(Game1.Config);
+                            Hud.ShowWindow(HudWindowTypes.Options);
+                            break;
+                        }
+                    case hudButtonAction.ApplyShipColor:
+                        {
+                            int[] i = (int[])hudButton.value;
+                            Game1.Config.shipColorR = byte.Parse(listList[i[0]].StringValue);
+                            Game1.Config.shipColorG = byte.Parse(listList[i[1]].StringValue);
+                            Game1.Config.shipColorB = byte.Parse(listList[i[2]].StringValue);
                             LoadSave.SaveConfig(Game1.Config);
                             Hud.ShowWindow(HudWindowTypes.Options);
                             break;

@@ -129,7 +129,7 @@ namespace VertShot
             Hud.Initialize(Content.Load<Texture2D>("Graphics/hudBack"), Content.Load<Texture2D>("Graphics/hudCornerTop"),
                 Content.Load<Texture2D>("Graphics/hudCornerBottom"), Content.Load<Texture2D>("Graphics/hudBorderTop"), Content.Load<Texture2D>("Graphics/hudBorderLeft"));
 
-            player = new Player(Content.Load<Texture2D>("Graphics/ship"), Color.Orange, new Vector2(Width / 2, Height / 2));
+            player = new Player(Content.Load<Texture2D>("Graphics/ship"), new Vector2(Width / 2, Height / 2));
 
             SetGameState(GameState.MainMenu);
         }
@@ -330,7 +330,7 @@ namespace VertShot
                 scaleX < scaleY ? ((float)Game1.Config.resHeight - (float)Height * scaleX) / 2f : 0, 0));
             mouseMatrix = Matrix.CreateScale(scaleX < scaleY ? 1 / scaleX : 1 / scaleY) *
                 Matrix.CreateTranslation(new Vector3(
-                    scaleY < scaleX ? ((float)Width - (float)Game1.Config.resHeight / scaleY) * 0.5f : 0,
+                    scaleY < scaleX ? ((float)Width - (float)Game1.Config.resWitdh / scaleY) * 0.5f : 0,
                     scaleX < scaleY ? ((float)Height - (float)Game1.Config.resHeight / scaleX) * 0.5f : 0, 0));
             rectBlackTop = new Rectangle(
                 0,

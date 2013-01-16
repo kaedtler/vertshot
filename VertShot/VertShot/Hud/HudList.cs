@@ -11,6 +11,7 @@ namespace VertShot
     {
         Rectangle rect;
         List<string> stringList;
+        string preString;
         int value;
         bool mouseOverB1;
         bool mouseOverB2;
@@ -24,13 +25,14 @@ namespace VertShot
         public Vector2 GetPosition { get { return new Vector2(rect.X, rect.Y); } }
 
 
-        public HudList(Rectangle rect, List<string> stringList, int defaultValue = 0)
+        public HudList(Rectangle rect, string preString, List<string> stringList, int defaultValue = 0)
         {
             this.rect = rect;
             rectButton1 = new Rectangle(rect.X, rect.Y, rect.Height, rect.Height);
             rectButton2 = new Rectangle(rect.Right - rect.Height, rect.Y, rect.Height, rect.Height);
             rectLabel = new Rectangle(rect.X + rect.Height + rect.Height / 10, rect.Y, rect.Width - rect.Height - rect.Height / 10, rect.Height);
 
+            this.preString = preString;
             this.stringList = stringList;
             value = defaultValue;
 
@@ -62,7 +64,7 @@ namespace VertShot
             spriteBatch.Draw(Game1.oneTexture, rectButton2, mouseDownB2 ? new Color(0, 40, 0, 160) : mouseOverB2 ? new Color(20, 80, 0, 160) : new Color(0, 60, 0, 160));
             spriteBatch.DrawString(Game1.buttonFont, "<", new Vector2(rectButton1.X + rectButton1.Width / 2, rectButton1.Y + rectButton1.Height / 2) - Game1.buttonFont.MeasureString("<") / 2, new Color(20, 120, 0, 160));
             spriteBatch.DrawString(Game1.buttonFont, ">", new Vector2(rectButton2.X + rectButton2.Width / 2, rectButton2.Y + rectButton2.Height / 2) - Game1.buttonFont.MeasureString(">") / 2, new Color(20, 120, 0, 160));
-            spriteBatch.DrawString(Game1.buttonFont, stringList[value], new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2) - Game1.buttonFont.MeasureString(stringList[value]) / 2, new Color(20, 120, 0, 160));
+            spriteBatch.DrawString(Game1.buttonFont, preString + stringList[value], new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2) - Game1.buttonFont.MeasureString(preString + stringList[value]) / 2, new Color(20, 120, 0, 160));
         }
 
         internal void Reset()

@@ -16,7 +16,8 @@ namespace VertShot
         GameKeys,
         GameOver,
         Pause,
-        Sound
+        Sound,
+        ShipColor
     }
     public enum HudMessageBoxTypes
     {
@@ -36,7 +37,8 @@ namespace VertShot
         OK,
         Cancel,
         Quit,
-        ApplySound
+        ApplySound,
+        ApplyShipColor
     }
 
     static public class Hud
@@ -63,6 +65,10 @@ namespace VertShot
                 }
             }
 
+            // Farbliste erstellen
+            List<string> colorList = new List<string>();
+            for (int i = 0; i < 6; i++) colorList.Add((i*51).ToString());
+
             ////Fenster
             // Hauptmenü
             hudWindowList[HudWindowTypes.MainMenu] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
@@ -75,6 +81,7 @@ namespace VertShot
             hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 40, 268, 40), "Grafikoptionen", hudButtonAction.OpenWindow, HudWindowTypes.Graphics);
             hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 100, 268, 40), "Soundoptionen", hudButtonAction.OpenWindow, HudWindowTypes.Sound);
             hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 160, 268, 40), "Tastenbelegung", hudButtonAction.OpenWindow, HudWindowTypes.GameKeys);
+            hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 220, 268, 40), "Schiffsfarbe", hudButtonAction.OpenWindow, HudWindowTypes.ShipColor);
             hudWindowList[HudWindowTypes.Options].AddButton(new Rectangle(40, 280, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.MainMenu);
             // Grafikoptionen
             hudWindowList[HudWindowTypes.Graphics] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
@@ -84,10 +91,18 @@ namespace VertShot
             hudWindowList[HudWindowTypes.Graphics].AddButton(new Rectangle(208, 280, 110, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
             // Soundoptionen
             hudWindowList[HudWindowTypes.Sound] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
-            hudWindowList[HudWindowTypes.Sound].AddList(new Rectangle(40, 40, 268, 40), new List<string> { "Sound: 0", "Sound: 1", "Sound: 2", "Sound: 3", "Sound: 4", "Sound: 5", "Sound: 6", "Sound: 7", "Sound: 8", "Sound: 9", "Sound: 10"}, Game1.Config.soundVol);
-            hudWindowList[HudWindowTypes.Sound].AddList(new Rectangle(40, 100, 268, 40), new List<string> { "Musik: 0", "Musik: 1", "Musik: 2", "Musik: 3", "Musik: 4", "Musik: 5", "Musik: 6", "Musik: 7", "Musik: 8", "Musik: 9", "Musik: 10" }, Game1.Config.musicVol);
+            hudWindowList[HudWindowTypes.Sound].AddList(new Rectangle(40, 40, 268, 40), "Sound: ", new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Game1.Config.soundVol);
+            hudWindowList[HudWindowTypes.Sound].AddList(new Rectangle(40, 100, 268, 40), "Musik: ", new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Game1.Config.musicVol);
+            hudWindowList[HudWindowTypes.Sound].AddLabel(new Vector2(20, 160), "Noch nicht verfügbar!");
             hudWindowList[HudWindowTypes.Sound].AddButton(new Rectangle(40, 280, 160, 40), "Übernehmen", hudButtonAction.ApplySound, new int[] { 0, 1 });
             hudWindowList[HudWindowTypes.Sound].AddButton(new Rectangle(208, 280, 110, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
+            // Schiffoptionen
+            hudWindowList[HudWindowTypes.ShipColor] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
+            hudWindowList[HudWindowTypes.ShipColor].AddList(new Rectangle(40, 40, 268, 40), "Rot: ", colorList, Game1.Config.shipColorR / 51);
+            hudWindowList[HudWindowTypes.ShipColor].AddList(new Rectangle(40, 100, 268, 40), "Grün: ", colorList, Game1.Config.shipColorG / 51);
+            hudWindowList[HudWindowTypes.ShipColor].AddList(new Rectangle(40, 160, 268, 40), "Blau: ", colorList, Game1.Config.shipColorB / 51);
+            hudWindowList[HudWindowTypes.ShipColor].AddButton(new Rectangle(40, 280, 160, 40), "Übernehmen", hudButtonAction.ApplyShipColor, new int[] { 0, 1, 2 });
+            hudWindowList[HudWindowTypes.ShipColor].AddButton(new Rectangle(208, 280, 110, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
             // Tastenbelegung
             hudWindowList[HudWindowTypes.GameKeys] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 200, 348, 400));
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 20, 268, 40), "[GAMEKEY]: [LEFT]", hudButtonAction.OpenMessageBox, GameKeys.Left, true);
@@ -96,7 +111,6 @@ namespace VertShot
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 170, 268, 40), "[GAMEKEY]: [DOWN]", hudButtonAction.OpenMessageBox, GameKeys.Down, true);
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 220, 268, 40), "[GAMEKEY]: [FIRE1]", hudButtonAction.OpenMessageBox, GameKeys.Fire1, true);
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 270, 268, 40), "[GAMEKEY]: [FIRE2]", hudButtonAction.OpenMessageBox, GameKeys.Fire2, true);
-
             hudWindowList[HudWindowTypes.GameKeys].AddButton(new Rectangle(40, 320, 268, 40), "Zurück", hudButtonAction.OpenWindow, HudWindowTypes.Options);
             // Credits
             hudWindowList[HudWindowTypes.Credits] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
@@ -132,6 +146,9 @@ namespace VertShot
                 hudWindowList[HudWindowTypes.Credits].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
                 hudWindowList[HudWindowTypes.Pause].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
                 hudWindowList[HudWindowTypes.GameOver].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
+                hudWindowList[HudWindowTypes.Graphics].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
+                hudWindowList[HudWindowTypes.Sound].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
+                hudWindowList[HudWindowTypes.ShipColor].RefreshPosition(new Vector2(Game1.Width / 2 - 174, Game1.Height / 2 - 174));
             }
         }
 

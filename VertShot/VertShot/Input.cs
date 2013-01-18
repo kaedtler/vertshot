@@ -24,7 +24,8 @@ namespace VertShot
         Debug9,
         Debug10,
         Debug11,
-        Debug12
+        Debug12,
+        None
     }
 
     public enum MouseKeys
@@ -38,6 +39,8 @@ namespace VertShot
 
     public static class Input
     {
+        static float vibrateTimer = -1;
+
         public static GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
         public static KeyboardState keyboardState = Keyboard.GetState();
         public static MouseState mouseState = Mouse.GetState();
@@ -70,7 +73,7 @@ namespace VertShot
             AssignKeyboard.Add(GameKeys.Debug12, Keys.None);
         }
 
-        public static void UpdateBegin()
+        public static void UpdateBegin(GameTime gameTime)
         {
             gamePadState = GamePad.GetState(PlayerIndex.One);
             keyboardState = Keyboard.GetState();
@@ -80,6 +83,13 @@ namespace VertShot
                 Game1.game.IsMouseVisible = false;
             else if (!Game1.game.IsMouseVisible && mouseState.X - lastMouseState.X != 0 || mouseState.Y - lastMouseState.Y != 0)
                 Game1.game.IsMouseVisible = true;
+
+            vibrateTimer = MathHelper.Max(0, vibrateTimer - (float)gameTime.ElapsedGameTime.TotalSeconds);
+            if (vibrateTimer == 0)
+            {
+                GamePad.SetVibration(PlayerIndex.One, 0, 0);
+                vibrateTimer = -1;
+            }
         }
 
         public static void UpdateEnd()
@@ -180,11 +190,14 @@ namespace VertShot
             }
         }
 
-        public static bool GamePadConnected
+        public static bool GamePadConnected { get { return gamePadState.IsConnected; } }
+
+        public static void Vibrate(float seconds, float leftMotor, float rightMotor)
         {
-            get
+            if (GamePadConnected)
             {
-                return gamePadState.IsConnected;
+                vibrateTimer = seconds;
+                GamePad.SetVibration(PlayerIndex.One, leftMotor, rightMotor);
             }
         }
 

@@ -113,6 +113,7 @@
     <Compile Include="Hud\HudCheckBox.cs" />
     <Compile Include="Hud\HudLabel.cs" />
     <Compile Include="Hud\HudMessageBox.cs" />
+    <Compile Include="Hud\HudObject.cs" />
     <Compile Include="Hud\HudWindow.cs" />
     <Compile Include="Hud\HudButton.cs" />
     <Compile Include="Hud\HudList.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Shot.cs" />
     <Compile Include="ShotCollector.cs" />
     <Compile Include="Shots\LaserShot.cs" />
+    <Compile Include="TextBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

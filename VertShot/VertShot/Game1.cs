@@ -150,7 +150,7 @@ namespace VertShot
         /// <param name="gameTime">Bietet einen Schnappschuss der Timing-Werte.</param>
         protected override void Update(GameTime gameTime)
         {
-            Input.UpdateBegin();
+            Input.UpdateBegin(gameTime);
 
             // Ermöglicht ein Beenden des Spiels
             if (shutdown)

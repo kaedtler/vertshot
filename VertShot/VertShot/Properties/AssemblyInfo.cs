@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("VertShot")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright ©  2012 Oliver Kädtler")]
+[assembly: AssemblyCopyright("Copyright ©  2013 Oliver Kädtler")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,4 +31,4 @@ using System.Runtime.InteropServices;
 //      Build-Nummer
 //      Revision
 //
-[assembly: AssemblyVersion("0.7.0.0")]
+[assembly: AssemblyVersion("0.7.1.0")]

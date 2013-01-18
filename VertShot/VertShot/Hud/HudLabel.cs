@@ -7,39 +7,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace VertShot
 {
-    public class HudLabel
+    public class HudLabel : HudObject
     {
-        Vector2 position;
-        String textOrg;
-        String text;
-
-        public Vector2 GetPosition { get { return position; } }
-
-        public HudLabel(Vector2 position, String text)
+        public HudLabel(Vector2 position, String text, bool replaceText = false)
         {
             this.position = position;
-            this.textOrg = text;
+            this.text = text;
+            this.replaceText = replaceText;
         }
 
-        public void Update(GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-        }
-
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            text = textOrg.Replace("[SCORE]", Game1.enemyCounter.ToString());
-            spriteBatch.DrawString(Game1.buttonFont, text, position, new Color(20, 120, 0, 160));
-        }
-
-        internal void RefreshPosition(Point position)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void RefreshPosition(Vector2 position)
-        {
-            this.position = position;
+            spriteBatch.DrawString(Game1.buttonFont, GetText, position, new Color(20, 120, 0, 160));
         }
     }
 }

@@ -7,58 +7,58 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="ContentGroup">
-            <Component Id="cmp062546747907ADBBE6335B17698504A0" Directory="dir8E3F4A8FC57097133BD0E5E8833CF2EA" Guid="{397F5B3D-CB42-47DA-9BF5-E5066B69A0DB}">
+            <Component Id="cmp062546747907ADBBE6335B17698504A0" Directory="dir8E3F4A8FC57097133BD0E5E8833CF2EA" Guid="{1C7C226E-D64E-4119-9E52-BA79356879C6}">
                 <File Id="fil76776B4436354052AE22455850AFCC76" KeyPath="yes" Source="$(var.GameDeployFolder)\DebugFont.xnb" />
             </Component>
-            <Component Id="cmp63843C06A68F111B85134B5BBFBC7DEB" Directory="dir8E3F4A8FC57097133BD0E5E8833CF2EA" Guid="{881E1F6C-D60E-452E-85FE-696C39F0F20C}">
+            <Component Id="cmp63843C06A68F111B85134B5BBFBC7DEB" Directory="dir8E3F4A8FC57097133BD0E5E8833CF2EA" Guid="{ABE3E60E-2FD4-4B49-B5D7-77C940E658B7}">
                 <File Id="fil2D5B9142B68186B58C4049DF22AEEA98" KeyPath="yes" Source="$(var.GameDeployFolder)\OcraExtended.xnb" />
             </Component>
-            <Component Id="cmp054F3E60AE1997E3A1647F1FF9E4DAE2" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{94D28BBC-6B87-4832-9737-B22AC7992293}">
+            <Component Id="cmp054F3E60AE1997E3A1647F1FF9E4DAE2" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{0592F8DA-D5C8-41CC-9289-3186366D9537}">
                 <File Id="fil49C8B5C7F878699B4704BB42238EA2CA" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\back1.xnb" />
             </Component>
-            <Component Id="cmpD7B6B6D53958C5010663264FDE1D5F95" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{2790C26C-6E71-46AF-B9CA-3D66B4CCE4E3}">
+            <Component Id="cmpD7B6B6D53958C5010663264FDE1D5F95" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{95E7D650-AE79-4A9E-818E-689EE3DDBE37}">
                 <File Id="fil0700298242DA8DFEF2BC99E5DDBC7A7E" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\back2.xnb" />
             </Component>
-            <Component Id="cmp848CB260388D85E5AD2DB82CB1E2D1D3" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{A69129F3-EF7D-4620-822B-A00A717DDB87}">
+            <Component Id="cmp848CB260388D85E5AD2DB82CB1E2D1D3" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{3F7DEFCC-282D-4EDE-AF90-C017A791A965}">
                 <File Id="fil1B01E4B67593CAE07870B1813A6A2BD4" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\back3.xnb" />
             </Component>
-            <Component Id="cmpD810F948CDB442638773D688F22DC78E" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{C3F287D1-FEA4-47FF-BE49-641E7104EB27}">
+            <Component Id="cmpD810F948CDB442638773D688F22DC78E" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{3947B056-C1DC-4094-9193-ACC6C284283D}">
                 <File Id="fil30FCE909AD2EA7650B4F18F54E03F521" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\explosion_34FR.xnb" />
             </Component>
-            <Component Id="cmp8017A381B68CB929795ABA95B09A8701" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{764D94AE-84EC-4B3E-A3CE-0BC61CB6443D}">
+            <Component Id="cmp8017A381B68CB929795ABA95B09A8701" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{8DE8B773-09D5-4C1C-B8E7-E0CD8B783B56}">
                 <File Id="filBA022555361368CE92E1699191A58252" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\hud.xnb" />
             </Component>
-            <Component Id="cmp65AC781257FE508DB152BC6A983537FB" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{727AA85E-7957-44D1-BE72-5E143282FF21}">
+            <Component Id="cmp65AC781257FE508DB152BC6A983537FB" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{C517239D-D4E7-4F10-A2B5-F6F2852C2015}">
                 <File Id="fil5569ED635F101ABFAFDE3599466955DF" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\hudBack.xnb" />
             </Component>
-            <Component Id="cmp5B3E7C8CF1418EA0795639B9299C15D4" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{5F4EADFA-C9A0-40D2-AE3B-5E29B2FCA4C7}">
+            <Component Id="cmp5B3E7C8CF1418EA0795639B9299C15D4" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{99B76D1A-48E2-4086-979D-CED7D76813A2}">
                 <File Id="fil868F8B5BE1A84A597EE6247CBF842738" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\hudBorderLeft.xnb" />
             </Component>
-            <Component Id="cmpE72F95E1B35EA9BD4D13780AC616D868" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{E3EE84B6-D539-48DA-A61A-05FF9E4EFBDC}">
+            <Component Id="cmpE72F95E1B35EA9BD4D13780AC616D868" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{C0892D18-3DD7-483B-ADEF-C5092883BE0D}">
                 <File Id="filED1F4A1374EE08D9D655FBFB2E4A85AF" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\hudBorderTop.xnb" />
             </Component>
-            <Component Id="cmpE129C98F2C85DFB6219B744DA824EE1C" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{2BC69D98-D8F3-43D3-BB02-BABB758CCC0B}">
+            <Component Id="cmpE129C98F2C85DFB6219B744DA824EE1C" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{2175541C-CC7D-4C47-9213-9C259E89959D}">
                 <File Id="fil2873CC1E93B2AE1585FE6DD44DA879A7" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\hudCornerBottom.xnb" />
             </Component>
-            <Component Id="cmpAA5778868274180F9160684F560DF4C1" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{1CB14E5A-8227-468C-B521-A8D0D6C1E8B1}">
+            <Component Id="cmpAA5778868274180F9160684F560DF4C1" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{4749A0CF-3BC9-4AF6-881C-BCBBCFB72F45}">
                 <File Id="filE28DA3618616D1C0D0EED1FE16448F60" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\hudCornerTop.xnb" />
             </Component>
-            <Component Id="cmpE527174A8EE9951F00E57DFF8A612732" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{36C21757-FA08-4AFB-A64A-00C40390F389}">
+            <Component Id="cmpE527174A8EE9951F00E57DFF8A612732" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{601FED2F-EB70-4366-BFE6-AFE45B22D344}">
                 <File Id="filE292EB0096A2591364569DC26374D413" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\hudWithEnergy.xnb" />
             </Component>
-            <Component Id="cmpF397442F0EF8B941CDA899BD5170A633" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{1E21A0C6-C0C2-4910-9699-3003288EF76F}">
+            <Component Id="cmpF397442F0EF8B941CDA899BD5170A633" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{0C0F5DBE-5061-4C4F-8A41-DCD607A95032}">
                 <File Id="filA931F7060E6C1EEAA082489773068993" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\meteor.xnb" />
             </Component>
-            <Component Id="cmp179B862EE1ACA508670A5C42365C3B2B" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{C6690374-625A-44F3-BC67-3D20DC74E5B0}">
+            <Component Id="cmp179B862EE1ACA508670A5C42365C3B2B" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{C8F10301-43D0-4900-9021-48923EE345AB}">
                 <File Id="fil84C0DA1F27A8257F38CA80599D17AB20" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\meteor2.xnb" />
             </Component>
-            <Component Id="cmp35E478914750D1EAB40620F34C5FA6AB" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{0CC4869E-134C-47BF-9A2B-84EAE62D6E18}">
+            <Component Id="cmp35E478914750D1EAB40620F34C5FA6AB" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{BD9B4804-1519-4027-9571-87E09AF8C3BF}">
                 <File Id="fil77FA851C052CD3452FB092CC6700E7E9" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\meteor3.xnb" />
             </Component>
-            <Component Id="cmp2BD08317D2417E81899FE0DE9EACB442" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{45A845B2-F27D-467E-8BC5-CD6B88FE62B8}">
+            <Component Id="cmp2BD08317D2417E81899FE0DE9EACB442" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{72DFC4D6-37C4-43F9-9629-A9977C87C949}">
                 <File Id="fil895A6F46A82A7F106DEE42A58599AF5A" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\ship.xnb" />
             </Component>
-            <Component Id="cmp2A957812ADCA22346E7AE7464C8D6CB7" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{9A03B96D-9B6F-4E1B-9060-E897B9621D7E}">
+            <Component Id="cmp2A957812ADCA22346E7AE7464C8D6CB7" Directory="dir4DDF251B6EC600C6721C373CCD2A0888" Guid="{1DF0CBE9-AE45-4478-80C8-9401BEC63869}">
                 <File Id="fil40179FC5C1449B757F78AFD284A47622" KeyPath="yes" Source="$(var.GameDeployFolder)\Graphics\shot.xnb" />
             </Component>
         </ComponentGroup>

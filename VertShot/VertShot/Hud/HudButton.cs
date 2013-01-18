@@ -12,7 +12,7 @@ namespace VertShot
         Rectangle rect;
         String startText;
         String text;
-        public hudButtonAction buttonAction { get; private set; }
+        public HudButtonAction buttonAction { get; private set; }
         public object value { get; private set; }
         public bool buttonPressed;
         bool mouseOver;
@@ -22,7 +22,7 @@ namespace VertShot
 
         public Vector2 GetPosition { get { return new Vector2(rect.X, rect.Y); } }
 
-        public HudButton(Rectangle rect, String text, hudButtonAction buttonAction, object value = null, bool replaceText = false)
+        public HudButton(Rectangle rect, String text, HudButtonAction buttonAction, object value = null, bool replaceText = false)
         {
             this.rect = rect;
             this.startText = text;

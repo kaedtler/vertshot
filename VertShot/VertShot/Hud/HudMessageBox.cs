@@ -45,13 +45,13 @@ namespace VertShot
             startText = text;
             if (okButton && cancelButton)
             {
-                ok = new HudButton(new Rectangle(rect.X + rect.Width / 2 - 145, rect.Bottom - 55, 140, 40), "OK", hudButtonAction.OK);
-                cancel = new HudButton(new Rectangle(rect.X + rect.Width / 2 + 5, rect.Bottom - 55, 140, 40), "Abbrechen", hudButtonAction.Cancel);
+                ok = new HudButton(new Rectangle(rect.X + rect.Width / 2 - 145, rect.Bottom - 55, 140, 40), "OK", HudButtonAction.OK);
+                cancel = new HudButton(new Rectangle(rect.X + rect.Width / 2 + 5, rect.Bottom - 55, 140, 40), "Abbrechen", HudButtonAction.Cancel);
             }
             else if (okButton)
-                ok = new HudButton(new Rectangle(rect.X + rect.Width / 2 - 70, rect.Bottom - 55, 140, 40), "OK", hudButtonAction.OK);
+                ok = new HudButton(new Rectangle(rect.X + rect.Width / 2 - 70, rect.Bottom - 55, 140, 40), "OK", HudButtonAction.OK);
             else if (cancelButton)
-                cancel = new HudButton(new Rectangle(rect.X + rect.Width / 2 - 70, rect.Bottom - 55, 140, 40), "Abbrechen", hudButtonAction.Cancel);
+                cancel = new HudButton(new Rectangle(rect.X + rect.Width / 2 - 70, rect.Bottom - 55, 140, 40), "Abbrechen", HudButtonAction.Cancel);
             else
                 rect.Height -= 60;
             this.startTimerSeconds = timerSeconds;

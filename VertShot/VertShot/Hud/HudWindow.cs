@@ -38,7 +38,7 @@ namespace VertShot
             active = false;
         }
 
-        public void AddButton(Rectangle rect, String text, hudButtonAction buttonAction, object value = null, bool replaceText = false)
+        public void AddButton(Rectangle rect, String text, HudButtonAction buttonAction, object value = null, bool replaceText = false)
         {
             rect.X += this.rect.X;
             rect.Y += this.rect.Y;
@@ -117,16 +117,16 @@ namespace VertShot
             {
                 switch (hudButton.buttonAction)
                 {
-                    case hudButtonAction.MainMenu:
+                    case HudButtonAction.MainMenu:
                         Game1.SetGameState(GameState.MainMenu);
                         break;
-                    case hudButtonAction.NewGame:
+                    case HudButtonAction.NewGame:
                         Game1.SetGameState(GameState.NewGame);
                         break;
-                    case hudButtonAction.Continue:
+                    case HudButtonAction.Continue:
                         Game1.SetGameState(GameState.Game);
                         break;
-                    case hudButtonAction.ApplyGraphic:
+                    case HudButtonAction.ApplyGraphic:
                         {
                             int[] i = (int[])hudButton.value;
                             string[] res = listList[i[0]].StringValue.Split(new char[] { 'x' });
@@ -134,7 +134,7 @@ namespace VertShot
                             Hud.ShowMessageBox(HudMessageBoxTypes.GraphicChange);
                             break;
                         }
-                    case hudButtonAction.ApplySound:
+                    case HudButtonAction.ApplySound:
                         {
                             int[] i = (int[])hudButton.value;
                             Game1.Config.soundVol = byte.Parse(listList[i[0]].StringValue);
@@ -143,7 +143,7 @@ namespace VertShot
                             Hud.ShowWindow(HudWindowTypes.Options);
                             break;
                         }
-                    case hudButtonAction.ApplyShipColor:
+                    case HudButtonAction.ApplyShipColor:
                         {
                             int[] i = (int[])hudButton.value;
                             Game1.Config.shipColorR = byte.Parse(listList[i[0]].StringValue);
@@ -153,10 +153,10 @@ namespace VertShot
                             Hud.ShowWindow(HudWindowTypes.Options);
                             break;
                         }
-                    case hudButtonAction.OpenWindow:
+                    case HudButtonAction.OpenWindow:
                         Hud.ShowWindow((HudWindowTypes)hudButton.value);
                         break;
-                    case hudButtonAction.OpenMessageBox:
+                    case HudButtonAction.OpenMessageBox:
                         if (hudButton.value.GetType() == typeof(GameKeys))
                         {
                             Hud.SetMessageBoxValue(HudMessageBoxTypes.GameKeyChange, (GameKeys)hudButton.value);
@@ -165,7 +165,7 @@ namespace VertShot
                         else
                             Hud.ShowMessageBox((HudMessageBoxTypes)hudButton.value);
                         break;
-                    case hudButtonAction.Quit:
+                    case HudButtonAction.Quit:
                         Game1.SetGameState(GameState.Quit);
                         break;
                     default: break;

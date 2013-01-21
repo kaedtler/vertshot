@@ -17,6 +17,7 @@ namespace VertShot
             text = text.Replace("[FIRE2]", Input.GetGameKeyCodeString(GameKeys.Fire2));
             text = text.Replace("[GAMEKEY]", Input.GetGameKeyString((GameKeys)gameKey));
             text = text.Replace("[TIMER]", timerSeconds.ToString());
+            text = text.Replace("[GAMETIME]", String.Format("{0:d2}:{1:d2}", (byte)(Game1.gametimeCounter / 60), (byte)(Game1.gametimeCounter % 60)));
             text = text.Replace("[SCORE]", Game1.enemyCounter.ToString());
             return text;
         }

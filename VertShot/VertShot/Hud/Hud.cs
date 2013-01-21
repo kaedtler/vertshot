@@ -93,7 +93,6 @@ namespace VertShot
             hudWindowList[HudWindowTypes.Sound] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
             hudWindowList[HudWindowTypes.Sound].AddObject(new HudList(new Rectangle(40, 40, 268, 40), "Sound: ", new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Game1.Config.soundVol));
             hudWindowList[HudWindowTypes.Sound].AddObject(new HudList(new Rectangle(40, 100, 268, 40), "Musik: ", new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Game1.Config.musicVol));
-            hudWindowList[HudWindowTypes.Sound].AddObject(new HudLabel(new Vector2(20, 160), "Noch nicht verfügbar!"));
             hudWindowList[HudWindowTypes.Sound].AddObject(new HudButton(new Rectangle(40, 280, 160, 40), "Übernehmen", HudButtonAction.ApplySound, new byte[] { 0, 1 }));
             hudWindowList[HudWindowTypes.Sound].AddObject(new HudButton(new Rectangle(208, 280, 110, 40), "Zurück", HudButtonAction.OpenWindow, HudWindowTypes.Options));
             // Schiffoptionen
@@ -101,6 +100,7 @@ namespace VertShot
             hudWindowList[HudWindowTypes.ShipColor].AddObject(new HudList(new Rectangle(40, 40, 268, 40), "Rot: ", colorList, Game1.Config.shipColorR / 51));
             hudWindowList[HudWindowTypes.ShipColor].AddObject(new HudList(new Rectangle(40, 100, 268, 40), "Grün: ", colorList, Game1.Config.shipColorG / 51));
             hudWindowList[HudWindowTypes.ShipColor].AddObject(new HudList(new Rectangle(40, 160, 268, 40), "Blau: ", colorList, Game1.Config.shipColorB / 51));
+            hudWindowList[HudWindowTypes.ShipColor].AddObject(new HudPlayer(new Vector2(144, 210)));
             hudWindowList[HudWindowTypes.ShipColor].AddObject(new HudButton(new Rectangle(40, 280, 160, 40), "Übernehmen", HudButtonAction.ApplyShipColor, new byte[] { 0, 1, 2 }));
             hudWindowList[HudWindowTypes.ShipColor].AddObject(new HudButton(new Rectangle(208, 280, 110, 40), "Zurück", HudButtonAction.OpenWindow, HudWindowTypes.Options));
             // Tastenbelegung
@@ -123,7 +123,7 @@ namespace VertShot
             hudWindowList[HudWindowTypes.Pause].AddObject(new HudButton(new Rectangle(40, 280, 268, 40), "Beenden", HudButtonAction.Quit));
             // GameOver
             hudWindowList[HudWindowTypes.GameOver] = new HudWindow(new Rectangle(Game1.Width / 2 - 174, Game1.Height / 2 - 174, 348, 348));
-            hudWindowList[HudWindowTypes.GameOver].AddObject(new HudLabel(new Vector2(20, 40), "GAME OVER!!!\n\nDein Schiff\nist schrott!\n\nAbschüsse: [SCORE]"));
+            hudWindowList[HudWindowTypes.GameOver].AddObject(new HudLabel(new Vector2(20, 40), "GAME OVER!!!\n\nDein Schiff\nist schrott!\n\nZeit: [GAMETIME]\nAbschüsse: [SCORE]", true));
             hudWindowList[HudWindowTypes.GameOver].AddObject(new HudButton(new Rectangle(40, 280, 268, 40), "Hauptmenü", HudButtonAction.MainMenu));
 
             ////Message Box

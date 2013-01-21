@@ -44,6 +44,7 @@ namespace VertShot
         static bool shutdown = false;
 
         static public int enemyCounter = 0;
+        static public float gametimeCounter = 0;
 
         float meteorTime;
         float meteorElapsedTime;
@@ -95,6 +96,9 @@ namespace VertShot
         {
             Input.Initialize();
 
+            // Tastaturbelegung aus Config setzen
+            Input.AssignKeyboard = Config.assignKeyboard;
+
 
             base.Initialize();
         }
@@ -111,8 +115,7 @@ namespace VertShot
             oneTexture = new Texture2D(GraphicsDevice, 1, 1);
             oneTexture.SetData<Color>(new Color[] { Color.White });
 
-            // Tastaturbelegung aus Config setzen
-            Input.AssignKeyboard = Config.assignKeyboard;
+            Sound.Initialize();
 
             debugFont = Content.Load<SpriteFont>("DebugFont");
             buttonFont = Content.Load<SpriteFont>("OcraExtended");
@@ -124,7 +127,7 @@ namespace VertShot
             ShotCollector.Initialize(Content.Load<Texture2D>("Graphics/shot"));
             EnemyCollector.Initialize(Content.Load<Texture2D>("Graphics/meteor3"));
             EffectCollector.Initialize(Content.Load<Texture2D>("Graphics/explosion_34FR"));
-            GameHud.Initialize(Content.Load<Texture2D>("Graphics/hud"), Content.Load<Texture2D>("Graphics/hudWithEnergy"));
+            GameHud.Initialize(Content.Load<Texture2D>("Graphics/hud"), Content.Load<Texture2D>("Graphics/hudWithEnergy"), Content.Load<SpriteFont>("RepetitionScrolling"));
 
             Hud.Initialize(Content.Load<Texture2D>("Graphics/hudBack"), Content.Load<Texture2D>("Graphics/hudCornerTop"),
                 Content.Load<Texture2D>("Graphics/hudCornerBottom"), Content.Load<Texture2D>("Graphics/hudBorderTop"), Content.Load<Texture2D>("Graphics/hudBorderLeft"));
@@ -184,7 +187,11 @@ namespace VertShot
                         meteorElapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
                         Background.Update(gameTime);
-                        if (gameState != GameState.GameOver) player.Update(gameTime);
+                        if (gameState != GameState.GameOver)
+                        {
+                            player.Update(gameTime);
+                            gametimeCounter += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        }
                         ShotCollector.Update(gameTime);
                         EnemyCollector.Update(gameTime);
                         EffectCollector.Update(gameTime);
@@ -205,9 +212,8 @@ namespace VertShot
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug3))
             {
-                gameState++;
-                if (gameState > GameState.Game)
-                    gameState = 0;
+                enemyCounter = 990;
+                gametimeCounter = 5990;
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug4))
             {
@@ -258,6 +264,7 @@ namespace VertShot
             {
                 SetGameState(GameState.GameOver);
                 player.SetPosition(new Vector2(-100, -100));
+                Sound.PlaySound(Sound.Sounds.PlayerExplosion);
             }
 
 
@@ -287,6 +294,8 @@ namespace VertShot
                     EffectCollector.Reset();
                     Game1.player.Reset();
                     GameHud.Reset();
+                    enemyCounter = 0;
+                    gametimeCounter = 0;
                     Hud.CloseAllWindows();
                     Game1.gameState = GameState.Game;
                     break;

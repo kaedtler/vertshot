@@ -117,6 +117,8 @@
     <Compile Include="Hud\HudWindow.cs" />
     <Compile Include="Hud\HudButton.cs" />
     <Compile Include="Hud\HudList.cs" />
+    <Compile Include="Hud\HudImage.cs" />
+    <Compile Include="Hud\HudPlayer.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="LoadSave.cs" />
     <Compile Include="Player.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Shot.cs" />
     <Compile Include="ShotCollector.cs" />
     <Compile Include="Shots\LaserShot.cs" />
+    <Compile Include="Sound.cs" />
     <Compile Include="TextBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

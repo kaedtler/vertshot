@@ -18,7 +18,7 @@ namespace VertShot
     {
         const float MaxEnergy = 100f;
         const float MaxShield = 100f;
-        Texture2D texture;
+        public Texture2D texture;
         Vector2 startPosition;
         Vector2 position;
         Vector2 size;
@@ -82,6 +82,7 @@ namespace VertShot
                 }
                 energy -= damage * factor;
             }
+            Sound.PlaySound(Sound.Sounds.PlayerHit);
         }
 
         private float AddShieldDamage(float damage, ShotType shotType)
@@ -141,6 +142,11 @@ namespace VertShot
         }
 
         public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, position, new Color(Game1.Config.shipColorR, Game1.Config.shipColorG, Game1.Config.shipColorB));
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
             spriteBatch.Draw(texture, position, new Color(Game1.Config.shipColorR, Game1.Config.shipColorG, Game1.Config.shipColorB));
         }

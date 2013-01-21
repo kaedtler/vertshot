@@ -35,8 +35,8 @@ namespace VertShot
                 {
                     Game1.player.AddDamage(enemyList[i].collisionDamage, ShotType.Collision);
                     enemyList[i].AddDamage(Game1.player.collisionDamage, ShotType.Collision);
-                    if (enemyList[i].energy <= 0)
-                        Game1.enemyCounter++;
+                    //if (enemyList[i].energy <= 0)
+                    //    Game1.enemyCounter++;
                 }
                 enemyList[i].Update(gameTime);
                 if (!enemyList[i].IsAlive)

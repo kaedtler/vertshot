@@ -14,7 +14,7 @@ namespace VertShot
         protected Rectangle rect { get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); } }
         protected string text;
         protected bool replaceText = false;
-        public string GetText { get { return replaceText ? TextBuilder.ReplacePlaceholder(text, value.GetType() == typeof(GameKeys) ? (GameKeys)value : GameKeys.None) : text; } }
+        public string GetText { get { return replaceText ? TextBuilder.ReplacePlaceholder(text, value != null && value.GetType() == typeof(GameKeys) ? (GameKeys)value : GameKeys.None) : text; } }
         public object value;
 
 

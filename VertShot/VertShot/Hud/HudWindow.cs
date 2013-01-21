@@ -105,7 +105,6 @@ namespace VertShot
                                 Game1.Config.shipColorG = byte.Parse(hudObjList[i[1]].GetText);
                                 Game1.Config.shipColorB = byte.Parse(hudObjList[i[2]].GetText);
                                 LoadSave.SaveConfig(Game1.Config);
-                                Hud.ShowWindow(HudWindowTypes.Options);
                                 break;
                             }
                         case HudButtonAction.OpenWindow:

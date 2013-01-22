@@ -7,7 +7,7 @@ namespace VertShot.Files
     [Serializable]
     public class Config
     {
-        public const byte FileVersion = 2;
+        public const byte FileVersion = 3;
 
 
         public byte fileVersion = FileVersion;
@@ -17,6 +17,8 @@ namespace VertShot.Files
 
         public byte musicVol;
         public byte soundVol;
+
+        public bool sound3d;
 
         public byte shipColorR;
         public byte shipColorG;
@@ -34,6 +36,7 @@ namespace VertShot.Files
 
             musicVol = 10;
             soundVol = 10;
+            sound3d = false;
 
             shipColorR = 255;
             shipColorG = 255;
@@ -75,6 +78,10 @@ namespace VertShot.Files
                         shipColorR = 255;
                         shipColorG = 255;
                         shipColorB = 255;
+                        break;
+                    case 2:
+                        fileVersion = 3;
+                        sound3d = false;
                         break;
                     default:
                         return false;

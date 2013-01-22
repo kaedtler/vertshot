@@ -93,8 +93,9 @@ namespace VertShot.Menu
             windowList[WindowTypes.Sound] = new Window(new Point(348, 348));
             windowList[WindowTypes.Sound].AddObject(new List(new Rectangle(40, 40, 268, 40), "Sound: ", new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Game1.Config.soundVol));
             windowList[WindowTypes.Sound].AddObject(new List(new Rectangle(40, 100, 268, 40), "Musik: ", new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Game1.Config.musicVol));
-            windowList[WindowTypes.Sound].AddObject(new Label(new Vector2(20, 160), "[NOAUDIO]", true));
-            windowList[WindowTypes.Sound].AddObject(new Button(new Rectangle(40, 280, 160, 40), "Übernehmen", ButtonAction.ApplySound, new byte[] { 0, 1 }));
+            windowList[WindowTypes.Sound].AddObject(new CheckBox(new Rectangle(40, 160, 268, 40), "3D Sound (Beta)", Game1.Config.sound3d));
+            windowList[WindowTypes.Sound].AddObject(new Label(new Vector2(20, 220), "[NOAUDIO]", true));
+            windowList[WindowTypes.Sound].AddObject(new Button(new Rectangle(40, 280, 160, 40), "Übernehmen", ButtonAction.ApplySound, new byte[] { 0, 1, 2 }));
             windowList[WindowTypes.Sound].AddObject(new Button(new Rectangle(208, 280, 110, 40), "Zurück", ButtonAction.OpenWindow, WindowTypes.Options));
             // Schiffoptionen
             windowList[WindowTypes.ShipColor] = new Window(new Point(348, 348));

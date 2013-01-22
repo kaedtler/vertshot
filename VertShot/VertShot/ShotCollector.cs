@@ -23,7 +23,7 @@ namespace VertShot
         {
             Shot shot = new LaserShot(laserTex, position, size, direction, angle, speed, damage, fromPlayer);
             shotList.Add(shot);
-            Sound.PlaySound(Sound.Sounds.Laser, position.X);
+            Sound.PlaySound(Sound.Sounds.Laser, position);
         }
 
 

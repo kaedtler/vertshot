@@ -15,7 +15,6 @@ namespace VertShot
             Laser,
             SmallExplosion,
             BigExplosion,
-            PlayerHit,
             PlayerExplosion,
             Alarm
         }
@@ -46,13 +45,22 @@ namespace VertShot
 
         static public bool audioEnabled { get; private set; }
 
+
+        // Audio objects
+        static AudioEngine engine;
+        static SoundBank effectSoundBank;
+        static SoundBank musicSoundBank;
+        static WaveBank effectWaveBank;
+        static WaveBank musicWaveBank;
+
+        static AudioListener audioListener;
+
         static public void Initialize()
         {
             audioEnabled = true;
             try
             {
-                SetSoundVolume();
-                SetMusicVolume();
+                engine = new AudioEngine("Content\\Xact\\Xact.xgs");
             }
             catch (NoAudioHardwareException)
             {
@@ -61,86 +69,78 @@ namespace VertShot
 
             if (audioEnabled)
             {
-                //SoundDic[Sounds.Alarm] = Game1.game.Content.Load<SoundEffect>("");
-                SoundDic[Sounds.BigExplosion] = Game1.game.Content.Load<SoundEffect>("Sounds/104439__dkmedic__bomb");
-                SoundDic[Sounds.Laser] = Game1.game.Content.Load<SoundEffect>("Sounds/77087__supraliminal__laser-short");
-                SoundDic[Sounds.PlayerExplosion] = Game1.game.Content.Load<SoundEffect>("Sounds/80499__ggctuk__exp-obj-large02");
-                SoundDic[Sounds.PlayerHit] = Game1.game.Content.Load<SoundEffect>("Sounds/78457__sancho82__bum");
-                SoundDic[Sounds.SmallExplosion] = Game1.game.Content.Load<SoundEffect>("Sounds/78457__sancho82__bum");
 
-                SoundPropDic[Sounds.Laser] = new SoundProp(0.8f, 0.4f);
+                effectWaveBank = new WaveBank(engine, "Content\\Xact\\EffectWavebank.xwb");
+                musicWaveBank = new WaveBank(engine, "Content\\Xact\\MusicWavebank.xwb", 0, 16);
+                engine.Update();
+                effectSoundBank = new SoundBank(engine, "Content\\Xact\\EffectSoundbank.xsb");
+                musicSoundBank = new SoundBank(engine, "Content\\Xact\\MusicSoundbank.xsb");
 
-                //LoopDic[LoopSounds.Alarm] = SoundDic[Sounds.Alarm].CreateInstance();
-                //LoopDic[LoopSounds.Alarm].IsLooped = true;
+                audioListener = new AudioListener();
 
-                MusicDic[Music.Game] = Game1.game.Content.Load<Song>("Music/on-the-run-2_loop");
-                MusicDic[Music.Menu] = Game1.game.Content.Load<Song>("Music/glow-in-the-dark");
+                SetSoundVolume();
+                SetMusicVolume();
 
-                MediaPlayer.IsRepeating = true;
+                engine.Update();
+
+                musicSoundBank.PlayCue("Menu");
             }
+        }
+
+        static public void Update()
+        {
+            if (Game1.Config.sound3d) audioListener.Position = new Vector3(Game1.player.rect.X, 0, Game1.player.rect.Y);
+            engine.Update();
+        }
+
+        static public void PlaySound(Sounds sound, Vector2 position)
+        {
+            if (audioEnabled)
+                if (Game1.Config.sound3d)
+                {
+                    audioListener.Position = new Vector3(Game1.player.rect.X, 0, Game1.player.rect.Y);
+                    AudioEmitter audioEmitter = new AudioEmitter();
+                    audioEmitter.Position = new Vector3(position.X, position.Y, 0);
+                    effectSoundBank.PlayCue(sound.ToString(), audioListener, audioEmitter);
+                }
+                else
+                    effectSoundBank.PlayCue(sound.ToString());
         }
 
         static public void PlaySound(Sounds sound)
         {
             if (audioEnabled)
-                Play(sound, 0f);
-        }
-
-        static void Play(Sounds sound, float pan)
-        {
-            if (audioEnabled)
-                if (SoundPropDic.ContainsKey(sound))
-                    SoundDic[sound].Play(SoundPropDic[sound].volume, SoundPropDic[sound].pitch, pan);
-                else
-                    SoundDic[sound].Play(1f, 0f, pan);
-        }
-
-        static public void PlaySound(Sounds sound, float xPosition)
-        {
-            if (audioEnabled)
-                Play(sound, (xPosition - (float)Game1.Width / 2f) / (float)Game1.Width / 2f);
-        }
-
-        static public void PlayLoopSound(LoopSounds sound)
-        {
-            if (audioEnabled)
-                LoopDic[sound].Play();
-        }
-
-        static public void StopLoopSound(LoopSounds sound)
-        {
-            if (audioEnabled)
-                LoopDic[sound].Stop();
+                effectSoundBank.PlayCue(sound.ToString());
         }
 
         static public void PlayMusic(Music music)
         {
             if (audioEnabled)
-                MediaPlayer.Play(MusicDic[music]);
+                musicSoundBank.PlayCue(music.ToString());
         }
 
         static public void PauseMusic()
         {
             if (audioEnabled)
-                MediaPlayer.Pause();
+                engine.GetCategory("Music").Pause();
         }
 
         static public void ResumeMusic()
         {
             if (audioEnabled)
-                MediaPlayer.Resume();
+                engine.GetCategory("Music").Resume();
         }
 
         static public void SetMusicVolume()
         {
             if (audioEnabled)
-                MediaPlayer.Volume = (float)Game1.Config.musicVol / 10f;
+                engine.GetCategory("Music").SetVolume((float)Game1.Config.musicVol / 10f);
         }
 
         static public void SetSoundVolume()
         {
             if (audioEnabled)
-                SoundEffect.MasterVolume = (float)Game1.Config.soundVol / 10f;
+                engine.GetCategory("Default").SetVolume((float)Game1.Config.musicVol / 10f);
         }
     }
 }

@@ -82,7 +82,7 @@ namespace VertShot
                 }
                 energy -= damage * factor;
             }
-            Sound.PlaySound(Sound.Sounds.PlayerHit, rect.Center.X);
+            Sound.PlaySound(Sound.Sounds.SmallExplosion, new Vector2(Game1.player.rect.Center.X, Game1.player.rect.Center.Y));
         }
 
         private float AddShieldDamage(float damage, ShotType shotType)

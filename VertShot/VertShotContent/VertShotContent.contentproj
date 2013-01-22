@@ -157,41 +157,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Music\on-the-run-2_loop.mp3">
-      <Name>on-the-run-2_loop</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sounds\77087__supraliminal__laser-short.wav">
-      <Name>77087__supraliminal__laser-short</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sounds\104439__dkmedic__bomb.wav">
-      <Name>104439__dkmedic__bomb</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Sounds\78457__sancho82__bum.wav">
-      <Name>78457__sancho82__bum</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Sounds\80499__ggctuk__exp-obj-large02.wav">
-      <Name>80499__ggctuk__exp-obj-large02</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Music\glow-in-the-dark.mp3">
-      <Name>glow-in-the-dark</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
+    <Compile Include="..\..\Xact\Xact.xap">
+      <Link>Xact\Xact.xap</Link>
+      <Name>Xact</Name>
+      <Importer>XactImporter</Importer>
+      <Processor>XactProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

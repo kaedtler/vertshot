@@ -264,10 +264,10 @@ namespace VertShot
             {
                 SetGameState(GameState.GameOver);
                 player.SetPosition(new Vector2(-100, -100));
-                Sound.PlaySound(Sound.Sounds.PlayerExplosion, player.rect.Center.X);
+                Sound.PlaySound(Sound.Sounds.PlayerExplosion, new Vector2(player.rect.Center.X, player.rect.Center.Y));
             }
 
-
+            Sound.Update();
             Input.UpdateEnd();
             base.Update(gameTime);
         }

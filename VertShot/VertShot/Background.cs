@@ -43,7 +43,7 @@ namespace VertShot
                 BackPic backPic = list[i];
                 backPic.position += new Vector2(0, backPic.speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds);
                 if (backPic.position.Y >= Game1.Height)
-                    backPic.position.Y -= backPic.rect.Height;
+                    backPic.position.Y -= (float)backPic.rect.Height;
                 list[i] = backPic;
             }
         }

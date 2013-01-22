@@ -265,6 +265,7 @@ namespace VertShot
                 SetGameState(GameState.GameOver);
                 player.SetPosition(new Vector2(-100, -100));
                 Sound.PlaySound(Sound.Sounds.PlayerExplosion, new Vector2(player.rect.Center.X, player.rect.Center.Y));
+                Input.Vibrate(0.5f, 0.5f, 0.5f);
             }
 
             Sound.Update();

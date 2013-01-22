@@ -258,7 +258,7 @@ Wave Bank
     Wave
     {
         Name = glow-in-the-dark;
-        File = ..\Res\Music\pacdv.com\glow-in-the-dark.wav;
+        File = ..\..\..\Res\Music\pacdv.com\glow-in-the-dark.wav;
         Build Settings Last Modified Low = 1004962243;
         Build Settings Last Modified High = 30275758;
 
@@ -281,7 +281,7 @@ Wave Bank
     Wave
     {
         Name = on-the-run-2_loop;
-        File = ..\Res\Music\pacdv.com\on-the-run-2_loop.wav;
+        File = ..\..\..\Res\Music\pacdv.com\on-the-run-2_loop.wav;
         Build Settings Last Modified Low = 1004972243;
         Build Settings Last Modified High = 30275758;
 
@@ -317,7 +317,7 @@ Wave Bank
     Wave
     {
         Name = 80499__ggctuk__exp-obj-large02;
-        File = ..\Res\Sounds\freesound.org\80499__ggctuk__exp-obj-large02.wav;
+        File = ..\..\..\Res\Sounds\freesound.org\80499__ggctuk__exp-obj-large02.wav;
         Build Settings Last Modified Low = 1155335121;
         Build Settings Last Modified High = 30275745;
 
@@ -340,7 +340,7 @@ Wave Bank
     Wave
     {
         Name = 104439__dkmedic__bomb;
-        File = ..\Res\Sounds\freesound.org\104439__dkmedic__bomb.wav;
+        File = ..\..\..\Res\Sounds\freesound.org\104439__dkmedic__bomb.wav;
         Build Settings Last Modified Low = 2633874516;
         Build Settings Last Modified High = 30275744;
 
@@ -363,7 +363,7 @@ Wave Bank
     Wave
     {
         Name = 77087__supraliminal__laser-short;
-        File = ..\Res\Sounds\freesound.org\77087__supraliminal__laser-short.wav;
+        File = ..\..\..\Res\Sounds\freesound.org\77087__supraliminal__laser-short.wav;
         Build Settings Last Modified Low = 1087533765;
         Build Settings Last Modified High = 30275745;
 
@@ -386,7 +386,7 @@ Wave Bank
     Wave
     {
         Name = 78457__sancho82__bum;
-        File = ..\Res\Sounds\freesound.org\78457__sancho82__bum.wav;
+        File = ..\..\..\Res\Sounds\freesound.org\78457__sancho82__bum.wav;
         Build Settings Last Modified Low = 1128234579;
         Build Settings Last Modified High = 30275745;
 

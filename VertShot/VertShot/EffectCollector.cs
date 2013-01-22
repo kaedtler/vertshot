@@ -24,6 +24,7 @@ namespace VertShot
             AnimatedSprite animatedSprite = new AnimatedSprite(explosionTex1, position, new Point(69, 64), 50, 0, false, Game1.rand.Next(0, 360), 1.7f, true, speed, direction);
             effectList.Add(animatedSprite);
             Sound.PlaySound(Sound.Sounds.BigExplosion, position + new Vector2(34.5f, 32));
+            Input.Vibrate(0.3f, 0.15f, 0.1f);
         }
 
         static public void AddExplosion2(Vector2 position, bool centerPos, float speed, Vector2 direction)
@@ -31,6 +32,7 @@ namespace VertShot
             AnimatedSprite animatedSprite = new AnimatedSprite(explosionTex1, position, new Point(69, 64), 30, 0, false, Game1.rand.Next(0, 360), 0.5f, true, speed, direction);
             effectList.Add(animatedSprite);
             Sound.PlaySound(Sound.Sounds.SmallExplosion, position + new Vector2(34.5f, 32));
+            Input.Vibrate(0.2f, 0.15f, 0f);
         }
 
         static public void Reset()

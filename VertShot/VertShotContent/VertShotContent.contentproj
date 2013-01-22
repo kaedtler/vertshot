@@ -157,8 +157,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Xact\Xact.xap">
-      <Link>Xact\Xact.xap</Link>
+    <Compile Include="Xact\Xact.xap">
       <Name>Xact</Name>
       <Importer>XactImporter</Importer>
       <Processor>XactProcessor</Processor>

@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VertShot", "VertShot\VertShot\VertShot.csproj", "{903BC239-4403-4A47-8D15-720D0BBB7D6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VertShotContent", "VertShot\VertShotContent\VertShotContent.contentproj", "{2599B4E2-8FA3-45B7-9245-E755A1D13521}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{903BC239-4403-4A47-8D15-720D0BBB7D6B}.Debug|x86.ActiveCfg = Debug|x86
+		{903BC239-4403-4A47-8D15-720D0BBB7D6B}.Debug|x86.Build.0 = Debug|x86
+		{903BC239-4403-4A47-8D15-720D0BBB7D6B}.Release|x86.ActiveCfg = Release|x86
+		{903BC239-4403-4A47-8D15-720D0BBB7D6B}.Release|x86.Build.0 = Release|x86
+		{2599B4E2-8FA3-45B7-9245-E755A1D13521}.Debug|x86.ActiveCfg = Debug|x86
+		{2599B4E2-8FA3-45B7-9245-E755A1D13521}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

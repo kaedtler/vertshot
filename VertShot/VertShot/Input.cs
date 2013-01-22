@@ -97,7 +97,6 @@ namespace VertShot
             lastGamePadState = GamePad.GetState(PlayerIndex.One);
             lastKeyboardState = Keyboard.GetState();
             lastMouseState = Mouse.GetState();
-            //System.Diagnostics.Debug.Print(MouseScaledPoint.ToString());
         }
 
         public static Keys GetPressedKeyCode()
@@ -117,7 +116,12 @@ namespace VertShot
                 case Keys.Right: return "Rechts";
                 case Keys.Up: return "Oben";
                 case Keys.Down: return "Unten";
+                case Keys.LeftAlt: return "AltLinks";
                 case Keys.LeftControl: return "StrgLinks";
+                case Keys.LeftShift: return "ShiftLinks";
+                case Keys.RightAlt: return "AltRechts";
+                case Keys.RightControl: return "StrgRechts";
+                case Keys.RightShift: return "ShiftRechts";
                 default: return AssignKeyboard[gameKey].ToString();
             }
         }

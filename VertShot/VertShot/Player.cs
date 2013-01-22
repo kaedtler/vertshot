@@ -27,7 +27,7 @@ namespace VertShot
         public float shield { get; private set; }
         public float collisionDamage { get; private set; }
         float speed;
-        float shieldPerSecond = 3f;
+        float shieldPerSecond = 2.5f;
 
         public ShipWeapons[] weaponSlot = new ShipWeapons[3];
         public GameKeys[] weaponSlotKey = new GameKeys[3];
@@ -82,7 +82,7 @@ namespace VertShot
                 }
                 energy -= damage * factor;
             }
-            Sound.PlaySound(Sound.Sounds.PlayerHit);
+            Sound.PlaySound(Sound.Sounds.PlayerHit, rect.Center.X);
         }
 
         private float AddShieldDamage(float damage, ShotType shotType)

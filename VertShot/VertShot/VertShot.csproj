@@ -109,16 +109,16 @@
     <Compile Include="Enemys\Meteor.cs" />
     <Compile Include="Files\Config.cs" />
     <Compile Include="GameHud.cs" />
-    <Compile Include="Hud\Hud.cs" />
-    <Compile Include="Hud\HudCheckBox.cs" />
-    <Compile Include="Hud\HudLabel.cs" />
-    <Compile Include="Hud\HudMessageBox.cs" />
-    <Compile Include="Hud\HudObject.cs" />
-    <Compile Include="Hud\HudWindow.cs" />
-    <Compile Include="Hud\HudButton.cs" />
-    <Compile Include="Hud\HudList.cs" />
-    <Compile Include="Hud\HudImage.cs" />
-    <Compile Include="Hud\HudPlayer.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\CheckBox.cs" />
+    <Compile Include="Menu\Label.cs" />
+    <Compile Include="Menu\MessageBox.cs" />
+    <Compile Include="Menu\Object.cs" />
+    <Compile Include="Menu\Window.cs" />
+    <Compile Include="Menu\Button.cs" />
+    <Compile Include="Menu\List.cs" />
+    <Compile Include="Menu\Image.cs" />
+    <Compile Include="Menu\Player.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="LoadSave.cs" />
     <Compile Include="Player.cs" />
@@ -172,7 +172,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="OKCert.pfx" />
   </ItemGroup>

@@ -157,7 +157,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Music\" />
+    <Compile Include="Music\on-the-run-2_loop.mp3">
+      <Name>on-the-run-2_loop</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sounds\77087__supraliminal__laser-short.wav">
@@ -181,6 +185,13 @@
       <Name>80499__ggctuk__exp-obj-large02</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Music\glow-in-the-dark.mp3">
+      <Name>glow-in-the-dark</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

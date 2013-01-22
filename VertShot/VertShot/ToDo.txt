@@ -1,8 +1,5 @@
-﻿Menü
+﻿Menü (Per Keyboard/Gamepad bedienbar)
 GameModes
-Sound
-Hud
-GameOver
 Levels
 KI
 Schiff Upgrades (Waffen, Schilde, etc)

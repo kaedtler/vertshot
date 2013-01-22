@@ -20,9 +20,9 @@ namespace VertShot
             EnemyCollector.meteorTex = meteorTex;
         }
 
-        static public void AddMeteor(Vector2 position)
+        static public void AddMeteor(Vector2 position, float speed)
         {
-            Meteor meteor = new Meteor(meteorTex, position, 0.3f, new Vector2(0,1));
+            Meteor meteor = new Meteor(meteorTex, position, speed, new Vector2(0, 1));
             enemyList.Add(meteor);
         }
 

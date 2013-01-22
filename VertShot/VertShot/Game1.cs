@@ -129,7 +129,7 @@ namespace VertShot
             EffectCollector.Initialize(Content.Load<Texture2D>("Graphics/explosion_34FR"));
             GameHud.Initialize(Content.Load<Texture2D>("Graphics/hud"), Content.Load<Texture2D>("Graphics/hudWithEnergy"), Content.Load<SpriteFont>("RepetitionScrolling"));
 
-            Hud.Initialize(Content.Load<Texture2D>("Graphics/hudBack"), Content.Load<Texture2D>("Graphics/hudCornerTop"),
+            Menu.Menu.Initialize(Content.Load<Texture2D>("Graphics/hudBack"), Content.Load<Texture2D>("Graphics/hudCornerTop"),
                 Content.Load<Texture2D>("Graphics/hudCornerBottom"), Content.Load<Texture2D>("Graphics/hudBorderTop"), Content.Load<Texture2D>("Graphics/hudBorderLeft"));
 
             player = new Player(Content.Load<Texture2D>("Graphics/ship"), new Vector2(Width / 2, Height / 2));
@@ -167,12 +167,12 @@ namespace VertShot
                 case GameState.MainMenu:
                     {
                         Background.Update(gameTime);
-                        Hud.Update(gameTime);
+                        Menu.Menu.Update(gameTime);
                     }
                     break;
                 case GameState.Pause:
                     {
-                        Hud.Update(gameTime);
+                        Menu.Menu.Update(gameTime);
                     }
                     break;
                 case GameState.Game:
@@ -181,8 +181,8 @@ namespace VertShot
                         if (meteorElapsedTime >= meteorTime)
                         {
                             meteorElapsedTime -= meteorTime;
-                            EnemyCollector.AddMeteor(new Vector2(rand.Next(0, Width - (int)EnemyCollector.MeteorSize.X), 0 - (int)EnemyCollector.MeteorSize.Y));
-                            meteorTime = rand.Next(100, 500);
+                            EnemyCollector.AddMeteor(new Vector2(rand.Next(0, Width - (int)EnemyCollector.MeteorSize.X), 0 - (int)EnemyCollector.MeteorSize.Y), rand.Next(300, 500) / 1000f);
+                            meteorTime = rand.Next(100, 300);
                         }
                         meteorElapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
@@ -196,7 +196,7 @@ namespace VertShot
                         EnemyCollector.Update(gameTime);
                         EffectCollector.Update(gameTime);
                         GameHud.Update(gameTime);
-                        Hud.Update(gameTime);
+                        Menu.Menu.Update(gameTime);
                     }
                     break;
             }
@@ -223,18 +223,18 @@ namespace VertShot
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug5))
             {
-                Hud.ShowWindow(HudWindowTypes.MainMenu);
+                Menu.Menu.ShowWindow(Menu.WindowTypes.MainMenu);
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug6))
             {
-                Hud.ShowWindow(HudWindowTypes.Pause);
+                Menu.Menu.ShowWindow(Menu.WindowTypes.Pause);
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug7))
             {
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug8))
             {
-                Hud.CloseAllWindows();
+                Menu.Menu.CloseAllWindows();
             }
             if (Input.IsGameKeyReleased(GameKeys.Debug9))
             {
@@ -264,7 +264,7 @@ namespace VertShot
             {
                 SetGameState(GameState.GameOver);
                 player.SetPosition(new Vector2(-100, -100));
-                Sound.PlaySound(Sound.Sounds.PlayerExplosion);
+                Sound.PlaySound(Sound.Sounds.PlayerExplosion, player.rect.Center.X);
             }
 
 
@@ -278,15 +278,17 @@ namespace VertShot
             switch (gameState)
             {
                 case GameState.MainMenu:
-                    Hud.ShowWindow(HudWindowTypes.MainMenu);
+                    Menu.Menu.ShowWindow(Menu.WindowTypes.MainMenu);
                     Game1.gameState = GameState.MainMenu;
+                    Sound.PlayMusic(Sound.Music.Menu);
                     break;
                 case GameState.Pause:
-                    Hud.ShowWindow(HudWindowTypes.Pause);
+                    Menu.Menu.ShowWindow(Menu.WindowTypes.Pause);
                     Game1.gameState = GameState.Pause;
+                    Sound.PauseMusic();
                     break;
                 case GameState.GameOver:
-                    Hud.ShowWindow(HudWindowTypes.GameOver);
+                    Menu.Menu.ShowWindow(Menu.WindowTypes.GameOver);
                     Game1.gameState = GameState.GameOver;
                     break;
                 case GameState.NewGame:
@@ -296,12 +298,14 @@ namespace VertShot
                     GameHud.Reset();
                     enemyCounter = 0;
                     gametimeCounter = 0;
-                    Hud.CloseAllWindows();
+                    Menu.Menu.CloseAllWindows();
                     Game1.gameState = GameState.Game;
+                    Sound.PlayMusic(Sound.Music.Game);
                     break;
                 case GameState.Game:
-                    Hud.CloseAllWindows();
+                    Menu.Menu.CloseAllWindows();
                     Game1.gameState = GameState.Game;
+                    Sound.ResumeMusic();
                     break;
                 case GameState.Quit:
                     Game1.shutdown = true;
@@ -353,7 +357,7 @@ namespace VertShot
                 scaleX < scaleY ? Game1.Config.resWitdh : (int)(((float)Game1.Config.resWitdh - (float)Width * scaleY) / 2f),
                 scaleY < scaleX ? Game1.Config.resHeight : (int)(((float)Game1.Config.resHeight - (float)Height * scaleX) / 2f)
                 );
-            Hud.RefreshWindowPositions();
+            Menu.Menu.RefreshWindowPositions();
 
             LoadSave.SaveConfig(Config);
         }
@@ -375,7 +379,7 @@ namespace VertShot
                 case GameState.MainMenu:
                     {
                         Background.Draw(spriteBatch);
-                        Hud.Draw(spriteBatch);
+                        Menu.Menu.Draw(spriteBatch);
 
                         spriteBatch.End();
                         spriteBatch.Begin();
@@ -391,7 +395,7 @@ namespace VertShot
                         player.Draw(spriteBatch);
                         EffectCollector.Draw(spriteBatch);
                         GameHud.Draw(spriteBatch);
-                        Hud.Draw(spriteBatch);
+                        Menu.Menu.Draw(spriteBatch);
                         spriteBatch.End();
                         spriteBatch.Begin();
                     }

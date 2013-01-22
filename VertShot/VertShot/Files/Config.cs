@@ -9,6 +9,7 @@ namespace VertShot.Files
     {
         public const byte FileVersion = 2;
 
+
         public byte fileVersion = FileVersion;
         public short resWitdh;
         public short resHeight;

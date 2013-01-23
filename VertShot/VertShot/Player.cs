@@ -18,7 +18,8 @@ namespace VertShot
     {
         const float MaxEnergy = 100f;
         const float MaxShield = 100f;
-        public Texture2D texture;
+        public Texture2D texture_1;
+        public Texture2D texture_2;
         Vector2 startPosition;
         Vector2 position;
         Vector2 size;
@@ -35,11 +36,12 @@ namespace VertShot
         public float[] weaponDelayTime = new float[3];
         public Vector2[] weaponSlotPosition;
 
-        public Player(Texture2D texture, Vector2 startPosition)
+        public Player(Texture2D texture_1, Texture2D texture_2, Vector2 startPosition)
         {
-            this.texture = texture;
+            this.texture_1 = texture_1;
+            this.texture_2 = texture_2;
             this.startPosition = startPosition;
-            size = new Vector2(texture.Width, texture.Height);
+            size = new Vector2(texture_1.Width, texture_1.Height);
             speed = 0.65f;
             collisionDamage = 20f;
             weaponSlotPosition = new Vector2[3] { new Vector2(size.X * 0.1f, size.Y / 2), new Vector2(size.X * 0.5f, size.Y / 2), new Vector2(size.X * 0.9f, size.Y / 2) };
@@ -144,12 +146,13 @@ namespace VertShot
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, new Color(Game1.Config.shipColorR, Game1.Config.shipColorG, Game1.Config.shipColorB));
+            Draw(spriteBatch, position);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
-            spriteBatch.Draw(texture, position, new Color(Game1.Config.shipColorR, Game1.Config.shipColorG, Game1.Config.shipColorB));
+            spriteBatch.Draw(texture_1, position, Color.White);
+            spriteBatch.Draw(texture_2, position, new Color(Game1.Config.shipColorR, Game1.Config.shipColorG, Game1.Config.shipColorB));
         }
     }
 }

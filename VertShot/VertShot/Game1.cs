@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -120,9 +119,11 @@ namespace VertShot
             debugFont = Content.Load<SpriteFont>("DebugFont");
             buttonFont = Content.Load<SpriteFont>("OcraExtended");
 
-            Background.AddBackPic(Content.Load<Texture2D>("Graphics/back1"), 0.05f);
-            Background.AddBackPic(Content.Load<Texture2D>("Graphics/back2"), 0.075f);
-            Background.AddBackPic(Content.Load<Texture2D>("Graphics/back3"), 0.1f);
+            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_0"), 0.05f, 200, 550);
+            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_1"), 0.075f, 300, 650);
+            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_2"), 0.09f, 500, 1000);
+            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_3"), 0.105f, 700, 1300);
+            //DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/moon"), 0.08f, 30000, 90000);
 
             ShotCollector.Initialize(Content.Load<Texture2D>("Graphics/shot"));
             EnemyCollector.Initialize(Content.Load<Texture2D>("Graphics/meteor3"));
@@ -132,7 +133,7 @@ namespace VertShot
             Menu.Menu.Initialize(Content.Load<Texture2D>("Graphics/hudBack"), Content.Load<Texture2D>("Graphics/hudCornerTop"),
                 Content.Load<Texture2D>("Graphics/hudCornerBottom"), Content.Load<Texture2D>("Graphics/hudBorderTop"), Content.Load<Texture2D>("Graphics/hudBorderLeft"));
 
-            player = new Player(Content.Load<Texture2D>("Graphics/ship"), new Vector2(Width / 2, Height / 2));
+            player = new Player(Content.Load<Texture2D>("Graphics/ship_1"), Content.Load<Texture2D>("Graphics/ship_2"), new Vector2(Width / 2, Height / 2));
 
             SetGameState(GameState.MainMenu);
         }
@@ -166,7 +167,7 @@ namespace VertShot
             {
                 case GameState.MainMenu:
                     {
-                        Background.Update(gameTime);
+                        DynamicBackground.Update(gameTime);
                         Menu.Menu.Update(gameTime);
                     }
                     break;
@@ -186,7 +187,7 @@ namespace VertShot
                         }
                         meteorElapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-                        Background.Update(gameTime);
+                        DynamicBackground.Update(gameTime);
                         if (gameState != GameState.GameOver)
                         {
                             player.Update(gameTime);
@@ -370,7 +371,7 @@ namespace VertShot
         /// <param name="gameTime">Bietet einen Schnappschuss der Timing-Werte.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, null, null, null, scaleMatrix * transMatrix);
 
@@ -379,7 +380,7 @@ namespace VertShot
             {
                 case GameState.MainMenu:
                     {
-                        Background.Draw(spriteBatch);
+                        DynamicBackground.Draw(spriteBatch);
                         Menu.Menu.Draw(spriteBatch);
 
                         spriteBatch.End();
@@ -390,7 +391,7 @@ namespace VertShot
                 case GameState.Pause:
                 case GameState.GameOver:
                     {
-                        Background.Draw(spriteBatch);
+                        DynamicBackground.Draw(spriteBatch);
                         ShotCollector.Draw(spriteBatch);
                         EnemyCollector.Draw(spriteBatch);
                         player.Draw(spriteBatch);

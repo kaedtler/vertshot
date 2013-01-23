@@ -91,7 +91,6 @@
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
@@ -104,12 +103,14 @@
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Background.cs" />
+    <Compile Include="DynamicBackground.cs" />
     <Compile Include="EffectCollector.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyCollector.cs" />
     <Compile Include="Enemys\Meteor.cs" />
     <Compile Include="Files\Config.cs" />
     <Compile Include="GameHud.cs" />
+    <Compile Include="Sprite.cs" />
     <Compile Include="Menu\Menu.cs" />
     <Compile Include="Menu\CheckBox.cs" />
     <Compile Include="Menu\Label.cs" />

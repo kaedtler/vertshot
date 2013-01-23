@@ -60,9 +60,9 @@ namespace VertShot
             audioEnabled = true;
             try
             {
-                engine = new AudioEngine("Content\\Xact\\Xact.xgs");
+                engine = new AudioEngine("Content/Xact/Xact.xgs");
             }
-            catch (NoAudioHardwareException)
+            catch (InvalidOperationException)
             {
                 audioEnabled = false;
             }
@@ -70,11 +70,11 @@ namespace VertShot
             if (audioEnabled)
             {
 
-                effectWaveBank = new WaveBank(engine, "Content\\Xact\\EffectWavebank.xwb");
-                musicWaveBank = new WaveBank(engine, "Content\\Xact\\MusicWavebank.xwb", 0, 16);
+                effectWaveBank = new WaveBank(engine, "Content/Xact/EffectWavebank.xwb");
+                musicWaveBank = new WaveBank(engine, "Content/Xact/MusicWavebank.xwb", 0, 16);
                 engine.Update();
-                effectSoundBank = new SoundBank(engine, "Content\\Xact\\EffectSoundbank.xsb");
-                musicSoundBank = new SoundBank(engine, "Content\\Xact\\MusicSoundbank.xsb");
+                effectSoundBank = new SoundBank(engine, "Content/Xact/EffectSoundbank.xsb");
+                musicSoundBank = new SoundBank(engine, "Content/Xact/MusicSoundbank.xsb");
 
                 audioListener = new AudioListener();
 
@@ -89,8 +89,11 @@ namespace VertShot
 
         static public void Update()
         {
-            if (Game1.Config.sound3d) audioListener.Position = new Vector3(Game1.player.rect.X, 0, Game1.player.rect.Y);
-            engine.Update();
+            if (audioEnabled)
+            {
+                if (Game1.Config.sound3d) audioListener.Position = new Vector3(Game1.player.rect.X, 0, Game1.player.rect.Y);
+                engine.Update();
+            }
         }
 
         static public void PlaySound(Sounds sound, Vector2 position)

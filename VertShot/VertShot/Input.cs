@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -52,25 +53,8 @@ namespace VertShot
 
         public static void Initialize()
         {
-            AssignKeyboard.Add(GameKeys.Menu, Keys.None);
-            AssignKeyboard.Add(GameKeys.Left, Keys.None);
-            AssignKeyboard.Add(GameKeys.Right, Keys.None);
-            AssignKeyboard.Add(GameKeys.Up, Keys.None);
-            AssignKeyboard.Add(GameKeys.Down, Keys.None);
-            AssignKeyboard.Add(GameKeys.Fire1, Keys.None);
-            AssignKeyboard.Add(GameKeys.Fire2, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug1, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug2, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug3, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug4, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug5, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug6, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug7, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug8, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug9, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug10, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug11, Keys.None);
-            AssignKeyboard.Add(GameKeys.Debug12, Keys.None);
+            foreach (GameKeys key in Enum.GetValues(typeof(GameKeys)))
+                AssignKeyboard.Add(key, Keys.None);
         }
 
         public static void UpdateBegin(GameTime gameTime)

@@ -72,6 +72,7 @@ namespace VertShot.Menu
             ////Fenster
             // Hauptmenü
             windowList[WindowTypes.MainMenu] = new Window(new Point(348, 348));
+            windowList[WindowTypes.MainMenu].AddObject(new Image(Game1.game.Content.Load<Texture2D>("Graphics\\logo"), new Vector2(14,-60)));
             windowList[WindowTypes.MainMenu].AddObject(new Button(new Rectangle(40, 40, 268, 40), "Neues Spiel", ButtonAction.NewGame));
             windowList[WindowTypes.MainMenu].AddObject(new Button(new Rectangle(40, 100, 268, 40), "Optionen", ButtonAction.OpenWindow, WindowTypes.Options));
             windowList[WindowTypes.MainMenu].AddObject(new Button(new Rectangle(40, 160, 268, 40), "Credits", ButtonAction.OpenWindow, WindowTypes.Credits));
@@ -94,12 +95,12 @@ namespace VertShot.Menu
             windowList[WindowTypes.Sound].AddObject(new List(new Rectangle(40, 40, 268, 40), "Sound: ", new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Game1.Config.soundVol));
             windowList[WindowTypes.Sound].AddObject(new List(new Rectangle(40, 100, 268, 40), "Musik: ", new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Game1.Config.musicVol));
             windowList[WindowTypes.Sound].AddObject(new CheckBox(new Rectangle(40, 160, 268, 40), "3D Sound (Beta)", Game1.Config.sound3d));
-            windowList[WindowTypes.Sound].AddObject(new Label(new Vector2(20, 220), "[NOAUDIO]", true));
+            windowList[WindowTypes.Sound].AddObject(new Label(new Vector2(20, 200), "[NOAUDIO]", true));
             windowList[WindowTypes.Sound].AddObject(new Button(new Rectangle(40, 280, 160, 40), "Übernehmen", ButtonAction.ApplySound, new byte[] { 0, 1, 2 }));
             windowList[WindowTypes.Sound].AddObject(new Button(new Rectangle(208, 280, 110, 40), "Zurück", ButtonAction.OpenWindow, WindowTypes.Options));
             // Schiffoptionen
             windowList[WindowTypes.ShipColor] = new Window(new Point(348, 348));
-            windowList[WindowTypes.ShipColor].AddObject(new List(new Rectangle(40, 40, 268, 40), "Rot: ", colorList, Game1.Config.shipColorR / 51));
+            windowList[WindowTypes.ShipColor].AddObject(new List(new Rectangle(40, 40, 268, 40), " Rot: ", colorList, Game1.Config.shipColorR / 51));
             windowList[WindowTypes.ShipColor].AddObject(new List(new Rectangle(40, 100, 268, 40), "Grün: ", colorList, Game1.Config.shipColorG / 51));
             windowList[WindowTypes.ShipColor].AddObject(new List(new Rectangle(40, 160, 268, 40), "Blau: ", colorList, Game1.Config.shipColorB / 51));
             windowList[WindowTypes.ShipColor].AddObject(new Player(new Vector2(144, 210)));
@@ -116,7 +117,7 @@ namespace VertShot.Menu
             windowList[WindowTypes.GameKeys].AddObject(new Button(new Rectangle(40, 320, 268, 40), "Zurück", ButtonAction.OpenWindow, WindowTypes.Options));
             // Credits
             windowList[WindowTypes.Credits] = new Window(new Point(600,600));
-            windowList[WindowTypes.Credits].AddObject(new Label(new Vector2(20, 40), "Entwicklung, Programmierung,\nGrafik, Design, Sonstiges:\n\nOliver Kädtler\n\n\nExplosionsgrafik:\nhttp://www.nuvorm.nl/?p=1\n\nSounds:\nhttp://freesound.org/\n\nMusik:\nhttp://pacdv.com/"));
+            windowList[WindowTypes.Credits].AddObject(new Label(new Vector2(20, 30), "Entwicklung, Programmierung,\nGrafik, Design, Sonstiges:\n\nOliver Kädtler\n\nExplosionsgrafik:\nhttp://www.nuvorm.nl/?p=1\n\nSounds:\nhttp://freesound.org/\n\nMusik:\nhttp://pacdv.com/\n\nHUD Schriftart:\nhttp://www.fontframe.com/tepidmonkey/"));
             windowList[WindowTypes.Credits].AddObject(new Button(new Rectangle(166, 540, 268, 40), "Zurück", ButtonAction.OpenWindow, WindowTypes.MainMenu));
             // Pause
             windowList[WindowTypes.Pause] = new Window(new Point(348, 348));

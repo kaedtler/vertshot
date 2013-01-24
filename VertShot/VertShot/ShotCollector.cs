@@ -40,7 +40,11 @@ namespace VertShot
                         if (shotList[i].singleHit)
                             shotList[i].IsAlive = false;
                         if (enemy.energy <= 0)
+                        {
                             Game1.enemyCounter++;
+                            if (Game1.rand.Next(0, 100) < 3)
+                                Items.AddItem(Items.ItemTypes.Health25, new Vector2(shotList[i].rect.X, shotList[i].rect.Y));
+                        }
                     }
 
                 shotList[i].Update(gameTime);

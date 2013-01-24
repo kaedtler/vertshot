@@ -12,7 +12,7 @@ namespace VertShot
         Texture2D texture;
         Vector2 position;
         Point spriteSize;
-        float frameTime;
+        int frameTime;
         float time;
         int animationMaxSteps;
         int animationStep = 0;
@@ -23,8 +23,9 @@ namespace VertShot
         float speed;
         Vector2 direction;
         public bool IsAlive = true;
+        public Rectangle rect { get { return new Rectangle(Convert.ToInt32(position.X - spriteSize.X), Convert.ToInt32(position.Y - spriteSize.Y), Convert.ToInt32(spriteSize.X), Convert.ToInt32(spriteSize.Y)); } }
 
-        public AnimatedSprite(Texture2D texture, Vector2 position, Point spriteSize, float frameTime, int animationMaxSteps,
+        public AnimatedSprite(Texture2D texture, Vector2 position, Point spriteSize, int frameTime, int animationMaxSteps,
             bool repeat, float rotation, float scale, bool centerPos, float speed, Vector2 direction)
         {
             this.texture = texture;

@@ -110,6 +110,7 @@
     <Compile Include="Enemys\Meteor.cs" />
     <Compile Include="Files\Config.cs" />
     <Compile Include="GameHud.cs" />
+    <Compile Include="Items.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Menu\Menu.cs" />
     <Compile Include="Menu\CheckBox.cs" />

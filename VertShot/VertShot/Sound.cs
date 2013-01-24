@@ -16,6 +16,7 @@ namespace VertShot
             SmallExplosion,
             BigExplosion,
             PlayerExplosion,
+            ItemCollect,
             Alarm
         }
 
@@ -80,10 +81,7 @@ namespace VertShot
 
                 SetSoundVolume();
                 SetMusicVolume();
-
                 engine.Update();
-
-                musicSoundBank.PlayCue("Menu");
             }
         }
 
@@ -143,7 +141,7 @@ namespace VertShot
         static public void SetSoundVolume()
         {
             if (audioEnabled)
-                engine.GetCategory("Default").SetVolume((float)Game1.Config.musicVol / 10f);
+                engine.GetCategory("Default").SetVolume((float)Game1.Config.soundVol / 10f);
         }
     }
 }

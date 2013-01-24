@@ -16,8 +16,8 @@ namespace VertShot
 
     public class Player
     {
-        const float MaxEnergy = 100f;
-        const float MaxShield = 100f;
+        public const float MaxEnergy = 100f;
+        public const float MaxShield = 100f;
         public Texture2D texture_1;
         public Texture2D texture_2;
         Vector2 startPosition;
@@ -49,7 +49,7 @@ namespace VertShot
             weaponSlot[0] = ShipWeapons.LaserLvl1;
             weaponSlotKey[0] = GameKeys.Fire2;
             weaponDelay[0] = 200;
-             
+
             weaponSlot[1] = ShipWeapons.LaserLvl1;
             weaponSlotKey[1] = GameKeys.Fire1;
             weaponDelay[1] = 200;
@@ -102,13 +102,19 @@ namespace VertShot
             return ((shieldOld - (damage * factor)) - shield) / -2f;
         }
 
-        public void AddEnergy(float addEnergy)
+        public void AddEnergy(float addEnergy, bool isPercent = false)
         {
-            energy = Math.Min(energy + addEnergy, MaxEnergy);
+            if (isPercent)
+                energy = Math.Min(energy + MaxEnergy / 100f * addEnergy, MaxEnergy);
+            else
+                energy = Math.Min(energy + addEnergy, MaxEnergy);
         }
 
-        public void AddShield(float addShield)
+        public void AddShield(float addShield, bool isPercent = false)
         {
+            if (isPercent)
+            shield = Math.Min(shield + MaxShield / 100f * addShield, MaxShield);
+            else
             shield = Math.Min(shield + addShield, MaxShield);
         }
 
@@ -132,7 +138,7 @@ namespace VertShot
                     switch (weaponSlot[i])
                     {
                         case ShipWeapons.LaserLvl1:
-                            ShotCollector.AddLaserShot(position + weaponSlotPosition[i] - new Vector2(2.5f,0), new Vector2(5, 20), new Vector2(0, -1), 0, 1);
+                            ShotCollector.AddLaserShot(position + weaponSlotPosition[i] - new Vector2(2.5f, 0), new Vector2(5, 20), new Vector2(0, -1), 0, 1);
                             weaponDelayTime[i] += weaponDelay[i];
                             break;
                     }

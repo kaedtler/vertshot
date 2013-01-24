@@ -98,6 +98,7 @@ namespace VertShot
             // Tastaturbelegung aus Config setzen
             Input.AssignKeyboard = Config.assignKeyboard;
 
+            Sound.Initialize();
 
             base.Initialize();
         }
@@ -114,16 +115,16 @@ namespace VertShot
             oneTexture = new Texture2D(GraphicsDevice, 1, 1);
             oneTexture.SetData<Color>(new Color[] { Color.White });
 
-            Sound.Initialize();
-
             debugFont = Content.Load<SpriteFont>("DebugFont");
             buttonFont = Content.Load<SpriteFont>("OcraExtended");
 
-            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_0"), 0.05f, 200, 550);
-            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_1"), 0.075f, 300, 650);
-            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_2"), 0.09f, 500, 1000);
+            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_0"), 0.05f, 100, 550);
+            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_1"), 0.075f, 200, 650);
+            DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_2"), 0.09f, 400, 800);
             DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/star_3"), 0.105f, 700, 1300);
             //DynamicBackground.AddObjects(Content.Load<Texture2D>("Graphics/moon"), 0.08f, 30000, 90000);
+
+            Items.Initialize();
 
             ShotCollector.Initialize(Content.Load<Texture2D>("Graphics/shot"));
             EnemyCollector.Initialize(Content.Load<Texture2D>("Graphics/meteor3"));
@@ -162,7 +163,7 @@ namespace VertShot
 
             if (Input.IsGameKeyDown(GameKeys.Menu) && gameState == GameState.Game)
                 SetGameState(GameState.Pause);
-
+            
             switch (gameState)
             {
                 case GameState.MainMenu:
@@ -193,6 +194,7 @@ namespace VertShot
                             player.Update(gameTime);
                             gametimeCounter += (float)gameTime.ElapsedGameTime.TotalSeconds;
                         }
+                        Items.Update(gameTime);
                         ShotCollector.Update(gameTime);
                         EnemyCollector.Update(gameTime);
                         EffectCollector.Update(gameTime);
@@ -375,7 +377,7 @@ namespace VertShot
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, null, null, null, scaleMatrix * transMatrix);
 
-
+            
             switch (gameState)
             {
                 case GameState.MainMenu:
@@ -393,6 +395,7 @@ namespace VertShot
                     {
                         DynamicBackground.Draw(spriteBatch);
                         ShotCollector.Draw(spriteBatch);
+                        Items.Draw(spriteBatch);
                         EnemyCollector.Draw(spriteBatch);
                         player.Draw(spriteBatch);
                         EffectCollector.Draw(spriteBatch);

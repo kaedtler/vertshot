@@ -11,7 +11,7 @@ namespace VertShot.Files
 
 
         public byte fileVersion = FileVersion;
-        public short resWitdh;
+        public short resWidth;
         public short resHeight;
         public bool fullscreen;
 
@@ -30,7 +30,7 @@ namespace VertShot.Files
         {
             // Config Standardwerte
 
-            resWitdh = 800;
+            resWidth = 800;
             resHeight = 600;
             fullscreen = false;
 

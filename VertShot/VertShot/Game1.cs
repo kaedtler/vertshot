@@ -82,7 +82,7 @@ namespace VertShot
 
             Config = LoadSave.LoadConfig();
 
-            SetResolution(Config.resWitdh, Config.resHeight, Config.fullscreen);
+            SetResolution(Config.resWidth, Config.resHeight, Config.fullscreen);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace VertShot
 
             if (Input.IsGameKeyDown(GameKeys.Menu) && gameState == GameState.Game)
                 SetGameState(GameState.Pause);
-            
+
             switch (gameState)
             {
                 case GameState.MainMenu:
@@ -253,6 +253,7 @@ namespace VertShot
             }
             #endregion
 
+            #region DEBUG TEXT
             if (showDebug1)
             {
                 debugText1 = "Player Energy: " + player.energy;
@@ -260,6 +261,7 @@ namespace VertShot
                 debugText1 += "\nEnemy killed: " + enemyCounter;
                 debugText1 += "\nEnemys: " + EnemyCollector.GetList.Count;
             }
+            #endregion
 
 
             // TEMP
@@ -328,38 +330,38 @@ namespace VertShot
             oldHeight = graphics.PreferredBackBufferHeight;
             oldFullscreen = graphics.IsFullScreen;
 
-            Config.resWitdh = (short)newWidth;
+            Config.resWidth = (short)newWidth;
             Config.resHeight = (short)newHeight;
             Config.fullscreen = fullscreen;
 
 
-            graphics.PreferredBackBufferWidth = Config.resWitdh;
-            graphics.PreferredBackBufferHeight = Config.resHeight;
-            graphics.IsFullScreen = Config.fullscreen;
+            graphics.PreferredBackBufferWidth = newWidth;
+            graphics.PreferredBackBufferHeight = newHeight;
+            graphics.IsFullScreen = fullscreen;
 
             graphics.ApplyChanges();
 
-            scaleX = (float)Game1.Config.resWitdh / (float)Width;
-            scaleY = (float)Game1.Config.resHeight / (float)Height;
+            scaleX = (float)newWidth / (float)Width;
+            scaleY = (float)newHeight / (float)Height;
             scaleMatrix = Matrix.CreateScale(scaleX < scaleY ? scaleX : scaleY);
             transMatrix = Matrix.CreateTranslation(new Vector3(
-                scaleY < scaleX ? ((float)Game1.Config.resWitdh - (float)Width * scaleY) / 2f : 0,
-                scaleX < scaleY ? ((float)Game1.Config.resHeight - (float)Height * scaleX) / 2f : 0, 0));
+                scaleY < scaleX ? ((float)newWidth - (float)Width * scaleY) / 2f : 0,
+                scaleX < scaleY ? ((float)newHeight - (float)Height * scaleX) / 2f : 0, 0));
             mouseMatrix = Matrix.CreateScale(scaleX < scaleY ? 1 / scaleX : 1 / scaleY) *
                 Matrix.CreateTranslation(new Vector3(
-                    scaleY < scaleX ? ((float)Width - (float)Game1.Config.resWitdh / scaleY) * 0.5f : 0,
-                    scaleX < scaleY ? ((float)Height - (float)Game1.Config.resHeight / scaleX) * 0.5f : 0, 0));
+                    scaleY < scaleX ? ((float)Width - (float)newWidth / scaleY) * 0.5f : 0,
+                    scaleX < scaleY ? ((float)Height - (float)newHeight / scaleX) * 0.5f : 0, 0));
             rectBlackTop = new Rectangle(
                 0,
                 0,
-                scaleX < scaleY ? Game1.Config.resWitdh : (int)(((float)Game1.Config.resWitdh - (float)Width * scaleY) / 2f),
-                scaleY < scaleX ? Game1.Config.resHeight : (int)(((float)Game1.Config.resHeight - (float)Height * scaleX) / 2f)
+                scaleX < scaleY ? newWidth : (int)(((float)newWidth - (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? newHeight : (int)(((float)newHeight - (float)Height * scaleX) / 2f)
                 );
             rectBlackBottom = new Rectangle(
-                scaleX < scaleY ? 0 : (int)(((float)Game1.Config.resWitdh + (float)Width * scaleY) / 2f),
-                scaleY < scaleX ? 0 : (int)(((float)Game1.Config.resHeight + (float)Height * scaleX) / 2f),
-                scaleX < scaleY ? Game1.Config.resWitdh : (int)(((float)Game1.Config.resWitdh - (float)Width * scaleY) / 2f),
-                scaleY < scaleX ? Game1.Config.resHeight : (int)(((float)Game1.Config.resHeight - (float)Height * scaleX) / 2f)
+                scaleX < scaleY ? 0 : (int)(((float)newWidth + (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? 0 : (int)(((float)newHeight + (float)Height * scaleX) / 2f),
+                scaleX < scaleY ? newWidth : (int)(((float)newWidth - (float)Width * scaleY) / 2f),
+                scaleY < scaleX ? newHeight : (int)(((float)newHeight - (float)Height * scaleX) / 2f)
                 );
             Menu.Menu.RefreshWindowPositions();
 
@@ -377,7 +379,7 @@ namespace VertShot
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, null, null, null, scaleMatrix * transMatrix);
 
-            
+
             switch (gameState)
             {
                 case GameState.MainMenu:

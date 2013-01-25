@@ -60,7 +60,7 @@ namespace VertShot.Menu
                 if (!resList.Contains(mode.Width + "x" + mode.Height) && mode.Width >= 800 && mode.Height >= 600)
                 {
                     resList.Add(mode.Width + "x" + mode.Height);
-                    if (mode.Width == Game1.Config.resWitdh && mode.Height == Game1.Config.resHeight)
+                    if (mode.Width == Game1.Config.resWidth && mode.Height == Game1.Config.resHeight)
                         resDefault = resList.Count - 1;
                 }
             }

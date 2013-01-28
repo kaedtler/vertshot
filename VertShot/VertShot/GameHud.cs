@@ -59,7 +59,7 @@ namespace VertShot
             spritebatch.DrawString(hudFont, "█████ ███", new Vector2(20, 20), new Color(0, 60, 0, 180));
             spritebatch.DrawString(hudFont,
                 (Game1.gametimeCounter < 6000 ? String.Format("{0,2:d}:{1,2:d2}", (byte)(Game1.gametimeCounter / 60), (byte)(Game1.gametimeCounter % 60)) : "██:██") +
-                (Game1.enemyCounter < 1000 ? String.Format(" {0,3:d}", Game1.enemyCounter) : " ███"),
+                (Game1.enemyCounter < 1000 ? String.Format(" {0,3:d}", Game1.enemyCounter) : String.Format(" {0:X03}", Game1.enemyCounter)),
                 new Vector2(20, 20), new Color(48, 160, 0, 200));
         }
     }

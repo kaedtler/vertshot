@@ -175,10 +175,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="OKCert.pfx" />
-  </ItemGroup>
-  <ItemGroup>
     <PublishFile Include="ToDo.txt">
       <Visible>False</Visible>
       <Group>
@@ -193,10 +189,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release (
-
-"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\signtool.exe" sign /f "$(ProjectDir)OKCert.pfx" /p "! Oliver38O54k71" /t http://timestamp.verisign.com/scripts/timstamp.dll "$(TargetPath)"
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 

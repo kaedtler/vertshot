@@ -26,16 +26,16 @@ namespace VertShot
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        static public Game1 game;
+        static public Game1 game { get; private set; }
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        static public Player player;
+        static public Player player { get; private set; }
         SpriteFont debugFont;
-        static public SpriteFont buttonFont;
+        static public SpriteFont buttonFont { get; private set; }
 
-        static public Texture2D oneTexture;
+        static public Texture2D oneTexture { get; private set; }
 
         string debugText1;
         bool showDebug1 = false;
@@ -48,7 +48,7 @@ namespace VertShot
         float meteorTime;
         float meteorElapsedTime;
 
-        public static GameState gameState { get; private set; }
+        static public GameState gameState { get; private set; }
         static public Random rand = new Random((int)DateTime.Now.TimeOfDay.TotalMilliseconds);
         // Config Datei
         static public Files.Config Config;
@@ -386,9 +386,6 @@ namespace VertShot
                     {
                         DynamicBackground.Draw(spriteBatch);
                         Menu.Menu.Draw(spriteBatch);
-
-                        spriteBatch.End();
-                        spriteBatch.Begin();
                     }
                     break;
                 case GameState.Game:
@@ -403,13 +400,11 @@ namespace VertShot
                         EffectCollector.Draw(spriteBatch);
                         GameHud.Draw(spriteBatch);
                         Menu.Menu.Draw(spriteBatch);
-                        spriteBatch.End();
-                        spriteBatch.Begin();
                     }
                     break;
             }
-
             spriteBatch.End();
+
             spriteBatch.Begin();
             if (scaleX != scaleY)
             {
